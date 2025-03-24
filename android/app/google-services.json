@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "408101164830",
+    "project_id": "acopiatech",
+    "storage_bucket": "acopiatech.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408101164830:android:e6cbcc15516af1a812db0f",
+        "android_client_info": {
+          "package_name": "mx.acopiatech.acopiatech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwZTaFORb3BttLAN-Q5ypG4sme9GOpHAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
