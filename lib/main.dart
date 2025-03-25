@@ -1,3 +1,5 @@
+import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/views/login_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorsPalette.darkGreen),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const LoginView(),
     );
   }
 }
