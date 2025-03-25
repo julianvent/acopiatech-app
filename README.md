@@ -15,3 +15,4 @@
 
 ### Construcción
 * flutter_bloc
+* equatable
