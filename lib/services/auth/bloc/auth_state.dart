@@ -31,9 +31,9 @@ class AuthStateForgotPassword extends AuthState {
   final bool hasSentEmail;
 
   const AuthStateForgotPassword({
-    required super.isLoading,
     required this.exception,
     required this.hasSentEmail,
+    required super.isLoading,
   });
 }
 
@@ -49,10 +49,10 @@ class AuthStateNeedsVerification extends AuthState {
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
 
-  AuthStateLoggedOut({
+  const AuthStateLoggedOut({
+    required this.exception,
     required super.isLoading,
     super.loadingText,
-    required this.exception,
   });
 
   @override
