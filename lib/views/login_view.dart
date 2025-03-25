@@ -111,6 +111,9 @@ class _LoginViewState extends State<LoginView> {
 
                               child: TextField(
                                 controller: _passwordController,
+                                obscureText: true,
+                                autocorrect: false,
+                                enableSuggestions: false,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
                                   hintStyle: TextStyle(color: Colors.grey),
@@ -122,11 +125,17 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       SizedBox(height: 20),
+                      Text(
+                        "¿Olvidaste tu contraseña?",
+                        style: TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.right,
+                      ),
+                      SizedBox(height: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorsPalette.hardGreen,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(50),
                           ),
                           minimumSize: Size(double.infinity, 60),
                           elevation: 0,
@@ -139,6 +148,21 @@ class _LoginViewState extends State<LoginView> {
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
+                      SizedBox(height: 40),
+                      Text(
+                        "Continuar con redes sociales",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SquareTile(
+                            color: Colors.blueAccent,
+                            icon: Icons.facebook,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
