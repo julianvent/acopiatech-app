@@ -47,6 +47,7 @@ class _ForgotPasswordView extends State<ForgotPasswordView> {
       },
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+        extendBodyBehindAppBar: true,
         body: Stack(
           children: [
             Image(

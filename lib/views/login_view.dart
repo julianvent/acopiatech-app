@@ -64,7 +64,11 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   Text(
                     "Hola de nuevo 👋🏻",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -111,7 +115,7 @@ class _LoginViewState extends State<LoginView> {
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _emailController,
                                 decoration: InputDecoration(
-                                  labelText: 'Email',
+                                  labelText: 'Correo electrónico',
                                   hintText: "acopiatito@example.com",
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
@@ -127,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
                                 autocorrect: false,
                                 enableSuggestions: false,
                                 decoration: InputDecoration(
-                                  labelText: 'Password',
+                                  labelText: 'Contraseña',
                                   hintStyle: TextStyle(color: Colors.grey),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -143,7 +147,9 @@ class _LoginViewState extends State<LoginView> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                              context.read<AuthBloc>().add(AuthEventForgotPassword());
+                              context.read<AuthBloc>().add(
+                                AuthEventForgotPassword(),
+                              );
                             },
                             child: Text(
                               "¿Olvidaste tu contraseña?",
@@ -168,7 +174,9 @@ class _LoginViewState extends State<LoginView> {
                           onPressed: () {
                             final email = _emailController.text;
                             final password = _passwordController.text;
-                            context.read<AuthBloc>().add(AuthEventLogIn(email, password));
+                            context.read<AuthBloc>().add(
+                              AuthEventLogIn(email, password),
+                            );
                           },
                           child: Text(
                             "Iniciar sesión",
@@ -177,7 +185,9 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         TextButton(
                           onPressed: () {
-                            context.read<AuthBloc>().add(AuthEventShouldRegister());
+                            context.read<AuthBloc>().add(
+                              AuthEventShouldRegister(),
+                            );
                           },
                           child: Text('Crea tu cuenta ahora!!!! :DDDD'),
                         ),
