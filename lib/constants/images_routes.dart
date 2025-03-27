@@ -7,4 +7,5 @@ class ImagesRoutes {
   static final String fondoBienvenida = 'lib/assets/images/FondoBienvenida.png';
   static final String fondoContrasenia =
       'lib/assets/images/FondoContrasenia.png';
+      static final String EmailIcon = 'lib/assets/images/EmailIcon.png';
 }

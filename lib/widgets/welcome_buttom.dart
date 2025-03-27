@@ -2,9 +2,10 @@ import 'package:acopiatech/views/login_view.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeButtom extends StatelessWidget {
-  const WelcomeButtom({super.key, this.buttonText});
+  const WelcomeButtom({super.key, this.buttonText, this.onTapWidget});
 
   final String? buttonText;
+  final Widget? onTapWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class WelcomeButtom extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (e) => const LoginView()),
+          MaterialPageRoute(builder: (e) => onTapWidget!),
         );
       },
       child: Container(
