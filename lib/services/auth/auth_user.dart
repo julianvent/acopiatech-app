@@ -6,19 +6,20 @@ class AuthUser {
   final String id;
   final String email;
   final bool isEmailVerified;
-  // final bool isAdmin;
+  final String? role;
 
   const AuthUser({
     required this.id,
     required this.email,
     required this.isEmailVerified,
-    // required this.isAdmin,
+    required this.role,
   });
 
-  factory AuthUser.fromFirebase(firebase_auth.User user) => AuthUser(
-    id: user.uid,
-    email: user.email!,
-    isEmailVerified: user.emailVerified,
-    // isAdmin: isAdmin,
-  );
+  factory AuthUser.fromFirebase(firebase_auth.User user, {String? role}) =>
+      AuthUser(
+        id: user.uid,
+        email: user.email!,
+        isEmailVerified: user.emailVerified,
+        role: role,
+      );
 }

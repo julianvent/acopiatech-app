@@ -54,7 +54,12 @@ class AuthStateLoggedOut extends AuthState with EquatableMixin {
     required super.isLoading,
     super.loadingText,
   });
-
+  
   @override
   List<Object?> get props => [exception, isLoading];
+}
+
+class AuthStateLoggedInAsAdmin extends AuthState {
+  final AuthUser user;
+  const AuthStateLoggedInAsAdmin({required this.user, required super.isLoading});
 }

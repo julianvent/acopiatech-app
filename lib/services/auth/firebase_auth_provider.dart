@@ -18,7 +18,7 @@ class FirebaseAuthProvider implements AuthProvider {
         password: password,
       );
 
-      final user = currentUser;
+      final user = await currentUser;
 
       if (user != null) {
         return user;
@@ -42,11 +42,18 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  AuthUser? get currentUser {
+  Future<AuthUser?> get currentUser async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      return AuthUser.fromFirebase(user);
+      try {
+        final idTokenResult = await user.getIdTokenResult();
+        final role = idTokenResult.claims?['role'] as String? ?? 'user';
+
+        return AuthUser.fromFirebase(user, role: role);
+      } on Exception catch (e) {
+        return null;
+      }
     }
     return null;
   }
@@ -68,7 +75,7 @@ class FirebaseAuthProvider implements AuthProvider {
         email: email,
         password: password,
       );
-      final user = currentUser;
+      final user = await currentUser;
 
       if (user != null) {
         return user;
@@ -89,7 +96,7 @@ class FirebaseAuthProvider implements AuthProvider {
 
   @override
   Future<void> logOut() async {
-    final user = currentUser;
+    final user = await currentUser;
 
     if (user != null) {
       // log out from firebase

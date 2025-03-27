@@ -2,7 +2,7 @@ import 'package:acopiatech/services/auth/auth_user.dart';
 
 abstract class AuthProvider {
   Future<void> initalize();
-  AuthUser? get currentUser;
+  Future<AuthUser?> get currentUser;
 
   Future<AuthUser> logIn({required String email, required String password});
 

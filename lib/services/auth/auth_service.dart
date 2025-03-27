@@ -10,7 +10,7 @@ class AuthService implements AuthProvider {
   factory AuthService.firebase() => AuthService(FirebaseAuthProvider());
 
   @override
-  AuthUser? get currentUser => provider.currentUser;
+  Future<AuthUser?> get currentUser => provider.currentUser;
 
   @override
   Future<void> initalize() async {

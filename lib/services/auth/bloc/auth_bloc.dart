@@ -10,15 +10,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // initialize
     on<AuthEventInitialize>((event, emit) async {
       await provider.initalize();
-      final user = provider.currentUser;
+      final user = await provider.currentUser;
 
       if (user == null) {
         emit(const AuthStateLoggedOut(exception: null, isLoading: false));
       } else if (!user.isEmailVerified) {
         emit(const AuthStateNeedsVerification(isLoading: false));
-      } else {
+      } else if (user.role == 'admin') {
+        emit(AuthStateLoggedInAsAdmin(user: user, isLoading: false));
+      } else if (user.role == 'user') {
         emit(AuthStateLoggedIn(user: user, isLoading: false));
-      }
+      } 
     });
 
     // log in
