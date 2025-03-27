@@ -162,10 +162,11 @@ class _LoginViewState extends State<LoginView> {
                             );
                           },
                           child: Text(
-                            "Login",
+                            "Iniciar sesión",
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
+                        TextButton(onPressed: () {}, child: Text('Crea tu cuenta ahora!!!! :DDDD')),
                         SizedBox(height: 30),
                         Text(
                           "O continuar con redes sociales",
