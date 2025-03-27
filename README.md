@@ -16,3 +16,4 @@
 ### Construcción
 * flutter_bloc
 * animated_bottom_navigation_bar
+* equatable

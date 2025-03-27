@@ -1,38 +1,66 @@
-import 'package:acopiatech/constants/colors_palette.dart';
+import 'dart:developer';
+
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
+import 'package:acopiatech/services/auth/bloc/auth_event.dart';
+import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    MaterialApp(
+      title: 'AcopiaTech',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: ColorsPalette.darkGreen),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
       ),
-      home: const LoginView(),
-    );
-  }
+      home: BlocProvider<AuthBloc>(
+        create: (context) => AuthBloc(FirebaseAuthProvider()),
+        child: const HomePage(),
+      ),
+      routes: {
+        // TODO
+      },
+    ),
+  );
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: const Center(child: Text('Hola Kevin')));
+    context.read<AuthBloc>().add(const AuthEventInitialize());
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoading) {
+          log('Loading...');
+        } else {
+          log('OK');
+        }
+      },
+      builder: (context, state) {
+        // where scaffold = actual view
+        if (state is AuthStateLoggedIn) {
+          return const Scaffold(body: Center(child: Text('Home view')));
+        } else if (state is AuthStateNeedsVerification) {
+          return const Scaffold(body: Center(child: Text('Verification view')));
+        } else if (state is AuthStateLoggedOut) {
+          return const LoginView();
+        } else if (state is AuthStateRegistering) {
+          return const Scaffold(body: Center(child: Text('Register view')));
+        } else if (state is AuthStateForgotPassword) {
+          return const Scaffold(
+            body: Center(child: Text('Forgot password view')),
+          );
+        } else {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+      },
+    );
   }
 }
