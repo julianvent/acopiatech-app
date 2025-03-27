@@ -1,6 +1,7 @@
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/home_view.dart';
+import 'package:acopiatech/widgets/custom_scanffold.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
 
@@ -31,18 +32,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              ColorsPalette.backgroundDarkGreen,
-              ColorsPalette.hardGreen,
-            ],
-          ),
-        ),
+    return CustomScanffold(      
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -192,7 +182,7 @@ class _LoginViewState extends State<LoginView> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 padding: EdgeInsets.all(10),
-                                shadowColor: Colors.grey.withOpacity(0.2),
+                                shadowColor: Colors.grey[200]!,
                                 elevation: 5,
                               ),
                               onPressed: () {
@@ -234,7 +224,6 @@ class _LoginViewState extends State<LoginView> {
             ),
           ],
         ),
-      ),
     );
   }
 }

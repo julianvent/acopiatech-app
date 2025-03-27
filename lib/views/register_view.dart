@@ -1,5 +1,4 @@
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/constants/images_routes.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatefulWidget {
@@ -36,128 +35,154 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              colors: [ColorsPalette.hardGreen, ColorsPalette.darkGreen],
-            ),
-          ),
-          child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.all(20)),
-              SingleChildScrollView(
-                child: Container(
-                  height: 300,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(ImagesRoutes.logotipoA),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Bienvenido a Acopiatech 😁",
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
-              SizedBox(height: 35),
-              SizedBox(
-                width: 450,
-                child: TextField(
-                  keyboardType: TextInputType.name,
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: "Ingresa tu nombre",
-                    hintStyle: TextStyle(color: Colors.black87),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 450,
-                child: TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: "Ingresa tu email",
-                    hintStyle: TextStyle(color: Colors.black87),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 450,
-                child: TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: "Ingresa tu contraseña",
-                    hintStyle: TextStyle(color: Colors.black87),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                width: 450,
-                child: TextField(
-                  controller: _confirmPasswordController,
-                  obscureText: true,
-                  enableSuggestions: false,
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    hintText: "Confirma tu contraseña",
-                    hintStyle: TextStyle(color: Colors.black87),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              FilledButton.icon(
-                onPressed: () {
-                  // Register logic
-                },
-                style: FilledButton.styleFrom(
-                  backgroundColor: ColorsPalette.darkCian,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    side: BorderSide(color: Colors.white54),
-                  ),
-                  textStyle: TextStyle(color: Colors.white, fontSize: 30),
-                ),
-                icon: Icon(Icons.person_add, size: 30),
-                label: Text("Registrarse"),
-              ),
-              SizedBox(height: 20),
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              ColorsPalette.backgroundDarkGreen,
+              ColorsPalette.hardGreen,
             ],
           ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 30),
+                  Text(
+                    "Crea tu cuenta",
+                    style: TextStyle(color: Colors.white, fontSize: 40),
+                  ),
+                  Text(
+                    "¡Únete a Acopiatech! 🚀",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(20).add(
+                      EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 30),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[200]!,
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  labelText: 'Nombre',
+                                  hintText: "Juan Pérez",
+                                  prefixIcon: Icon(Icons.person),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              TextField(
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  hintText: "acopiatito@example.com",
+                                  prefixIcon: Icon(Icons.email),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              TextField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Contraseña',
+                                  prefixIcon: Icon(Icons.lock),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              TextField(
+                                controller: _confirmPasswordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Confirmar contraseña',
+                                  prefixIcon: Icon(Icons.lock_outline),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        FilledButton.icon(
+                          onPressed: () {
+                            // TODO: lógica de registro
+                          },
+                          style: FilledButton.styleFrom(
+                            backgroundColor: ColorsPalette.darkCian,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              side: BorderSide(color: Colors.white54),
+                            ),
+                            minimumSize: Size(double.infinity, 60),
+                            textStyle: TextStyle(fontSize: 20),
+                          ),
+                          icon: Icon(Icons.person_add, color: Colors.white),
+                          label: Text(
+                            "Registrarse",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

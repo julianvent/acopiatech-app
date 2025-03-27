@@ -4,4 +4,7 @@ class ImagesRoutes {
   static final String googleIcon = 'lib/assets/images/GoogleIcon.png';
   static final String fIcon = 'lib/assets/images/FIcon.png';
   static final String logoAcopiatech = 'lib/assets/images/LogoAcopiaTech.png';
+  static final String fondoBienvenida = 'lib/assets/images/FondoBienvenida.png';
+  static final String fondoContrasenia =
+      'lib/assets/images/FondoContrasenia.png';
 }
