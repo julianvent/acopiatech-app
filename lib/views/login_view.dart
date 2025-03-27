@@ -1,5 +1,6 @@
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
+import 'package:acopiatech/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
 
@@ -36,7 +37,10 @@ class _LoginViewState extends State<LoginView> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
-            colors: [ColorsPalette.hardGreen, ColorsPalette.lightGreen],
+            colors: [
+              ColorsPalette.backgroundDarkGreen,
+              ColorsPalette.hardGreen,
+            ],
           ),
         ),
         child: Column(
@@ -76,62 +80,52 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 60),
+                        SizedBox(height: 40),
                         Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
-                                color: Color.fromRGBO(111, 255, 27, 0.298),
-                                blurRadius: 20,
-                                offset: Offset(0, 10),
+                                color: Colors.grey[200]!,
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.grey[200]!,
-                                    ),
+                              TextField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  hintText: "acopiatito@example.com",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ),
-                                child: TextField(
-                                  // Email input
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: _emailController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Email',
-                                    hintText: "acopiatito@example.com",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none,
-                                  ),
+                                  prefixIcon: Icon(Icons.email),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.grey[200]!,
-                                    ),
+                              SizedBox(height: 15),
+                              TextField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                autocorrect: false,
+                                enableSuggestions: false,
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ),
-                                child: TextField(
-                                  // Password input
-                                  controller: _passwordController,
-                                  obscureText: true,
-                                  autocorrect: false,
-                                  enableSuggestions: false,
-                                  clipBehavior: Clip.none,
-                                  decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none,
-                                  ),
+                                  prefixIcon: Icon(Icons.lock),
                                 ),
                               ),
                             ],
@@ -139,7 +133,6 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         SizedBox(height: 20),
                         Align(
-                          // Forgot password botton
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
@@ -149,11 +142,13 @@ class _LoginViewState extends State<LoginView> {
                                   builder: (context) => ForgotPasswordView(),
                                 ),
                               );
-                              // Forgot password logic
                             },
-                            child: Text( // Check textButton
+                            child: Text(
                               "¿Olvidaste tu contraseña?",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(
+                                color: ColorsPalette.hardGreen,
+                                fontWeight: FontWeight.bold,
+                              ),
                               textAlign: TextAlign.right,
                             ),
                           ),
@@ -161,24 +156,29 @@ class _LoginViewState extends State<LoginView> {
                         SizedBox(height: 20),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorsPalette.hardGreen,
+                            backgroundColor: ColorsPalette.backgroundDarkGreen,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
                             minimumSize: Size(double.infinity, 60),
-                            elevation: 0,
+                            elevation: 5,
                           ),
                           onPressed: () {
-                            // Login logic
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeView(),
+                              ),
+                            );
                           },
                           child: Text(
                             "Login",
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: 30),
                         Text(
-                          "Continuar con redes sociales",
+                          "O continuar con redes sociales",
                           style: TextStyle(color: Colors.grey),
                         ),
                         SizedBox(height: 20),
@@ -192,6 +192,8 @@ class _LoginViewState extends State<LoginView> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 padding: EdgeInsets.all(10),
+                                shadowColor: Colors.grey.withOpacity(0.2),
+                                elevation: 5,
                               ),
                               onPressed: () {
                                 // Login with Google
@@ -209,9 +211,12 @@ class _LoginViewState extends State<LoginView> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
+                                padding: EdgeInsets.all(10),
+                                shadowColor: Colors.grey.withOpacity(0.2),
+                                elevation: 5,
                               ),
                               onPressed: () {
-                                // Login with facebook
+                                // Login with Facebook
                               },
                               child: Image(
                                 image: AssetImage(ImagesRoutes.fIcon),
