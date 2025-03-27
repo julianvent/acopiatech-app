@@ -4,8 +4,11 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
+import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
+import 'package:acopiatech/views/user/user_home_view.dart';
+import 'package:acopiatech/views/verification_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,6 +51,7 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         // where scaffold = actual view
         if (state is AuthStateLoggedInAsAdmin) {
+          // return const AdminHomeView();
           return Scaffold(
             appBar: AppBar(title: Text('Soy admin')),
             body: ElevatedButton(
@@ -58,6 +62,7 @@ class HomePage extends StatelessWidget {
             ),
           );
         } else if (state is AuthStateLoggedIn) {
+          // return const UserHomeView();
           return Scaffold(
             appBar: AppBar(title: Text('Soy user')),
             body: ElevatedButton(
@@ -68,23 +73,13 @@ class HomePage extends StatelessWidget {
             ),
           );
         } else if (state is AuthStateNeedsVerification) {
-          return Scaffold(
-            appBar: AppBar(title: Text('Verificacion')),
-            body: ElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthEventLogOut());
-              },
-              child: Text('Iniciar sesión'),
-            ),
-          );
+          return const VerificationView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else if (state is AuthStateForgotPassword) {
-          return const Scaffold(
-            body: Center(child: Text('Forgot password view')),
-          );
+          return const ForgotPasswordView();
         } else {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),

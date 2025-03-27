@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
 
-class HomeView extends StatefulWidget {
+class UserHomeView extends StatefulWidget {
   int _recolectionRequest = 0;
-  HomeView({Key? key}) : super(key: key);
+  UserHomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<UserHomeView> createState() => _UserHomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _UserHomeViewState extends State<UserHomeView> {
   int _bottomNavIndex = 0;
   // List<Widget> _pages = const [
   //   HomeView(),

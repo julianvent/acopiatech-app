@@ -1,6 +1,6 @@
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
-import 'package:acopiatech/widgets/custom_scanffold.dart';
+import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:acopiatech/widgets/welcome_buttom.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScanffold(
+    return CustomScaffold(
       child: Column(
         children: [
           Flexible(

@@ -1,8 +1,8 @@
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:flutter/material.dart';
 
-class CustomScanffold extends StatelessWidget {
-  const CustomScanffold({super.key, this.child});
+class CustomScaffold extends StatelessWidget {
+  const CustomScaffold({super.key, this.child});
 
   final Widget? child;
 

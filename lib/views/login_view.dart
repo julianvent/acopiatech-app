@@ -6,14 +6,14 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
-import 'package:acopiatech/views/home_view.dart';
-import 'package:acopiatech/widgets/custom_scanffold.dart';
+import 'package:acopiatech/views/user/user_home_view.dart';
+import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -49,7 +49,7 @@ class _LoginViewState extends State<LoginView> {
           }
         }
       },
-      child: CustomScanffold(
+      child: CustomScaffold(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -143,12 +143,7 @@ class _LoginViewState extends State<LoginView> {
                           alignment: Alignment.centerRight,
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordView(),
-                                ),
-                              );
+                              context.read<AuthBloc>().add(AuthEventForgotPassword());
                             },
                             child: Text(
                               "¿Olvidaste tu contraseña?",
