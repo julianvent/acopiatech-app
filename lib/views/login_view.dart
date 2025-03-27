@@ -1,9 +1,16 @@
+import 'dart:developer';
+
 import 'package:acopiatech/constants/images_routes.dart';
+import 'package:acopiatech/services/auth/auth_exceptions.dart';
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
+import 'package:acopiatech/services/auth/bloc/auth_event.dart';
+import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/home_view.dart';
 import 'package:acopiatech/widgets/custom_scanffold.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -32,7 +39,17 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScanffold(      
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthStateLoggedOut) {
+          if (state.exception is InvalidCredentialAuthException) {
+            log('Invalid credentials');
+          } else if (state is GenericAuthException) {
+            log('Auth error');
+          }
+        }
+      },
+      child: CustomScanffold(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -154,19 +171,21 @@ class _LoginViewState extends State<LoginView> {
                             elevation: 5,
                           ),
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomeView(),
-                              ),
-                            );
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            context.read<AuthBloc>().add(AuthEventLogIn(email, password));
                           },
                           child: Text(
                             "Iniciar sesión",
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
-                        TextButton(onPressed: () {}, child: Text('Crea tu cuenta ahora!!!! :DDDD')),
+                        TextButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(AuthEventShouldRegister());
+                          },
+                          child: Text('Crea tu cuenta ahora!!!! :DDDD'),
+                        ),
                         SizedBox(height: 30),
                         Text(
                           "O continuar con redes sociales",
@@ -225,6 +244,7 @@ class _LoginViewState extends State<LoginView> {
             ),
           ],
         ),
+      ),
     );
   }
 }
