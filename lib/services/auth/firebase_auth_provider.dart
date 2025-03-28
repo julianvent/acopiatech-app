@@ -51,7 +51,7 @@ class FirebaseAuthProvider implements AuthProvider {
         final role = idTokenResult.claims?['role'] as String? ?? 'user';
 
         return AuthUser.fromFirebase(user, role: role);
-      } on Exception catch (e) {
+      } on Exception {
         return null;
       }
     }
