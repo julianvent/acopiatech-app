@@ -117,17 +117,17 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           child: Column(
                             children: [
-                              // TextField(
-                              //   controller: _nameController,
-                              //   decoration: InputDecoration(
-                              //     labelText: 'Nombre',
-                              //     hintText: "Juan Pérez",
-                              //     prefixIcon: Icon(Icons.person),
-                              //     border: OutlineInputBorder(
-                              //       borderRadius: BorderRadius.circular(10),
-                              //     ),
-                              //   ),
-                              // ),
+                              TextField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  labelText: 'Nombre',
+                                  hintText: "Juan Pérez",
+                                  prefixIcon: Icon(Icons.person),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: 15),
                               TextField(
                                 controller: _emailController,
@@ -171,6 +171,7 @@ class _RegisterViewState extends State<RegisterView> {
                         SizedBox(height: 30),
                         FilledButton.icon(
                           onPressed: () {
+                            final name = _nameController.text;
                             final email = _emailController.text;
                             final password = _passwordController.text;
                             final confirmPassword =
@@ -178,6 +179,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                             context.read<AuthBloc>().add(
                               AuthEventRegister(
+                                name,
                                 email,
                                 password,
                                 confirmPassword,

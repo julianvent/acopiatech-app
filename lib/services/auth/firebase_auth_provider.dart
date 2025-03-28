@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 class FirebaseAuthProvider implements AuthProvider {
   @override
   Future<AuthUser> createUser({
+    required String name,
     required String email,
     required String password,
   }) async {
@@ -17,6 +18,7 @@ class FirebaseAuthProvider implements AuthProvider {
         email: email,
         password: password,
       );
+      await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
 
       final user = await currentUser;
 

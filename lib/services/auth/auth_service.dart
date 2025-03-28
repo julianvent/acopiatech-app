@@ -23,9 +23,10 @@ class AuthService implements AuthProvider {
 
   @override
   Future<AuthUser> createUser({
+    required String name,
     required String email,
     required String password,
-  }) => provider.createUser(email: email, password: password);
+  }) => provider.createUser(name: name, email: email, password: password);
 
   @override
   Future<void> logOut() => provider.logOut();
