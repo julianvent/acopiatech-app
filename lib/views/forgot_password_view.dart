@@ -6,6 +6,8 @@ import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
+import 'package:acopiatech/utilities/dialogs/password_reset_email_sent_dialog.dart';
 import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,14 +37,22 @@ class _ForgotPasswordView extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is AuthStateForgotPassword) {
           if (state.exception is InvalidEmailAuthException) {
-            log('Invalid email');
+            showErrorDialog(
+              context,
+              'El correo electrónico ingresado es inválido.',
+            );
           } else if (state.exception is UserNotFoundAuthException) {
-            log('User not found');
+            showErrorDialog(context, 'El usuario no ha sido encontrado.');
           } else if (state.exception is GenericAuthException) {
-            log('Auth error');
+            showErrorDialog(context, 'Error de autenticación.');
+          }
+
+          if (state.hasSentEmail) {
+            _emailController.clear();
+            await showPasswordResetSentDialog(context);
           }
         }
       },
@@ -135,13 +145,14 @@ class _ForgotPasswordView extends State<ForgotPasswordView> {
                           },
                           style: FilledButton.styleFrom(
                             backgroundColor: ColorsPalette.darkCian,
+                            minimumSize: Size(100, 50),
                           ),
                           child: Text(
                             'Recuperar contraseña',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         TextButton(
                           onPressed: () {
                             context.read<AuthBloc>().add(AuthEventLogOut());
