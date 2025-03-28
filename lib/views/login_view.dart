@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
-import 'package:acopiatech/views/forgot_password_view.dart';
-import 'package:acopiatech/views/user/user_home_view.dart';
+import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
 import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
@@ -43,9 +40,14 @@ class _LoginViewState extends State<LoginView> {
       listener: (context, state) {
         if (state is AuthStateLoggedOut) {
           if (state.exception is InvalidCredentialAuthException) {
-            log('Invalid credentials');
-          } else if (state is GenericAuthException) {
-            log('Auth error');
+            showErrorDialog(
+              context,
+              'Usuario o contraseña incorrectos. Intenta de nuevo.',
+            );
+          } else if (state.exception is InvalidEmailAuthException) {
+            showErrorDialog(context, 'El correo ingresado es inválido.');
+          } else if (state.exception is GenericAuthException) {
+            showErrorDialog(context, 'Error de autenticación.');
           }
         }
       },

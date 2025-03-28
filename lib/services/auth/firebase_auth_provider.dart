@@ -86,6 +86,8 @@ class FirebaseAuthProvider implements AuthProvider {
       }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
+        case 'invalid-email':
+          throw InvalidEmailAuthException();
         case 'invalid-credential':
           throw InvalidCredentialAuthException();
         default:

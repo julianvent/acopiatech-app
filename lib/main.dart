@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';

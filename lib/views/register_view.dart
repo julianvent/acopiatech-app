@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
 import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,15 +45,15 @@ class _RegisterViewState extends State<RegisterView> {
       listener: (context, state) {
         if (state is AuthStateRegistering) {
           if (state.exception is WeakPasswordAuthException) {
-            log('Weak password');
+            showErrorDialog(context, 'La contraseña debe tener un mínimo de 6 carácteres y al menos un número.');
           } else if (state.exception is EmailAlreadyInUseAuthException) {
-            log('Email already in use');
+            showErrorDialog(context, 'El correo electrónico ingresado ya está en uso.');
           } else if (state.exception is GenericAuthException) {
-            log('Failed to register');
+            showErrorDialog(context, 'Error al registrarse. Intente de nuevo.');
           } else if (state.exception is InvalidEmailAuthException) {
-            log('Invalid email');
+            showErrorDialog(context, 'El correo electrónico ingresado es inválido.');
           } else if (state.exception is PasswordsDontMatchAuthException) {
-            log("Passwords don't match");
+            showErrorDialog(context, 'Las contraseñas ingresadas no coinciden.');
           }
         }
       },
