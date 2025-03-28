@@ -17,13 +17,14 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  late final TextEditingController _nameController; // Remove
+  late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
 
   @override
   void initState() {
+    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -32,6 +33,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -107,12 +109,7 @@ class _RegisterViewState extends State<RegisterView> {
                           style: TextStyle(color: Colors.black, fontSize: 25),
                           textAlign: TextAlign.center,
                         ),
-                        Text(
-                          "¡Únete a Acopiatech! 🚀",
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 15),
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -132,6 +129,19 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           child: Column(
                             children: [
+                              TextField(
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  labelText: 'Nombre',
+                                  hintText: "Kevin Smith",
+                                  prefixIcon: Icon(Icons.person),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
                               TextField(
                                 controller: _emailController,
                                 keyboardType: TextInputType.emailAddress,

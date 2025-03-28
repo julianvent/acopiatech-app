@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class AdminHomeView extends StatefulWidget {
   const AdminHomeView({super.key});
@@ -13,8 +14,13 @@ class _AdminHomeViewState extends State<AdminHomeView> {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         destinations: [
-          Container(color: Colors.amber,),
-          Container(color: Colors.blueAccent),
+          NavigationDestination(
+            icon:Icon(Iconsax.home),
+            label: 'Home',
+          ),
+          // NavigationDestination(
+          //   icon: ,
+          //   label: label)
           Container(color: Colors.redAccent),
           Container(color: Colors.greenAccent),
         ]

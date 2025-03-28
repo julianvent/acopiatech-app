@@ -88,15 +88,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Text(
-                          "Bienvenido a AcopiaTech 👋🏻",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
                         SizedBox(height: 20),
                         Container(
                           padding: EdgeInsets.symmetric(

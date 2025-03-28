@@ -80,6 +80,7 @@ class _ForgotPasswordView extends State<ForgotPasswordView> {
                     ),
                     child: Column(
                       children: [
+                        SizedBox(height: 20),
                         Text(
                           "Recuperación de contraseña",
                           style: TextStyle(
