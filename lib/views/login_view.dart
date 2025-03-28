@@ -189,7 +189,7 @@ class _LoginViewState extends State<LoginView> {
                               AuthEventShouldRegister(),
                             );
                           },
-                          child: Text('Crea tu cuenta ahora!!!! :DDDD'),
+                          child: Text('¿No tienes una cuenta? Crea una ahora'),
                         ),
                         SizedBox(height: 30),
                         Text(

@@ -25,10 +25,12 @@ class AuthEventSendEmailVerification extends AuthEvent {
 }
 
 class AuthEventRegister extends AuthEvent {
+  final String name;
   final String email;
   final String password;
+  final String confirmPassword;
 
-  const AuthEventRegister(this.email, this.password);
+  const AuthEventRegister(this.name, this.email, this.password, this.confirmPassword);
 }
 
 class AuthEventShouldRegister extends AuthEvent {

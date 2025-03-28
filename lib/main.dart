@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
         if (state is AuthStateLoggedInAsAdmin) {
           // return const AdminHomeView();
           return Scaffold(
-            appBar: AppBar(title: Text('Soy admin')),
+            appBar: AppBar(title: Text(state.user.name!)),
             body: ElevatedButton(
               onPressed: () {
                 context.read<AuthBloc>().add(AuthEventLogOut());
@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
         } else if (state is AuthStateLoggedIn) {
           // return const UserHomeView();
           return Scaffold(
-            appBar: AppBar(title: Text('Soy user')),
+            appBar: AppBar(title: Text(state.user.name!)),
             body: ElevatedButton(
               onPressed: () {
                 context.read<AuthBloc>().add(AuthEventLogOut());

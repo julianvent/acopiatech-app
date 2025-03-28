@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({Key? key}) : super(key: key);
+  const RegisterView({super.key});
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
@@ -53,6 +53,8 @@ class _RegisterViewState extends State<RegisterView> {
             log('Failed to register');
           } else if (state.exception is InvalidEmailAuthException) {
             log('Invalid email');
+          } else if (state.exception is PasswordsDontMatchAuthException) {
+            log("Passwords don't match");
           }
         }
       },
@@ -169,10 +171,19 @@ class _RegisterViewState extends State<RegisterView> {
                         SizedBox(height: 30),
                         FilledButton.icon(
                           onPressed: () {
+                            final name = _nameController.text;
                             final email = _emailController.text;
                             final password = _passwordController.text;
+                            final confirmPassword =
+                                _confirmPasswordController.text;
+
                             context.read<AuthBloc>().add(
-                              AuthEventRegister(email, password),
+                              AuthEventRegister(
+                                name,
+                                email,
+                                password,
+                                confirmPassword,
+                              ),
                             );
                           },
                           style: FilledButton.styleFrom(

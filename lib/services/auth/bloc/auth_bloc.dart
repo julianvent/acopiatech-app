@@ -1,3 +1,4 @@
+import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/auth_provider.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
@@ -20,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateLoggedInAsAdmin(user: user, isLoading: false));
       } else if (user.role == 'user') {
         emit(AuthStateLoggedIn(user: user, isLoading: false));
-      } 
+      }
     });
 
     // log in
@@ -70,15 +71,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // register
     on<AuthEventRegister>((event, emit) async {
+      final name = event.name;
       final email = event.email;
       final password = event.password;
+      final confirmPassword = event.confirmPassword;
 
-      try {
-        await provider.createUser(email: email, password: password);
-        await provider.sendEmailVerification();
-        emit(const AuthStateNeedsVerification(isLoading: false));
-      } on Exception catch (e) {
-        emit(AuthStateRegistering(exception: e, isLoading: false));
+      if (password != confirmPassword) {
+        emit(
+          AuthStateRegistering(
+            exception: PasswordsDontMatchAuthException(),
+            isLoading: false,
+          ),
+        );
+      } else {
+        try {
+          await provider.createUser(name: name, email: email, password: password);
+          await provider.sendEmailVerification();
+          emit(const AuthStateNeedsVerification(isLoading: false));
+        } on Exception catch (e) {
+          emit(AuthStateRegistering(exception: e, isLoading: false));
+        }
       }
     });
 
