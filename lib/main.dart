@@ -6,6 +6,7 @@ import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
+import 'package:acopiatech/views/user/user_home_view.dart';
 import 'package:acopiatech/views/verification_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,15 +65,7 @@ class HomePage extends StatelessWidget {
           );
         } else if (state is AuthStateLoggedIn) {
           // return const UserHomeView();
-          return Scaffold(
-            appBar: AppBar(title: Text(state.user.name!)),
-            body: ElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthEventLogOut());
-              },
-              child: Text('Iniciar sesión'),
-            ),
-          );
+          return UserHomeView();
         } else if (state is AuthStateNeedsVerification) {
           return const VerificationView();
         } else if (state is AuthStateLoggedOut) {

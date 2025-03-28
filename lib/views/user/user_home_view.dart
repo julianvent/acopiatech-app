@@ -1,9 +1,11 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
+import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/views/shop_view.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserHomeView extends StatefulWidget {
   int _recolectionRequest = 0;
@@ -37,6 +39,12 @@ class _UserHomeViewState extends State<UserHomeView> {
           ),
           child: Column(
             children: [
+              ElevatedButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(AuthEventLogOut());
+                },
+                child: const Text('Cerrar sesión'),
+              ),
               SizedBox(height: 20),
               Text(
                 'No cuentas con recolecciones\n¡Solicita una ahora!',
@@ -78,6 +86,12 @@ class _UserHomeViewState extends State<UserHomeView> {
                 'En mantenimiento',
                 style: TextStyle(color: Colors.black, fontSize: 20),
               ),
+              TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(AuthEventLogOut());
+                },
+                child: const Text('Cerrar sesión'),
+              ),
             ],
           ),
         ),
@@ -104,28 +118,29 @@ class _UserHomeViewState extends State<UserHomeView> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
-          _handleRecolectionRequest(),
-          AnimatedBottomNavigationBar(
-            splashColor: ColorsPalette.hardGreen,
-            activeColor: ColorsPalette.darkGreen,
-            inactiveColor: ColorsPalette.neutralGray, // Colors.black.withOpacity(0.5)
-            icons: [
-              Icons.home,
-              Icons.shopping_cart,
-              Icons.person,
-              Icons.settings_outlined,
-            ],
-            activeIndex: 0,
-            gapLocation: GapLocation.center,
-            notchSmoothness: NotchSmoothness.softEdge,
-            onTap: (index) {
-              setState(() {
-                
-              });
-            },
-          )
-        ]),
+        child: Column(
+          children: [
+            _handleRecolectionRequest(),
+            AnimatedBottomNavigationBar(
+              splashColor: ColorsPalette.hardGreen,
+              activeColor: ColorsPalette.darkGreen,
+              inactiveColor:
+                  ColorsPalette.neutralGray, // Colors.black.withOpacity(0.5)
+              icons: [
+                Icons.home,
+                Icons.shopping_cart,
+                Icons.person,
+                Icons.settings_outlined,
+              ],
+              activeIndex: 0,
+              gapLocation: GapLocation.center,
+              notchSmoothness: NotchSmoothness.softEdge,
+              onTap: (index) {
+                setState(() {});
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
