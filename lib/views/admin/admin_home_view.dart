@@ -10,6 +10,15 @@ class AdminHomeView extends StatefulWidget {
 class _AdminHomeViewState extends State<AdminHomeView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      bottomNavigationBar: NavigationBar(
+        destinations: [
+          Container(color: Colors.amber,),
+          Container(color: Colors.blueAccent),
+          Container(color: Colors.redAccent),
+          Container(color: Colors.greenAccent),
+        ]
+        ),
+    );
   }
 }

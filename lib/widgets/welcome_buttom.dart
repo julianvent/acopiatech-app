@@ -1,3 +1,4 @@
+import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeButtom extends StatelessWidget {
@@ -25,8 +26,8 @@ class WelcomeButtom extends StatelessWidget {
         ),
         child: Text(
           buttonText!,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: ColorsPalette.hardGreen,
             fontSize: 20,
             fontWeight: FontWeight.w300,
           ),

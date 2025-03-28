@@ -4,7 +4,9 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
+import 'package:acopiatech/views/user/user_home_view.dart';
 import 'package:acopiatech/widgets/custom_scaffold.dart';
+import 'package:acopiatech/widgets/welcome_buttom.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -188,6 +190,11 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         SizedBox(height: 15),
+                        WelcomeButtom(
+                          buttonText: "Soy donador",
+                          onTapWidget: UserHomeView(),
+                        ),
+                        SizedBox(height: 20),
                         TextButton(
                           onPressed: () {
                             context.read<AuthBloc>().add(
