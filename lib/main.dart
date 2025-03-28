@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
@@ -43,9 +44,12 @@ class HomePage extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.isLoading) {
-          log('Loading...');
+          LoadingScreen().show(
+            context: context,
+            text: state.loadingText ?? 'Por favor espere un momento...',
+          );
         } else {
-          log('OK');
+          LoadingScreen().hide();
         }
       },
       builder: (context, state) {
@@ -53,7 +57,7 @@ class HomePage extends StatelessWidget {
         if (state is AuthStateLoggedInAsAdmin) {
           // return const AdminHomeView();
           return Scaffold(
-            appBar: AppBar(title: Text(state.user.name!)),
+            appBar: AppBar(title: Text('Admin - ${state.user.name!}')),
             body: ElevatedButton(
               onPressed: () {
                 context.read<AuthBloc>().add(AuthEventLogOut());
