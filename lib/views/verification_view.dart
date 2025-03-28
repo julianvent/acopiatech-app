@@ -64,7 +64,11 @@ class VerificationView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<AuthBloc>().add(
+                        AuthEventSendEmailVerification(),
+                      );
+                    },
                     child: const Text(
                       "Reenviar correo de verificación",
                       style: TextStyle(color: Colors.white, fontSize: 16),
