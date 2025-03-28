@@ -27,8 +27,8 @@ class WelcomeButtom extends StatelessWidget {
         child: Text(
           buttonText!,
           style: TextStyle(
-            color: ColorsPalette.hardGreen,
-            fontSize: 20,
+            color: ColorsPalette.neutralGray,
+            fontSize: 14,
             fontWeight: FontWeight.w300,
           ),
         ),

@@ -130,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
                           child: Column(
                             children: [
                               TextField(
-                                controller: _emailController,
+                                controller: _nameController,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   labelText: 'Nombre',

@@ -180,12 +180,12 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 20),
                         WelcomeButtom(
-                          buttonText: "Soy donador",
+                          buttonText: "Iniciar sesión como usuario anónimo",
                           onTapWidget: UserHomeView(),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
                         TextButton(
                           onPressed: () {
                             context.read<AuthBloc>().add(
