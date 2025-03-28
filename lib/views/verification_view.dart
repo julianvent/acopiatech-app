@@ -33,7 +33,7 @@ class VerificationView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    image: AssetImage(ImagesRoutes.EmailIcon),
+                    image: AssetImage(ImagesRoutes.emailIcon),
                     width: 100,
                     height: 100,
                   ),

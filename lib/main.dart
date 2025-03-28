@@ -6,7 +6,6 @@ import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
-import 'package:acopiatech/views/user/user_home_view.dart';
 import 'package:acopiatech/views/verification_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

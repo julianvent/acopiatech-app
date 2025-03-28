@@ -9,19 +9,21 @@ class CustomScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          Image(
-            image: AssetImage(ImagesRoutes.fondoBienvenida),
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
+          Positioned.fill(
+            child: IgnorePointer(
+              ignoring: true,
+              child: Image(
+                image: AssetImage(ImagesRoutes.fondoBienvenida),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          SafeArea(
-            child: child!,
-          )
+          SafeArea(child: child!),
         ],
       ),
     );

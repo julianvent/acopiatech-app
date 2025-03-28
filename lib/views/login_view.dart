@@ -8,6 +8,7 @@ import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -60,17 +61,9 @@ class _LoginViewState extends State<LoginView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Bienvenido a Acopiatech",
-                    style: TextStyle(color: Colors.white, fontSize: 40),
-                  ),
-                  Text(
-                    "Hola de nuevo 👋🏻",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  Image(
+                    image: AssetImage(ImagesRoutes.logoAcopiatech),
+                    width: 300,
                   ),
                 ],
               ),
@@ -93,7 +86,16 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 40),
+                        Text(
+                          "Bienvenido a AcopiaTech 👋🏻",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(height: 20),
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
@@ -185,6 +187,7 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
+                        SizedBox(height: 15),
                         TextButton(
                           onPressed: () {
                             context.read<AuthBloc>().add(
@@ -200,46 +203,20 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         SizedBox(height: 20),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                padding: EdgeInsets.all(10),
-                                shadowColor: Colors.grey[200]!,
-                                elevation: 5,
-                              ),
+                            TextButton(
                               onPressed: () {
                                 // Login with Google
                               },
-                              child: Image(
-                                image: AssetImage(ImagesRoutes.googleIcon),
-                                width: 30,
-                                height: 30,
-                              ),
+                              child: Logo(Logos.google),
                             ),
-                            SizedBox(width: 20),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorsPalette.facebookBlue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                padding: EdgeInsets.all(10),
-                                shadowColor: Colors.grey.withOpacity(0.2),
-                                elevation: 5,
-                              ),
+                            SizedBox(width: 10),
+                            TextButton(
                               onPressed: () {
                                 // Login with Facebook
                               },
-                              child: Image(
-                                image: AssetImage(ImagesRoutes.fIcon),
-                                width: 30,
-                                height: 30,
-                              ),
+                              child: Logo(Logos.facebook_f),
                             ),
                           ],
                         ),

@@ -6,6 +6,7 @@ import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,103 +46,111 @@ class _ForgotPasswordView extends State<ForgotPasswordView> {
           }
         }
       },
-      child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
-        extendBodyBehindAppBar: true,
-        body: Stack(
-          children: [
-            Image(
-              image: AssetImage(ImagesRoutes.fondoContrasenia),
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-            ),
-            SafeArea(
+      child: CustomScaffold(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(20),
+                  Image(
+                    image: AssetImage(ImagesRoutes.logoAcopiatech),
+                    width: 300,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(20).add(
+                      EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                      children: [
                         Text(
-                          "Recuperación de contraseña 🔑",
-                          style: TextStyle(color: Colors.white, fontSize: 40),
+                          "Recuperación de contraseña",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
+                        SizedBox(height: 10),
                         Text(
                           "Ingresa un correo electrónico para recuperar tu contraseña",
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 30),
+                        TextField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: 'Correo electrónico',
+                            labelStyle: TextStyle(
+                              color: ColorsPalette.darkCian,
+                            ),
+                            hintText: 'acopiatito@example.com',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(Icons.email),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: ColorsPalette.darkCian,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: ColorsPalette.darkCian,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        FilledButton(
+                          onPressed: () {
+                            final toEmail = _emailController.text;
+                            context.read<AuthBloc>().add(
+                              AuthEventForgotPassword(email: toEmail),
+                            );
+                          },
+                          style: FilledButton.styleFrom(
+                            backgroundColor: ColorsPalette.darkCian,
+                          ),
+                          child: Text(
+                            'Recuperar contraseña',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        TextButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(AuthEventLogOut());
+                          },
+                          child: const Text('Volver a inicio de sesión'),
                         ),
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            TextField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _emailController,
-                              decoration: InputDecoration(
-                                labelText: 'Email',
-                                labelStyle: TextStyle(
-                                  color: ColorsPalette.darkCian,
-                                ),
-                                hintText: 'acopiatito@example.com',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                prefixIcon: Icon(Icons.email),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    color: ColorsPalette.darkCian,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    color: ColorsPalette.darkCian,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            FilledButton(
-                              onPressed: () {
-                                final toEmail = _emailController.text;
-                                context.read<AuthBloc>().add(
-                                  AuthEventForgotPassword(email: toEmail),
-                                );
-                              },
-                              style: FilledButton.styleFrom(
-                                backgroundColor: ColorsPalette.darkCian,
-                              ),
-                              child: Text(
-                                'Recuperar contraseña',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                context.read<AuthBloc>().add(AuthEventLogOut());
-                              },
-                              child: const Text('Volver a inicio de sesión'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ],

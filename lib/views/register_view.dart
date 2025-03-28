@@ -16,14 +16,13 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  late final TextEditingController _nameController;
+  late final TextEditingController _nameController; // Remove
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
 
   @override
   void initState() {
-    _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -32,7 +31,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -45,15 +43,27 @@ class _RegisterViewState extends State<RegisterView> {
       listener: (context, state) {
         if (state is AuthStateRegistering) {
           if (state.exception is WeakPasswordAuthException) {
-            showErrorDialog(context, 'La contraseña debe tener un mínimo de 6 carácteres y al menos un número.');
+            showErrorDialog(
+              context,
+              'La contraseña debe tener un mínimo de 6 carácteres y al menos un número.',
+            );
           } else if (state.exception is EmailAlreadyInUseAuthException) {
-            showErrorDialog(context, 'El correo electrónico ingresado ya está en uso.');
+            showErrorDialog(
+              context,
+              'El correo electrónico ingresado ya está en uso.',
+            );
           } else if (state.exception is GenericAuthException) {
             showErrorDialog(context, 'Error al registrarse. Intente de nuevo.');
           } else if (state.exception is InvalidEmailAuthException) {
-            showErrorDialog(context, 'El correo electrónico ingresado es inválido.');
+            showErrorDialog(
+              context,
+              'El correo electrónico ingresado es inválido.',
+            );
           } else if (state.exception is PasswordsDontMatchAuthException) {
-            showErrorDialog(context, 'Las contraseñas ingresadas no coinciden.');
+            showErrorDialog(
+              context,
+              'Las contraseñas ingresadas no coinciden.',
+            );
           }
         }
       },
@@ -117,22 +127,10 @@ class _RegisterViewState extends State<RegisterView> {
                           child: Column(
                             children: [
                               TextField(
-                                controller: _nameController,
-                                decoration: InputDecoration(
-                                  labelText: 'Nombre',
-                                  hintText: "Juan Pérez",
-                                  prefixIcon: Icon(Icons.person),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              TextField(
                                 controller: _emailController,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
-                                  labelText: 'Email',
+                                  labelText: 'Correo electrónico',
                                   hintText: "acopiatito@example.com",
                                   prefixIcon: Icon(Icons.email),
                                   border: OutlineInputBorder(
@@ -170,7 +168,7 @@ class _RegisterViewState extends State<RegisterView> {
                         SizedBox(height: 30),
                         FilledButton.icon(
                           onPressed: () {
-                            final name = _nameController.text;
+                            final name = _nameController.text; // Check
                             final email = _emailController.text;
                             final password = _passwordController.text;
                             final confirmPassword =
@@ -178,7 +176,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                             context.read<AuthBloc>().add(
                               AuthEventRegister(
-                                name,
+                                name, // Check
                                 email,
                                 password,
                                 confirmPassword,
@@ -206,6 +204,7 @@ class _RegisterViewState extends State<RegisterView> {
                           },
                           child: Text(
                             '¿Ya tienes una cuenta? Inicia sesión ahora',
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         SizedBox(height: 20),

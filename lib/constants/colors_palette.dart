@@ -11,7 +11,6 @@ class ColorsPalette {
 
   static final darkCian = const Color(0XFF004668);
   static final lightCian = const Color(0XFF016887);
-  static final facebookBlue = const Color(0XFF3b5998);
 
   static final neutralGray = const Color(0XFF2E2E2E);
 }
