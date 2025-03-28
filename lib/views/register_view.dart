@@ -168,6 +168,10 @@ class _RegisterViewState extends State<RegisterView> {
                               ),
                               SizedBox(height: 15),
                               TextField(
+                                scrollPadding: EdgeInsets.symmetric(
+                                  vertical:
+                                      MediaQuery.of(context).viewInsets.bottom,
+                                ),
                                 controller: _confirmPasswordController,
                                 obscureText: true,
                                 decoration: InputDecoration(
