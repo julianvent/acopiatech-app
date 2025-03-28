@@ -1,4 +1,5 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
@@ -76,14 +77,9 @@ class _RegisterViewState extends State<RegisterView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 30),
-                  Text(
-                    "Crea tu cuenta",
-                    style: TextStyle(color: Colors.white, fontSize: 40),
-                  ),
-                  Text(
-                    "¡Únete a Acopiatech! 🚀",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  Image(
+                    image: AssetImage(ImagesRoutes.logoAcopiatech),
+                    width: 300,
                   ),
                 ],
               ),
@@ -106,6 +102,16 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     child: Column(
                       children: <Widget>[
+                        Text(
+                          "Crea tu cuenta",
+                          style: TextStyle(color: Colors.black, fontSize: 25),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "¡Únete a Acopiatech! 🚀",
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
                         SizedBox(height: 30),
                         Container(
                           padding: EdgeInsets.symmetric(
