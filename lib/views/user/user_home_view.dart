@@ -1,103 +1,84 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
-import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
-import 'package:acopiatech/services/auth/bloc/auth_event.dart';
-import 'package:acopiatech/views/shop_view.dart';
 import 'package:flutter/material.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserHomeView extends StatefulWidget {
-  int _recolectionRequest = 0;
-  UserHomeView({super.key});
+  const UserHomeView({super.key});
 
   @override
   State<UserHomeView> createState() => _UserHomeViewState();
 }
 
 class _UserHomeViewState extends State<UserHomeView> {
-  int _bottomNavIndex = 0;
+  // int _recolectionRequest = 0;
   // List<Widget> _pages = const [
   //   HomeView(),
   //   MyShopView()
 
   // ];
 
-  Widget _handleRecolectionRequest() {
-    if (widget._recolectionRequest == 0) {
-      widget._recolectionRequest = 1;
-      return Padding(
-        padding: EdgeInsets.all(20),
-        child: Container(
-          width: 600,
-          height: 150,
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(top: 50),
-          decoration: BoxDecoration(
-            color: ColorsPalette.backgroundDarkGreen,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(AuthEventLogOut());
-                },
-                child: const Text('Cerrar sesión'),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'No cuentas con recolecciones\n¡Solicita una ahora!',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorsPalette.lightGreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  alignment: Alignment.center,
-                  fixedSize: Size(200, 50),
-                ),
-
-                label: Row(
-                  children: [
-                    Text(
-                      'Solicitar recolección ',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Icon(Icons.add, color: ColorsPalette.darkGreen),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return SizedBox(
-        child: Container(
-          child: Column(
-            children: [
-              Text(
-                'En mantenimiento',
-                style: TextStyle(color: Colors.black, fontSize: 20),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(AuthEventLogOut());
-                },
-                child: const Text('Cerrar sesión'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
+  // Widget _handleRecolectionRequest() {
+  //   if (widget.recolectionRequest == 0) {
+  //     widget.recolectionRequest = 1;
+  //     return Padding(
+  //       padding: EdgeInsets.all(20),
+  //       child: Container(
+  //         width: 600,
+  //         height: 150,
+  //         alignment: Alignment.center,
+  //         margin: EdgeInsets.only(top: 50),
+  //         decoration: BoxDecoration(
+  //           color: ColorsPalette.backgroundDarkGreen,
+  //           borderRadius: BorderRadius.circular(20),
+  //         ),
+  //         child: Column(
+  //           children: [
+  //             SizedBox(height: 20),
+  //             Text(
+  //               'No cuentas con recolecciones\n¡Solicita una ahora!',
+  //               style: TextStyle(color: Colors.white, fontSize: 18),
+  //               textAlign: TextAlign.center,
+  //             ),
+  //             SizedBox(height: 20),
+  //             ElevatedButton.icon(
+  //               onPressed: () {},
+  //               style: ElevatedButton.styleFrom(
+  //                 backgroundColor: ColorsPalette.lightGreen,
+  //                 shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(20),
+  //                 ),
+  //                 alignment: Alignment.center,
+  //                 fixedSize: Size(200, 50),
+  //               ),
+  //               label: Row(
+  //                 children: [
+  //                   Text(
+  //                     'Solicitar recolección ',
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   Icon(Icons.add, color: ColorsPalette.darkGreen),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     return SizedBox(
+  //       child: Container(
+  //         child: Column(
+  //           children: [
+  //             Text(
+  //               'En mantenimiento',
+  //               style: TextStyle(color: Colors.black, fontSize: 20),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,25 +101,7 @@ class _UserHomeViewState extends State<UserHomeView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _handleRecolectionRequest(),
-            AnimatedBottomNavigationBar(
-              splashColor: ColorsPalette.hardGreen,
-              activeColor: ColorsPalette.darkGreen,
-              inactiveColor:
-                  ColorsPalette.neutralGray, // Colors.black.withOpacity(0.5)
-              icons: [
-                Icons.home,
-                Icons.shopping_cart,
-                Icons.person,
-                Icons.settings_outlined,
-              ],
-              activeIndex: 0,
-              gapLocation: GapLocation.center,
-              notchSmoothness: NotchSmoothness.softEdge,
-              onTap: (index) {
-                setState(() {});
-              },
-            ),
+            Text('Bienvenido a Acopiatech', style: TextStyle(fontSize: 20)),
           ],
         ),
       ),
