@@ -1,5 +1,6 @@
+import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/constants/images_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class AdminHomeView extends StatefulWidget {
   const AdminHomeView({super.key});
@@ -12,19 +13,21 @@ class _AdminHomeViewState extends State<AdminHomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        destinations: [
-          NavigationDestination(
-            icon:Icon(Iconsax.home),
-            label: 'Home',
-          ),
-          // NavigationDestination(
-          //   icon: ,
-          //   label: label)
-          Container(color: Colors.redAccent),
-          Container(color: Colors.greenAccent),
-        ]
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              ImagesRoutes.logoAcopiatech,
+              fit: BoxFit.contain,
+              height: 50,
+            ),
+            Icon(Icons.notifications, color: ColorsPalette.neutralGray),
+          ],
         ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0.0,
+      ),
     );
   }
 }

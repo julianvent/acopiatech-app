@@ -7,6 +7,8 @@ import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
 import 'package:acopiatech/views/verification_view.dart';
+import 'package:acopiatech/widgets/Admin_navigation_bar.dart';
+import 'package:acopiatech/widgets/user_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,27 +54,9 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         // where scaffold = actual view
         if (state is AuthStateLoggedInAsAdmin) {
-          // return const AdminHomeView();
-          return Scaffold(
-            appBar: AppBar(title: Text('Admin - ${state.user.name!}')),
-            body: ElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthEventLogOut());
-              },
-              child: Text('Cerrar sesión'),
-            ),
-          );
+          return const AdminNavigationBar();
         } else if (state is AuthStateLoggedIn) {
-          // return const UserHomeView();
-          return Scaffold(
-            appBar: AppBar(title: Text(state.user.name!)),
-            body: ElevatedButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthEventLogOut());
-              },
-              child: Text('Iniciar sesión'),
-            ),
-          );
+          return const UserNavigationBar();
         } else if (state is AuthStateNeedsVerification) {
           return const VerificationView();
         } else if (state is AuthStateLoggedOut) {
