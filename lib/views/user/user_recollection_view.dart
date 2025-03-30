@@ -1,4 +1,5 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/views/user/user_recollection_form.dart';
 import 'package:flutter/material.dart';
 
 class UserRecollectionView extends StatefulWidget {
@@ -22,7 +23,12 @@ class _UserRecollectionViewState extends State<UserRecollectionView> {
             Icon(Icons.recycling, size: 100, color: ColorsPalette.lightGreen),
             ElevatedButton(
               onPressed: () {
-                // Implementar la lógica para solicitar recolección
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserRecollectionForm(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorsPalette.lightGreen,

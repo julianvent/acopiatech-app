@@ -1,6 +1,7 @@
-import 'package:acopiatech/views/user/user_account_view.dart';
 import 'package:acopiatech/views/user/user_home_view.dart';
+import 'package:acopiatech/views/user/user_menu_view.dart';
 import 'package:acopiatech/views/user/user_recollection_view.dart';
+import 'package:acopiatech/views/user/user_shop_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,8 +31,8 @@ class UserNavigationBar extends StatelessWidget {
               label: 'Recolección',
             ),
             NavigationDestination(
-              icon: Icon(Icons.person, size: 30),
-              label: 'Cuenta',
+              icon: Icon(Icons.shopping_cart_outlined, size: 30),
+              label: 'Tienda',
             ),
             NavigationDestination(
               icon: Icon(Icons.menu, size: 30),
@@ -51,7 +52,7 @@ class NavigationController extends GetxController {
   final views = [
     const UserHomeView(),
     const UserRecollectionView(),
-    const UserAccountView(),
-    Container(color: Colors.greenAccent),
+    const UserShopView(),
+    const UserMenuView(),
   ];
 }

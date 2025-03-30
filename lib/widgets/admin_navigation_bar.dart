@@ -1,10 +1,10 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
-import 'package:acopiatech/views/admin/admin_account_view.dart';
 import 'package:acopiatech/views/admin/admin_home_view.dart';
 import 'package:acopiatech/views/admin/admin_menu_view.dart';
 import 'package:acopiatech/views/admin/admin_notification_view.dart';
 import 'package:acopiatech/views/admin/admin_recollection_view.dart';
+import 'package:acopiatech/views/admin/admin_shop_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,12 +23,9 @@ class AdminNavigationBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const AdminNavigationBar(),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
+                controller.selectedIndex.value = 0;
+                PageController pageController = PageController();
+                pageController.jumpToPage(0);
               },
               icon: Image.asset(
                 ImagesRoutes.logoAcopiatech,
@@ -58,6 +55,7 @@ class AdminNavigationBar extends StatelessWidget {
       bottomNavigationBar: Obx(
         () => NavigationBar(
           height: 80,
+          indicatorColor: ColorsPalette.lightGreen,
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected:
@@ -72,8 +70,8 @@ class AdminNavigationBar extends StatelessWidget {
               label: 'Recolección',
             ),
             NavigationDestination(
-              icon: Icon(Icons.person, size: 30),
-              label: 'Cuenta',
+              icon: Icon(CupertinoIcons.shopping_cart, size: 30),
+              label: 'Tienda',
             ),
             NavigationDestination(
               icon: Icon(Icons.menu, size: 30),
@@ -93,7 +91,7 @@ class NavigationController extends GetxController {
   final views = [
     const AdminHomeView(),
     const AdminRecollectionView(),
-    const AdminAccountView(),
+    const AdminShopView(),
     const AdminMenuView(),
   ];
 }

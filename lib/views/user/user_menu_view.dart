@@ -1,30 +1,30 @@
-import 'package:acopiatech/views/admin/admin_account_view.dart';
+import 'package:acopiatech/views/user/user_account_view.dart';
+import 'package:acopiatech/widgets/user_menu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:acopiatech/widgets/admin_menu_provider.dart';
 
-class AdminMenuView extends StatelessWidget {
-  const AdminMenuView({super.key});
+class UserMenuView extends StatelessWidget {
+  const UserMenuView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AdminMenuProvider(),
-      child: const _AdminMenuContent(),
+      create: (_) => UserMenuProvider(),
+      child: const _UserMenuContent(),
     );
   }
 }
 
-class _AdminMenuContent extends StatelessWidget {
-  const _AdminMenuContent();
+class _UserMenuContent extends StatelessWidget {
+  const _UserMenuContent();
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = context.watch<AdminMenuProvider>().currentIndex;
+    final currentIndex = context.watch<UserMenuProvider>().currentIndex;
 
     final views = [
       const _MenuMainView(),
-      const AdminAccountView(),
+      const UserAccountView(),
       const Center(child: Text('Direcciones')), // Otra subsección
     ];
 
@@ -37,7 +37,7 @@ class _MenuMainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final menuProvider = context.read<AdminMenuProvider>();
+    final menuProvider = context.read<UserMenuProvider>();
 
     return Center(
       child: Wrap(

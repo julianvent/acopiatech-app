@@ -1,4 +1,3 @@
-import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/widgets/recollection_preview.dart';
 import 'package:flutter/material.dart';
 
