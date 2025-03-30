@@ -12,11 +12,6 @@ class _AdminRecollectionViewState extends State<AdminRecollectionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recolección'),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0.0,
-      ),
       body: Center(
         child: Column(
           children: [

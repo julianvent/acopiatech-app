@@ -15,11 +15,6 @@ class _AdminAccountViewState extends State<AdminAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cuenta'),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0.0,
-      ),
       body: Center(
         child: Column(
           children: [

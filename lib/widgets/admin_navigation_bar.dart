@@ -1,6 +1,9 @@
+import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/views/admin/admin_account_view.dart';
 import 'package:acopiatech/views/admin/admin_home_view.dart';
+import 'package:acopiatech/views/admin/admin_menu_view.dart';
+import 'package:acopiatech/views/admin/admin_notification_view.dart';
 import 'package:acopiatech/views/admin/admin_recollection_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +17,44 @@ class AdminNavigationBar extends StatelessWidget {
     final NavigationController controller = Get.put(NavigationController());
 
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminNavigationBar(),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              icon: Image.asset(
+                ImagesRoutes.logoAcopiatech,
+                height: 50,
+                fit: BoxFit.contain,
+              ),
+              style: ButtonStyle(
+                minimumSize: WidgetStatePropertyAll(const Size(100, 50)),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdminNotificationView(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.notifications, color: ColorsPalette.neutralGray),
+            ),
+          ],
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0.0,
+      ),
       bottomNavigationBar: Obx(
         () => NavigationBar(
           height: 80,
@@ -53,6 +94,6 @@ class NavigationController extends GetxController {
     const AdminHomeView(),
     const AdminRecollectionView(),
     const AdminAccountView(),
-    Container(color: Colors.greenAccent),
+    const AdminMenuView(),
   ];
 }

@@ -6,6 +6,4 @@ class ImagesRoutes {
   static final String fondoContrasenia =
       'lib/assets/images/FondoContrasenia.png';
   static final String emailIcon = 'lib/assets/images/EmailIcon.png';
-
-  static final String deliveryIcon = 'lib/assets/images/logistics-delivery.png';
 }

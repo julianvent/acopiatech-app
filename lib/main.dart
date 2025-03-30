@@ -6,7 +6,6 @@ import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
-import 'package:acopiatech/views/user/user_home_view.dart';
 import 'package:acopiatech/views/verification_view.dart';
 import 'package:acopiatech/widgets/Admin_navigation_bar.dart';
 import 'package:acopiatech/widgets/user_navigation_bar.dart';
@@ -23,6 +22,11 @@ void main() {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         textTheme: GoogleFonts.rubikTextTheme(),
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+          },
+        ),
       ),
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(FirebaseAuthProvider()),
