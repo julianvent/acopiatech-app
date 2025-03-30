@@ -1,4 +1,5 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/widgets/recollection_preview.dart';
 import 'package:flutter/material.dart';
 
 class AdminRecollectionView extends StatefulWidget {
@@ -14,18 +15,13 @@ class _AdminRecollectionViewState extends State<AdminRecollectionView> {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
           children: [
             Text('Vista de recolección de administrador'),
-            ElevatedButton(
-              onPressed: () {
-                // Aquí puedes agregar la lógica para cerrar sesión
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorsPalette.hardGreen,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Recolección'),
-            ),
+            RecollectionPreview(clientDirection: "Dirección del cliente"),
+            RecollectionPreview(clientDirection: "Dirección del cliente"),
+            RecollectionPreview(clientDirection: "Dirección del cliente"),
           ],
         ),
       ),
