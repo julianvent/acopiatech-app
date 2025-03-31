@@ -1,0 +1,60 @@
+import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:flutter/material.dart';
+
+class UserTextField extends StatelessWidget {
+  const UserTextField({
+    Key? key,
+    required this.validator,
+    required this.controller,
+    required this.fieldName,
+    this.myIcon = Icons.verified_user_outlined,
+    this.prefixiedIconColor = ColorsPalette.hardGreen,
+    required this.filled,
+  }) : super(key: key);
+
+  final String? Function(String?)? validator;
+  final TextEditingController controller;
+  final String fieldName;
+  final IconData myIcon;
+  final Color prefixiedIconColor;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4.0),
+      child: TextFormField(
+        scrollPadding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        validator: validator,
+        controller: controller,
+        maxLines: 5, // Allows the text field to expand to 5 lines
+        maxLength: 200, // Limits the input to 200 characters
+        decoration: InputDecoration(
+          labelText: fieldName,
+          prefixIcon: Icon(myIcon, color: prefixiedIconColor),
+          border: OutlineInputBorder(),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: ColorsPalette.hardGreen, width: 2.0),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Colors.red, width: 2.0),
+          ),
+          labelStyle: const TextStyle(
+            color: ColorsPalette.darkCian,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
+          ),
+          filled: filled,
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
