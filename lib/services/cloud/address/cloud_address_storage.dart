@@ -1,5 +1,6 @@
 import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:acopiatech/services/cloud/cloud_storage_constants.dart';
+import 'package:acopiatech/services/cloud/cloud_storage_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CloudAddressStorage {
@@ -46,5 +47,13 @@ class CloudAddressStorage {
       state: 'state',
       timeCreated: DateTime.now(),
     );
+  }
+
+  Future<void> deleteAddress({required String documentId}) async {
+    try {
+      await addresses.doc(documentId).delete();
+    } catch (e) {
+      throw CouldNotDeleteAddressException();
+    }
   }
 }
