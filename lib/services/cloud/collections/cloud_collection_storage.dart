@@ -42,7 +42,7 @@ class CloudCollectionStorage {
   }) async {
     final document = await collections.add({
       ownerUserIdFieldName: ownerUserId,
-      collectionDateCreatedFieldName: DateTime.timestamp(),
+      timeCreatedFieldName: DateTime.timestamp(),
       collectionDateFieldName: DateTime.timestamp(),
       collectionScheduleFieldName: 'am',
       collectionEvidenceFieldName: 'fotos',
@@ -55,7 +55,7 @@ class CloudCollectionStorage {
     return CloudCollection(
       documentId: fetchedCollection.id,
       ownerUserId: ownerUserId,
-      dateCreated: DateTime.timestamp(),
+      timeCreated: DateTime.timestamp(),
       date: DateTime.timestamp(),
       schedule: 'am',
       evidence: 'fotos',

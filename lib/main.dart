@@ -10,31 +10,35 @@ import 'package:acopiatech/views/verification_view.dart';
 import 'package:acopiatech/widgets/Admin_navigation_bar.dart';
 import 'package:acopiatech/widgets/user_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'AcopiaTech',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-        textTheme: GoogleFonts.rubikTextTheme(),
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: <TargetPlatform, PageTransitionsBuilder>{
-            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-          },
+  initializeDateFormatting('es_ES', null).then(
+    (_) => runApp(
+      MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'AcopiaTech',
+        locale: const Locale('es', 'ES'),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+          textTheme: GoogleFonts.rubikTextTheme(),
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+            },
+          ),
         ),
+        home: BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(FirebaseAuthProvider()),
+          child: const HomePage(),
+        ),
+        routes: {
+          // TODO
+        },
       ),
-      home: BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(FirebaseAuthProvider()),
-        child: const HomePage(),
-      ),
-      routes: {
-        // TODO
-      },
     ),
   );
 }

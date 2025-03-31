@@ -1,4 +1,11 @@
+import 'dart:io';
+
+import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/views/user/user_direcction_form.dart';
+import 'package:acopiatech/widgets/user_date_picker.dart';
+import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserRecollectionForm extends StatefulWidget {
   const UserRecollectionForm({super.key});
@@ -10,7 +17,34 @@ class UserRecollectionForm extends StatefulWidget {
 enum Turno { matutino, vespertino }
 
 class _UserRecollectionFormState extends State<UserRecollectionForm> {
+  File? _evidence;
+  final _formKey = GlobalKey<FormState>();
+  final _picker = ImagePicker();
+
+  pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _evidence = File(pickedFile.path);
+      setState(() {
+        
+      });
+    }
+  }
+
   Turno turnoSeleccionado = Turno.matutino;
+  late final TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    _descriptionController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,56 +56,175 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey[300]!, width: 1.0),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Turno
+                const Text(
+                  'Turno',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.left,
                 ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Turno de recolección'),
-                  SegmentedButton<Turno>(
-                    multiSelectionEnabled: false,
-                    segments: const <ButtonSegment<Turno>>[
-                      ButtonSegment<Turno>(
-                        value: Turno.matutino,
-                        label: Text('Matutino'),
+                SegmentedButton<Turno>(
+                  multiSelectionEnabled: false,
+                  segments: const <ButtonSegment<Turno>>[
+                    ButtonSegment<Turno>(
+                      value: Turno.matutino,
+                      label: Text('Matutino'),
+                    ),
+                    ButtonSegment<Turno>(
+                      value: Turno.vespertino,
+                      label: Text('Vespertino'),
+                    ),
+                  ],
+                  selected: <Turno>{turnoSeleccionado},
+                  onSelectionChanged: (Set<Turno> newTurno) {
+                    setState(() {
+                      turnoSeleccionado = newTurno.first;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+                // Fecha
+                Container(
+                  alignment: Alignment.topLeft,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: Colors.grey, width: 2.0),
+                      bottom: BorderSide(color: Colors.grey, width: 2.0),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      UserDatePicker(),
+                      const SizedBox(height: 8),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Datos de recolección
+                Text(
+                  'Datos de recolección',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Evidencias',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 8),
+                Stack(
+                  children: [
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      ButtonSegment<Turno>(
-                        value: Turno.vespertino,
-                        label: Text('Vespertino'),
+                      child: Center(
+                        child:
+                            _evidence == null
+                                ? const Center(
+                                  child: Text('No hay fotos adjuntas'),
+                                )
+                                : Image.file(_evidence!),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 10,
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          pickImage();
+                        },
+                        mini: true,
+                        child: const Icon(Icons.add_a_photo),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                // Descripción
+                UserTextField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese una descripción';
+                    }
+                    return null;
+                  },
+                  controller: _descriptionController,
+                  fieldName: 'Descripción',
+                  myIcon: Icons.description_outlined,
+                  prefixiedIconColor: ColorsPalette.hardGreen,
+                  filled: true,
+                ),
+                // Dirección
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2.0),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Dirección',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      const SizedBox(height: 12),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserDirecctionForm(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.location_on_outlined),
+                        label: const Text(
+                          'Cambiar dirección',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                        ),
                       ),
                     ],
-                    selected: <Turno>{turnoSeleccionado},
-                    onSelectionChanged: (Set<Turno> newTurno) {
-                      setState(() {
-                        turnoSeleccionado = newTurno.first;
-                      });
-                    },
                   ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    'Fecha y hora',
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate() &&
+                        _evidence != null) {
+                      // Process the data
+                    }
+                  },
+                  child: const Text(
+                    'Enviar solicitud de recolección',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
-                  
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
