@@ -18,17 +18,27 @@ class CloudAddressStorage {
             .where((address) => address.ownerUserId == ownerUserId),
       );
 
-  Future<CloudAddress> createNewAddress({required String ownerUserId}) async {
+  Future<CloudAddress> createNewAddress({
+    required String ownerUserId,
+    required String street,
+    required String extNumber,
+    required String? intNumber,
+    required String neighborhood,
+    required String zipCode,
+    required String? reference,
+    required String city,
+    required String state,
+  }) async {
     final document = await addresses.add({
       ownerUserIdFieldName: ownerUserId,
-      addressStreetFieldName: 'calle',
-      addressExtNumberFieldName: '123',
-      addressIntNumberFieldName: '',
-      addressNeighborhoodFieldName: 'colonia',
-      addressZipCodeFieldName: '12345',
-      addressReferenceFieldName: '',
-      addressCityFieldName: 'ciudad',
-      addressStateFieldName: 'estado',
+      addressStreetFieldName: street,
+      addressExtNumberFieldName: extNumber,
+      addressIntNumberFieldName: intNumber,
+      addressNeighborhoodFieldName: neighborhood,
+      addressZipCodeFieldName: zipCode,
+      addressReferenceFieldName: reference,
+      addressCityFieldName: city,
+      addressStateFieldName: state,
       timeCreatedFieldName: DateTime.now(),
     });
 
@@ -37,14 +47,14 @@ class CloudAddressStorage {
     return CloudAddress(
       documentId: fetchedAddress.id,
       ownerUserId: ownerUserId,
-      street: 'calle',
-      extNumber: '123',
-      intNumber: '',
-      neighborhood: 'colonia',
-      zipCode: '12345',
-      reference: '',
-      city: 'ciudad',
-      state: 'state',
+      street: street,
+      extNumber: extNumber,
+      intNumber: intNumber,
+      neighborhood: neighborhood,
+      zipCode: zipCode,
+      reference: reference,
+      city: city,
+      state: state,
       timeCreated: DateTime.now(),
     );
   }

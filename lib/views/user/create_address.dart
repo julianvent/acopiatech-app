@@ -1,28 +1,29 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/auth/auth_service.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address_storage.dart';
 import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 
-class UserDirecctionForm extends StatefulWidget {
-  const UserDirecctionForm({super.key});
+class CreateAddress extends StatefulWidget {
+  const CreateAddress({super.key});
 
   @override
-  State<UserDirecctionForm> createState() => _UserDirecctionFormState();
+  State<CreateAddress> createState() => _CreateAddressState();
 }
 
-class _UserDirecctionFormState extends State<UserDirecctionForm> {
+class _CreateAddressState extends State<CreateAddress> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _nameController;
-  @override
-  void initState() {
-    _nameController = TextEditingController();
-    super.initState();
-  }
+  late final String _street;
+  late final String _extNumber;
+  String? _intNumber;
+  late final String _neighborhood;
+  late final String _zipCode;
+  String? _reference;
+  late final String _city;
+  late final String _state;
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
+  String? _validateField(String? value) =>
+      (value == null || value.isEmpty) ? 'Requerido' : null;
 
   @override
   Widget build(context) {
@@ -41,28 +42,13 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                UserTextField(
-                  validator: null,
-                  fieldName: 'Nombres',
-                  controller: _nameController,
-                  myIcon: Icons.person_2_outlined,
-                  filled: false,
-                ),
                 const SizedBox(height: 10),
                 UserTextField(
-                  validator: null,
-                  fieldName: 'Apellidos',
-                  controller: _nameController,
-                  myIcon: Icons.person_2_outlined,
-                  filled: false,
-                ),
-                const SizedBox(height: 10),
-                UserTextField(
-                  validator: null,
                   fieldName: 'Calle',
-                  controller: _nameController,
                   myIcon: Icons.location_on_outlined,
                   filled: false,
+                  validator: (value) => _validateField(value),
+                  onSaved: (street) => _street = street!,
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -70,19 +56,17 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
                   children: [
                     Expanded(
                       child: UserTextField(
-                        validator: null,
                         fieldName: 'No. ext',
-                        controller: _nameController,
                         myIcon: Icons.numbers_rounded,
                         filled: false,
+                        validator: (value) => _validateField(value),
+                        onSaved: (extNumber) => _extNumber = extNumber!,
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: UserTextField(
-                        validator: null,
                         fieldName: 'No. int(opcional)',
-                        controller: _nameController,
                         myIcon: Icons.numbers_rounded,
                         filled: false,
                       ),
@@ -91,48 +75,51 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
                 ),
                 const SizedBox(height: 10),
                 UserTextField(
-                  validator: null,
                   fieldName: 'Colonia',
-                  controller: _nameController,
                   myIcon: Icons.location_on_outlined,
                   filled: false,
+                  validator: (value) => _validateField(value),
+                  onSaved: (neighborhood) => _neighborhood = neighborhood!,
                 ),
                 const SizedBox(height: 10),
                 UserTextField(
-                  validator: null,
                   fieldName: 'Código postal',
-                  controller: _nameController,
                   myIcon: Icons.local_post_office_outlined,
                   filled: false,
+                  validator: (value) => _validateField(value),
+                  onSaved: (zip) => _zipCode = zip!,
                 ),
                 const SizedBox(height: 10),
                 UserTextField(
-                  validator: null,
                   fieldName: 'Referencias (opcional)',
-                  controller: _nameController,
                   myIcon: Icons.home_work_outlined,
                   filled: false,
                   numberOfLines: 3,
+                  onSaved: (reference) => _reference = reference,
                 ),
                 const SizedBox(height: 10),
                 UserTextField(
-                  validator: null,
                   fieldName: 'Ciudad',
-                  controller: _nameController,
                   myIcon: Icons.location_city,
                   filled: false,
+                  validator: (value) => _validateField(value),
+                  onSaved: (city) => _city = city!,
                 ),
                 const SizedBox(height: 10),
                 UserTextField(
-                  validator: null,
                   fieldName: 'Estado',
-                  controller: _nameController,
                   myIcon: Icons.location_city,
                   filled: false,
+                  validator: (value) => _validateField(value),
+                  onSaved: (state) => _state = state!,
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorsPalette.lightGreen,
                     shape: RoundedRectangleBorder(

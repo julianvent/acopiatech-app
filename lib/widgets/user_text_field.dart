@@ -1,26 +1,27 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter/material.dart';
 
-
 class UserTextField extends StatelessWidget {
   const UserTextField({
-    Key? key,
-    required this.validator,
-    required this.controller,
+    super.key,
+    this.validator,
+    this.onSaved,
+    this.controller,
     required this.fieldName,
     this.myIcon = Icons.verified_user_outlined,
     this.prefixiedIconColor = ColorsPalette.hardGreen,
     required this.filled,
     this.numberOfLines = 1,
-  }) : super(key: key);
+  });
 
-  final String? Function(String?)? validator;
-  final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+  final TextEditingController? controller;
   final String fieldName;
   final IconData myIcon;
   final Color prefixiedIconColor;
   final bool filled;
   final int numberOfLines;
+  final FormFieldSetter<String>? onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class UserTextField extends StatelessWidget {
         ),
         validator: validator,
         controller: controller,
+        onSaved: onSaved,
         maxLines: numberOfLines, // Allows the text field to expand to 5 lines
         maxLength: 200, // Limits the input to 200 characters
         decoration: InputDecoration(
