@@ -6,7 +6,6 @@ abstract class AddressEvent {
 }
 
 class AddressEventCreateAddress extends AddressEvent {
-  final String ownerUserId;
   final String city;
   final String extNumber;
   final String? intNumber;
@@ -17,7 +16,6 @@ class AddressEventCreateAddress extends AddressEvent {
   final String zipCode;
 
   const AddressEventCreateAddress(
-    this.ownerUserId,
     this.city,
     this.extNumber,
     this.intNumber,
