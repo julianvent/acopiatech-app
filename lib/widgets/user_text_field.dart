@@ -12,6 +12,7 @@ class UserTextField extends StatelessWidget {
     this.prefixiedIconColor = ColorsPalette.hardGreen,
     required this.filled,
     this.numberOfLines = 1,
+    this.maxLength,
   });
 
   final FormFieldValidator<String>? validator;
@@ -22,6 +23,7 @@ class UserTextField extends StatelessWidget {
   final bool filled;
   final int numberOfLines;
   final FormFieldSetter<String>? onSaved;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class UserTextField extends StatelessWidget {
         controller: controller,
         onSaved: onSaved,
         maxLines: numberOfLines, // Allows the text field to expand to 5 lines
-        maxLength: 200, // Limits the input to 200 characters
+        maxLength: maxLength, // Limits the input to 200 characters
         decoration: InputDecoration(
           labelText: fieldName,
           prefixIcon: Icon(myIcon, color: prefixiedIconColor),

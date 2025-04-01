@@ -1,6 +1,11 @@
+import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
+import 'package:acopiatech/views/user/create_address_view.dart';
 import 'package:acopiatech/widgets/user_address_preview.dart';
 import 'package:acopiatech/widgets/user_menu_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserAddressView extends StatefulWidget {
   const UserAddressView({super.key});
@@ -38,38 +43,50 @@ class _UserDirectionViewState extends State<UserAddressView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: UserMenuAppBar(),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                itemCount: _addresses.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  final address = _addresses[index];
-                  return UserAddressPreview(
-                    street: address['street'],
-                    extNumber: address['extNumber'],
-                    neighborhood: address['neighborhood'],
-                    zipCode: address['zipCode'],
-                    city: address['city'],
-                    state: address['state'],
-                  );
-                },
+    return BlocConsumer<AddressBloc, AddressState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is AddressStateCreatingAddress) {
+          return CreateAddressView();
+        } else {
+          return Scaffold(
+            appBar: UserMenuAppBar(),
+            body: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _addresses.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        final address = _addresses[index];
+                        return UserAddressPreview(
+                          street: address['street'],
+                          extNumber: address['extNumber'],
+                          neighborhood: address['neighborhood'],
+                          zipCode: address['zipCode'],
+                          city: address['city'],
+                          state: address['state'],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed:
+                        () => context.read<AddressBloc>().add(
+                          AddressEventShouldCreateAddress(),
+                        ),
+                    child: const Text('Agregar dirección'),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _addAddress,
-              child: const Text('Agregar dirección'),
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 }

@@ -27,3 +27,7 @@ class AddressStateCreatingAddress extends AddressState {
 class AddressStateCreatedAdress extends AddressState {
   const AddressStateCreatedAdress({required super.isLoading});
 }
+
+class AddressStateListAddresses extends AddressState {
+  const AddressStateListAddresses({required super.isLoading});
+}

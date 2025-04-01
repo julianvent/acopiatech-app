@@ -5,6 +5,10 @@ abstract class AddressEvent {
   const AddressEvent();
 }
 
+class AddressEventReturnToList extends AddressEvent {
+  const AddressEventReturnToList();
+}
+
 class AddressEventCreateAddress extends AddressEvent {
   final String city;
   final String extNumber;
@@ -25,4 +29,8 @@ class AddressEventCreateAddress extends AddressEvent {
     this.street,
     this.zipCode,
   );
+}
+
+class AddressEventShouldCreateAddress extends AddressEvent {
+
 }

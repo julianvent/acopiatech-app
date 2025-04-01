@@ -7,6 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
   AddressBloc(AuthUser currentUser, CloudAddressStorage addressService)
     : super(const AddressStateUnintialized(isLoading: false)) {
+    on<AddressEventShouldCreateAddress>((event, emit) {
+      emit(AddressStateCreatingAddress(isLoading: false, exception: null));
+    },);
+    
     on<AddressEventCreateAddress>((event, emit) async {
       emit(AddressStateCreatingAddress(isLoading: true, exception: null));
       try {
@@ -26,5 +30,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         emit(AddressStateCreatingAddress(isLoading: false, exception: e));
       }
     });
+
+    on<AddressEventReturnToList>((event, emit) {
+      emit(AddressStateListAddresses(isLoading: false));
+    },);
   }
 }
