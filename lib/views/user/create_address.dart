@@ -1,6 +1,4 @@
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/services/auth/auth_service.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address_storage.dart';
 import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 

@@ -29,34 +29,38 @@ class CloudAddressStorage {
     required String city,
     required String state,
   }) async {
-    final document = await addresses.add({
-      ownerUserIdFieldName: ownerUserId,
-      addressStreetFieldName: street,
-      addressExtNumberFieldName: extNumber,
-      addressIntNumberFieldName: intNumber,
-      addressNeighborhoodFieldName: neighborhood,
-      addressZipCodeFieldName: zipCode,
-      addressReferenceFieldName: reference,
-      addressCityFieldName: city,
-      addressStateFieldName: state,
-      timeCreatedFieldName: DateTime.now(),
-    });
+    try {
+      final document = await addresses.add({
+        ownerUserIdFieldName: ownerUserId,
+        addressStreetFieldName: street,
+        addressExtNumberFieldName: extNumber,
+        addressIntNumberFieldName: intNumber,
+        addressNeighborhoodFieldName: neighborhood,
+        addressZipCodeFieldName: zipCode,
+        addressReferenceFieldName: reference,
+        addressCityFieldName: city,
+        addressStateFieldName: state,
+        timeCreatedFieldName: DateTime.now(),
+      });
 
-    final fetchedAddress = await document.get();
-
-    return CloudAddress(
-      documentId: fetchedAddress.id,
-      ownerUserId: ownerUserId,
-      street: street,
-      extNumber: extNumber,
-      intNumber: intNumber,
-      neighborhood: neighborhood,
-      zipCode: zipCode,
-      reference: reference,
-      city: city,
-      state: state,
-      timeCreated: DateTime.now(),
-    );
+      final fetchedAddress = await document.get();
+      
+      return CloudAddress(
+        documentId: fetchedAddress.id,
+        ownerUserId: ownerUserId,
+        street: street,
+        extNumber: extNumber,
+        intNumber: intNumber,
+        neighborhood: neighborhood,
+        zipCode: zipCode,
+        reference: reference,
+        city: city,
+        state: state,
+        timeCreated: DateTime.now(),
+      );
+    } catch (e) {
+      throw CouldNotCreateAddressException();
+    }
   }
 
   Future<void> deleteAddress({required String documentId}) async {
