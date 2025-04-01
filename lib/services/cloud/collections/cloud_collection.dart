@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class CloudCollection {
   final String documentId;
   final String ownerUserId;
-  final DateTime dateCreated;
+  final DateTime timeCreated;
   final DateTime date;
   final String schedule;
   final String evidence;
@@ -18,7 +18,7 @@ class CloudCollection {
   const CloudCollection({
     required this.documentId,
     required this.ownerUserId,
-    required this.dateCreated,
+    required this.timeCreated,
     required this.date,
     required this.schedule,
     required this.evidence,
@@ -32,7 +32,7 @@ class CloudCollection {
     QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
   ) : documentId = snapshot.id,
       ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,
-      dateCreated = (snapshot.data()[collectionDateCreatedFieldName] as Timestamp).toDate(),
+      timeCreated = (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
       date = (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
       schedule = snapshot.data()[collectionScheduleFieldName] as String,
       evidence = snapshot.data()[collectionEvidenceFieldName] as String,
