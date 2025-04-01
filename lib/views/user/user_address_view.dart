@@ -1,4 +1,4 @@
-import 'package:acopiatech/widgets/user_direction_preview.dart';
+import 'package:acopiatech/widgets/user_address_preview.dart';
 import 'package:acopiatech/widgets/user_menu_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class UserAddressView extends StatefulWidget {
 }
 
 class _UserDirectionViewState extends State<UserAddressView> {
-  final List<Map<String, dynamic>> _addresses = [];
+  static final List<Map<String, dynamic>> _addresses = [];
 
   void _addAddress() async {
     final address = await Navigator.pushNamed(context, '/create-address');
@@ -18,6 +18,21 @@ class _UserDirectionViewState extends State<UserAddressView> {
       setState(() {
         _addresses.add(address as Map<String, dynamic>);
       });
+    }
+  }
+
+  static Map getDefaultAddress() {
+    if (_addresses.isEmpty) {
+      return {
+        'street': 'Calle de la Amargura',
+        'extNumber': '123',
+        'neighborhood': 'Centro',
+        'zipCode': '12345',
+        'city': 'Ciudad de México',
+        'state': 'CDMX',
+      };
+    } else {
+      return _addresses[0];
     }
   }
 
@@ -36,7 +51,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
                 separatorBuilder: (_, _) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final address = _addresses[index];
-                  return UserDirectionPreview(
+                  return UserAddressPreview(
                     street: address['street'],
                     extNumber: address['extNumber'],
                     neighborhood: address['neighborhood'],

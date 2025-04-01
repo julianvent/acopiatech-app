@@ -1,7 +1,7 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter/material.dart';
 
-class UserDirectionPreview extends StatelessWidget {
+class UserAddressPreview extends StatelessWidget {
   final String street;
   final String extNumber;
   final String? intNumber;
@@ -11,7 +11,7 @@ class UserDirectionPreview extends StatelessWidget {
   final String city;
   final String state;
 
-  const UserDirectionPreview({
+  const UserAddressPreview({
     super.key,
     required this.street,
     required this.extNumber,
@@ -28,7 +28,7 @@ class UserDirectionPreview extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: ColorsPalette.backgroundDarkGreen,
+        color: Colors.amber[50],
         borderRadius: BorderRadius.circular(10),
       ),
       child: Stack(
@@ -50,7 +50,7 @@ class UserDirectionPreview extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: ColorsPalette.darkCian,
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.justify,
               ),
@@ -60,7 +60,7 @@ class UserDirectionPreview extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.justify,
               ),

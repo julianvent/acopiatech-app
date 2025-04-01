@@ -6,6 +6,7 @@ import 'package:acopiatech/widgets/user_date_picker.dart';
 import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:acopiatech/views/user/user_address_view.dart';
 
 class UserRecollectionForm extends StatefulWidget {
   const UserRecollectionForm({super.key});
@@ -20,6 +21,8 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
   List<XFile>? _evidences = [];
+  
+  
  
 
   pickImage() async {
