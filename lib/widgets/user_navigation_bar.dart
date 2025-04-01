@@ -11,7 +11,9 @@ class UserNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NavigationController controller = Get.put(NavigationController());
+    final UserNavigationController controller = Get.put(
+      UserNavigationController(),
+    );
 
     return Scaffold(
       bottomNavigationBar: Obx(
@@ -46,7 +48,7 @@ class UserNavigationBar extends StatelessWidget {
   }
 }
 
-class NavigationController extends GetxController {
+class UserNavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final views = [

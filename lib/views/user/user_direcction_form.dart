@@ -17,11 +17,13 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
     _nameController = TextEditingController();
     super.initState();
   }
+
   @override
   void dispose() {
     _nameController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(context) {
     return Scaffold(
@@ -69,7 +71,7 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
                     Expanded(
                       child: UserTextField(
                         validator: null,
-                        fieldName: 'Número exterior',
+                        fieldName: 'No. ext',
                         controller: _nameController,
                         myIcon: Icons.numbers_rounded,
                         filled: false,
@@ -79,7 +81,7 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
                     Expanded(
                       child: UserTextField(
                         validator: null,
-                        fieldName: 'Número interior (opcional)',
+                        fieldName: 'No. int(opcional)',
                         controller: _nameController,
                         myIcon: Icons.numbers_rounded,
                         filled: false,
@@ -106,10 +108,11 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
                 const SizedBox(height: 10),
                 UserTextField(
                   validator: null,
-                  fieldName: 'Referencia (opcional)',
+                  fieldName: 'Referencias (opcional)',
                   controller: _nameController,
                   myIcon: Icons.home_work_outlined,
                   filled: false,
+                  numberOfLines: 3,
                 ),
                 const SizedBox(height: 10),
                 UserTextField(
@@ -128,24 +131,22 @@ class _UserDirecctionFormState extends State<UserDirecctionForm> {
                   filled: false,
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorsPalette.lightGreen,
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorsPalette.lightGreen,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     alignment: Alignment.center,
                     fixedSize: Size(200, 50),
-                ),
-                child: const Text(
-                  'Guardar dirección',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                  ),
+                  child: const Text(
+                    'Guardar dirección',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
-                )
-                ],
+              ],
             ),
           ),
         ),

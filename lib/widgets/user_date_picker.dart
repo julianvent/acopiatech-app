@@ -32,8 +32,14 @@ class _UserDatePickerState extends State<UserDatePicker> {
         titleTextStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w700,
+          color: Colors.black,
         ),
       ),
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      enabledDayPredicate: (day) {
+        return (day.weekday != DateTime.sunday &&
+            day.weekday != DateTime.saturday);
+      },
       currentDay: earliestSelectableDate,
       focusedDay: _selectedDate,
       availableGestures: AvailableGestures.all,

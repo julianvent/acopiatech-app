@@ -14,7 +14,9 @@ class AdminNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NavigationController controller = Get.put(NavigationController());
+    final AdminNavigationController controller = Get.put(
+      AdminNavigationController(),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +87,7 @@ class AdminNavigationBar extends StatelessWidget {
   }
 }
 
-class NavigationController extends GetxController {
+class AdminNavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final views = [

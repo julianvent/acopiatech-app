@@ -17,17 +17,16 @@ class UserRecollectionForm extends StatefulWidget {
 enum Turno { matutino, vespertino }
 
 class _UserRecollectionFormState extends State<UserRecollectionForm> {
-  File? _evidence;
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
 
+  List<XFile>? _evidences = [];
+
   pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      _evidence = File(pickedFile.path);
-      setState(() {
-        
-      });
+    final List<XFile> pickedFile = await _picker.pickMultiImage();
+    if (_evidences!.isNotEmpty) {
+      _evidences!.addAll(pickedFile);
+      setState(() {});
     }
   }
 
@@ -91,7 +90,6 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                 const SizedBox(height: 20),
                 // Fecha
                 Container(
-                  alignment: Alignment.topLeft,
                   decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(color: Colors.grey, width: 2.0),
@@ -123,19 +121,30 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                 Stack(
                   children: [
                     Container(
-                      height: 200,
+                      height: 250,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
-                        child:
-                            _evidence == null
-                                ? const Center(
-                                  child: Text('No hay fotos adjuntas'),
-                                )
-                                : Image.file(_evidence!),
+                        child: Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GridView.builder(
+                              itemCount: _evidences!.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                  ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Image.file(
+                                  File(_evidences![index].path),
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Positioned(
@@ -165,14 +174,19 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                   myIcon: Icons.description_outlined,
                   prefixiedIconColor: ColorsPalette.hardGreen,
                   filled: true,
+                  numberOfLines: 5,
                 ),
-                // Dirección
                 const SizedBox(height: 20),
+                // Dirección
                 Container(
+                  height: 200,
+                  width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 2.0),
-                    borderRadius: BorderRadius.circular(10),
+                    border: Border(
+                      top: BorderSide(color: Colors.grey, width: 2.0),
+                      bottom: BorderSide(color: Colors.grey, width: 2.0),
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,34 +200,37 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: 12),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserDirecctionForm(),
+                      Center(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserDirecctionForm(),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.location_on_outlined),
+                          label: const Text(
+                            'Cambiar dirección',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
                             ),
-                          );
-                        },
-                        icon: const Icon(Icons.location_on_outlined),
-                        label: const Text(
-                          'Cambiar dirección',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 12,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate() &&
-                        _evidence != null) {
+                        _evidences != null) {
                       // Process the data
                     }
                   },
