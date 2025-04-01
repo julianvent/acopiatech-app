@@ -3,6 +3,8 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address_storage.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
@@ -64,10 +66,15 @@ class HomePage extends StatelessWidget {
       },
       builder: (context, state) {
         // where scaffold = actual view
-        if (state is AuthStateLoggedInAsAdmin) {
-          return const AdminNavigationBar();
-        } else if (state is AuthStateLoggedIn) {
-          return const UserNavigationBar();
+        if (state is AuthStateLoggedIn || state is AuthStateLoggedInAsAdmin) {
+          final user = (state as dynamic).user;
+          return BlocProvider(
+            create: (context) => AddressBloc(user, CloudAddressStorage()),
+            child:
+                state is AuthStateLoggedInAsAdmin
+                    ? const AdminNavigationBar()
+                    : const UserNavigationBar(),
+          );
         } else if (state is AuthStateNeedsVerification) {
           return const VerificationView();
         } else if (state is AuthStateLoggedOut) {
