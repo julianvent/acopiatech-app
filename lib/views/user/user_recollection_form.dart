@@ -19,8 +19,8 @@ enum Turno { matutino, vespertino }
 class _UserRecollectionFormState extends State<UserRecollectionForm> {
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
-
   List<XFile>? _evidences = [];
+ 
 
   pickImage() async {
     final List<XFile> pickedFile = await _picker.pickMultiImage();
@@ -126,26 +126,31 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                       ),
-                      child: Center(
-                        child: Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GridView.builder(
-                              itemCount: _evidences!.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                  ),
-                              itemBuilder: (BuildContext context, int index) {
-                                return Image.file(
-                                  File(_evidences![index].path),
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          _evidences != null && _evidences!.isNotEmpty
+                              // Creamos una cuadrícula de 3 columnas y filas
+                              ? GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 4.0,
+                                      mainAxisSpacing: 4.0,
+                                    ),
+                                itemCount: _evidences!.length,
+                                itemBuilder: (context, index) {
+                                  return Image.file(
+                                    File(_evidences![index].path),
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              )
+                              : const Center(
+                                child: Text(
+                                  'No hay fotos seleccionadas',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
                     ),
                     Positioned(
                       bottom: 10,

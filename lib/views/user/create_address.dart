@@ -116,6 +116,16 @@ class _CreateAddressState extends State<CreateAddress> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
+                      Navigator.pop(context, {
+                        'street': _street,
+                        'extNumber': _extNumber,
+                        'intNumber': _intNumber,
+                        'neighborhood': _neighborhood,
+                        'zipCode': _zipCode,
+                        'reference': _reference,
+                        'city': _city,
+                        'state': _state,
+                      });
                     }
                   },
                   style: ElevatedButton.styleFrom(

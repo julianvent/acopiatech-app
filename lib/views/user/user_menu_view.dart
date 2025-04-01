@@ -1,5 +1,5 @@
 import 'package:acopiatech/views/user/user_account_view.dart';
-import 'package:acopiatech/views/user/create_address.dart';
+import 'package:acopiatech/views/user/user_address_view.dart';
 import 'package:acopiatech/widgets/user_menu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _UserMenuContent extends StatelessWidget {
     final views = [
       const _MenuMainView(),
       const UserAccountView(),
-      const CreateAddress(), // Otra subsección
+      const UserAddressView(),
     ];
 
     return Scaffold(body: IndexedStack(index: currentIndex, children: views));

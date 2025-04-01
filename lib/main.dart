@@ -6,6 +6,7 @@ import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
+import 'package:acopiatech/views/user/create_address.dart';
 import 'package:acopiatech/views/verification_view.dart';
 import 'package:acopiatech/widgets/Admin_navigation_bar.dart';
 import 'package:acopiatech/widgets/user_navigation_bar.dart';
@@ -36,7 +37,8 @@ void main() {
           child: const HomePage(),
         ),
         routes: {
-          // TODO
+          // Create Address
+          '/create-address': (context) => const CreateAddress(),
         },
       ),
     ),
