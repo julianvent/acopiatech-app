@@ -4,7 +4,7 @@ import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:acopiatech/views/user/create_address_view.dart';
-import 'package:acopiatech/widgets/user_address_preview.dart';
+import 'package:acopiatech/widgets/address_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,22 +42,16 @@ class _UserDirectionViewState extends State<UserAddressView> {
                       final allAddresses =
                           snaphost.data as Iterable<CloudAddress>;
                       return Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
                             Expanded(
-                              child: ListView.separated(
-                                scrollDirection: Axis.vertical,
-                                itemCount: allAddresses.length,
-                                separatorBuilder:
-                                    (_, _) => const SizedBox(height: 16),
-                                itemBuilder: (context, index) {
-                                  final address = allAddresses.elementAt(index);
-                                  return UserAddressPreview(address: address);
-                                },
+                              child: AddressListView(
+                                addresses: allAddresses,
+                                onDeleteAddress: (address) {},
+                                onTap: (address) {},
                               ),
                             ),
-                            const SizedBox(height: 16),
                             ElevatedButton(
                               onPressed:
                                   () => context.read<AddressBloc>().add(
