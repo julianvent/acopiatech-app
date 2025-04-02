@@ -33,7 +33,6 @@ class _UserDirectionViewState extends State<UserAddressView> {
           return CreateAddressView();
         } else if (state is AddressStateLoadedAddress) {
           return Scaffold(
-            appBar: UserMenuAppBar(),
             body: StreamBuilder(
               stream: state.addressesStream,
               builder: (context, snaphost) {
