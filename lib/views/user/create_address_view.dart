@@ -21,6 +21,7 @@ class _CreateAddressViewState extends State<CreateAddressView> {
   String? _intNumber;
   late final String _neighborhood;
   late final String _zipCode;
+  late final String _phoneNumber;
   String? _reference;
   late final String _city;
   late final String _state;
@@ -106,10 +107,20 @@ class _CreateAddressViewState extends State<CreateAddressView> {
                   const SizedBox(height: 10),
                   UserTextField(
                     fieldName: 'Código postal',
+                    keyboardType: TextInputType.datetime,
                     myIcon: Icons.local_post_office_outlined,
                     filled: false,
                     validator: (value) => _validateField(value),
                     onSaved: (zip) => _zipCode = zip!,
+                  ),
+                  const SizedBox(height: 10),
+                  UserTextField(
+                    fieldName: 'Número de teléfono',
+                    keyboardType: TextInputType.phone,
+                    myIcon: Icons.phone,
+                    filled: false,
+                    validator: (value) => _validateField(value),
+                    onSaved: (phoneNumber) => _phoneNumber = phoneNumber!,
                   ),
                   const SizedBox(height: 20),
                   UserTextField(
@@ -151,6 +162,7 @@ class _CreateAddressViewState extends State<CreateAddressView> {
                             _state,
                             _street,
                             _zipCode,
+                            _phoneNumber,
                           ),
                         );
                       }
