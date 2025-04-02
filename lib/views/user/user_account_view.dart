@@ -15,7 +15,6 @@ class _UserAccountViewState extends State<UserAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UserMenuAppBar(),
       body: Center(
         child: Column(
           children: [
