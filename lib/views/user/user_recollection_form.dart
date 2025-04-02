@@ -6,7 +6,6 @@ import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class UserRecollectionForm extends StatefulWidget {
   const UserRecollectionForm({super.key});
 
@@ -23,9 +22,10 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
 
   pickMultiImages() async {
     final List<XFile> pickedImages = await _picker.pickMultiImage();
-    if (_selectedImages!.isNotEmpty) {
-      _selectedImages!.addAll(pickedImages);
-      setState(() {});
+    if (pickedImages.isNotEmpty) {
+      setState(() {
+        _selectedImages!.addAll(pickedImages);
+      });
     }
   }
 
@@ -132,14 +132,34 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                               ? GridView.builder(
                                 scrollDirection: Axis.horizontal,
                                 gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 1,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
                                     ),
                                 itemCount: _selectedImages!.length,
                                 itemBuilder: (context, index) {
-                                  return Image.file(
-                                    File(_selectedImages![index].path),
-                                    fit: BoxFit.cover,
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Mostrar previsualización de la imagen
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) {
+                                          return Dialog(
+                                            child: Image.file(
+                                              File(
+                                                _selectedImages![index].path,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Image.file(
+                                      File(_selectedImages![index].path),
+                                      fit: BoxFit.cover,
+                                    ),
                                   );
                                 },
                               )
