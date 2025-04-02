@@ -39,6 +39,7 @@ void main() {
         routes: {
           // Create Address
           '/create-address': (context) => const CreateAddress(),
+          '/login': (context) => const LoginView(),
         },
       ),
     ),

@@ -67,7 +67,7 @@ class _ForgotPasswordView extends State<ForgotPasswordView> {
             }
           }
         },
-        child: CustomScaffold(
+        child: CustomScaffold(          
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

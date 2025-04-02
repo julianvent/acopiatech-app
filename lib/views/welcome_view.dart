@@ -10,6 +10,7 @@ class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      canPop: false,
       child: Column(
         children: [
           Flexible(
