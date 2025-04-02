@@ -17,36 +17,9 @@ class UserAddressView extends StatefulWidget {
 }
 
 class _UserDirectionViewState extends State<UserAddressView> {
-  static final List<Map<String, dynamic>> _addresses = [];
-  late final Iterable<CloudAddress> _cloudAdresses;
-
-  void _addAddress() async {
-    final address = await Navigator.pushNamed(context, '/create-address');
-    if (address != null) {
-      setState(() {
-        _addresses.add(address as Map<String, dynamic>);
-      });
-    }
-  }
-
-  static Map getDefaultAddress() {
-    if (_addresses.isEmpty) {
-      return {
-        'street': 'Calle de la Amargura',
-        'extNumber': '123',
-        'neighborhood': 'Centro',
-        'zipCode': '12345',
-        'city': 'Ciudad de México',
-        'state': 'CDMX',
-      };
-    } else {
-      return _addresses[0];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    context.read<AddressBloc>().add(AddressEventLoadAdresses());
+    context.read<AddressBloc>().add(const AddressEventLoadAdresses());
     return BlocConsumer<AddressBloc, AddressState>(
       listener: (context, state) {
         if (state.isLoading) {
@@ -59,72 +32,55 @@ class _UserDirectionViewState extends State<UserAddressView> {
         if (state is AddressStateCreatingAddress) {
           return CreateAddressView();
         } else if (state is AddressStateLoadedAddress) {
-          _cloudAdresses = state.addresses;
           return Scaffold(
             appBar: UserMenuAppBar(),
-            body: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      itemCount: _addresses.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 16),
-                      itemBuilder: (context, index) {
-                        
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed:
-                        () => context.read<AddressBloc>().add(
-                          AddressEventShouldCreateAddress(),
+            body: StreamBuilder(
+              stream: state.addressesStream,
+              builder: (context, snaphost) {
+                switch (snaphost.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.active:
+                    if (snaphost.hasData) {
+                      final allAddresses =
+                          snaphost.data as Iterable<CloudAddress>;
+                      return Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView.separated(
+                                scrollDirection: Axis.vertical,
+                                itemCount: allAddresses.length,
+                                separatorBuilder:
+                                    (_, _) => const SizedBox(height: 16),
+                                itemBuilder: (context, index) {
+                                  final address = allAddresses.elementAt(index);
+                                  return UserAddressPreview(address: address);
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed:
+                                  () => context.read<AddressBloc>().add(
+                                    AddressEventShouldCreateAddress(),
+                                  ),
+                              child: const Text('Agregar dirección'),
+                            ),
+                          ],
                         ),
-                    child: const Text('Agregar dirección'),
-                  ),
-                ],
-              ),
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  default:
+                    return const Center(child: CircularProgressIndicator());
+                }
+              },
             ),
           );
         } else {
-          return Scaffold(
-            appBar: UserMenuAppBar(),
-            body: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  // Expanded(
-                  //   child: ListView.separated(
-                  //     scrollDirection: Axis.vertical,
-                  //     itemCount: _addresses.length,
-                  //     separatorBuilder: (_, _) => const SizedBox(height: 16),
-                  //     itemBuilder: (context, index) {
-                  //       final address = _addresses[index];
-                  //       return UserAddressPreview(
-                  //         street: address['street'],
-                  //         extNumber: address['extNumber'],
-                  //         neighborhood: address['neighborhood'],
-                  //         zipCode: address['zipCode'],
-                  //         city: address['city'],
-                  //         state: address['state'],
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed:
-                        () => context.read<AddressBloc>().add(
-                          AddressEventShouldCreateAddress(),
-                        ),
-                    child: const Text('Agregar dirección'),
-                  ),
-                ],
-              ),
-            ),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

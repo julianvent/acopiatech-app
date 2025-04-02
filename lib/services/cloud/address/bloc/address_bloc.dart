@@ -1,31 +1,26 @@
 import 'dart:async';
-
 import 'package:acopiatech/services/auth/auth_user.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:acopiatech/services/cloud/address/cloud_address_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
-  StreamSubscription? _addressSubscription;
-
   AddressBloc(AuthUser currentUser, CloudAddressStorage addressService)
     : super(const AddressStateUnintialized(isLoading: false)) {
     on<AddressEventLoadAdresses>((event, emit) async {
-      emit(AddressStateLoadedAddress(addresses: [], isLoading: true));
+      emit(AddressStateLoadedAddress(addressesStream: null, isLoading: true));
 
-      await _addressSubscription?.cancel();
+      Stream<Iterable<CloudAddress>> addressesStream = addressService
+          .allAddresses(ownerUserId: currentUser.id);
 
-      _addressSubscription = addressService
-          .allAddresses(ownerUserId: currentUser.id)
-          .listen((addresses) {
-            emit(
-              AddressStateLoadedAddress(
-                addresses: addresses,
-                isLoading: false,
-              ),
-            );
-          });
+      emit(
+        AddressStateLoadedAddress(
+          addressesStream: addressesStream,
+          isLoading: false,
+        ),
+      );
     });
 
     on<AddressEventShouldCreateAddress>((event, emit) {
@@ -46,7 +41,15 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           city: event.city,
           state: event.state,
         );
-        emit(AddressStateCreatedAdress(isLoading: false));
+        Stream<Iterable<CloudAddress>> addressesStream = addressService
+            .allAddresses(ownerUserId: currentUser.id);
+
+        emit(
+          AddressStateLoadedAddress(
+            addressesStream: addressesStream,
+            isLoading: false,
+          ),
+        );
       } on Exception catch (e) {
         emit(AddressStateCreatingAddress(isLoading: false, exception: e));
       }
@@ -55,11 +58,5 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     on<AddressEventReturnToList>((event, emit) {
       emit(AddressStateListAddresses(isLoading: false));
     });
-  }
-
-  @override
-  Future<void> close() {
-    _addressSubscription?.cancel();
-    return super.close();
   }
 }

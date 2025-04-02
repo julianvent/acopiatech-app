@@ -40,5 +40,5 @@ class CloudAddress {
       reference = snapshot.data()[addressReferenceFieldName] as String,
       city = snapshot.data()[addressCityFieldName] as String,
       state = snapshot.data()[addressStateFieldName] as String,
-      timeCreated = (snapshot.data()[timeCreatedFieldName] as Timestamp) as DateTime;
+      timeCreated = (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate();
 }

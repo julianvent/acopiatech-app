@@ -17,8 +17,8 @@ class AddressStateUnintialized extends AddressState {
 }
 
 class AddressStateLoadedAddress extends AddressState {
-  final Iterable<CloudAddress> addresses;
-  const AddressStateLoadedAddress({required this.addresses, required super.isLoading});
+  final Stream<Iterable<CloudAddress>>? addressesStream;
+  const AddressStateLoadedAddress({required this.addressesStream, required super.isLoading});
 }
 
 class AddressStateCreatingAddress extends AddressState {

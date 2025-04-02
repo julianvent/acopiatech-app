@@ -44,7 +44,7 @@ class _CreateAddressViewState extends State<CreateAddressView> {
             children: [
               IconButton(
                 onPressed: () {
-                  context.read<AddressBloc>().add(AddressEventReturnToList());
+                  context.read<AddressBloc>().add(AddressEventLoadAdresses());
                 },
                 icon: Icon(Icons.arrow_back),
               ),
@@ -90,6 +90,7 @@ class _CreateAddressViewState extends State<CreateAddressView> {
                           fieldName: 'No. int(opcional)',
                           myIcon: Icons.numbers_rounded,
                           filled: false,
+                          onSaved: (intNumber) => _intNumber = intNumber,
                         ),
                       ),
                     ],
