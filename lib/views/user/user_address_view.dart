@@ -39,7 +39,6 @@ class _UserDirectionViewState extends State<UserAddressView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: UserMenuAppBar(),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Column(

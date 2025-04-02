@@ -1,12 +1,11 @@
 import 'dart:io';
-
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/views/user/create_address.dart';
 import 'package:acopiatech/widgets/user_date_picker.dart';
 import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:acopiatech/views/user/user_address_view.dart';
+
 
 class UserRecollectionForm extends StatefulWidget {
   const UserRecollectionForm({super.key});
@@ -20,15 +19,12 @@ enum Turno { matutino, vespertino }
 class _UserRecollectionFormState extends State<UserRecollectionForm> {
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
-  List<XFile>? _evidences = [];
-  
-  
- 
+  List<XFile>? _selectedImages = [];
 
-  pickImage() async {
-    final List<XFile> pickedFile = await _picker.pickMultiImage();
-    if (_evidences!.isNotEmpty) {
-      _evidences!.addAll(pickedFile);
+  pickMultiImages() async {
+    final List<XFile> pickedImages = await _picker.pickMultiImage();
+    if (_selectedImages!.isNotEmpty) {
+      _selectedImages!.addAll(pickedImages);
       setState(() {});
     }
   }
@@ -131,19 +127,18 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                       ),
                       padding: const EdgeInsets.all(8.0),
                       child:
-                          _evidences != null && _evidences!.isNotEmpty
+                          _selectedImages != null && _selectedImages!.isNotEmpty
                               // Creamos una cuadrícula de 3 columnas y filas
                               ? GridView.builder(
+                                scrollDirection: Axis.horizontal,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,
-                                      crossAxisSpacing: 4.0,
-                                      mainAxisSpacing: 4.0,
+                                      crossAxisCount: 1,
                                     ),
-                                itemCount: _evidences!.length,
+                                itemCount: _selectedImages!.length,
                                 itemBuilder: (context, index) {
                                   return Image.file(
-                                    File(_evidences![index].path),
+                                    File(_selectedImages![index].path),
                                     fit: BoxFit.cover,
                                   );
                                 },
@@ -160,7 +155,7 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                       left: 10,
                       child: FloatingActionButton(
                         onPressed: () {
-                          pickImage();
+                          pickMultiImages();
                         },
                         mini: true,
                         child: const Icon(Icons.add_a_photo),
@@ -238,7 +233,7 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate() &&
-                        _evidences != null) {
+                        _selectedImages != null) {
                       // Process the data
                     }
                   },
