@@ -37,6 +37,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           intNumber: event.intNumber,
           neighborhood: event.neighborhood,
           zipCode: event.zipCode,
+          phoneNumber: event.phoneNumber,
           reference: event.reference,
           city: event.city,
           state: event.state,

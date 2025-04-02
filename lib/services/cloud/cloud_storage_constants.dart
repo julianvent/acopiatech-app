@@ -19,3 +19,4 @@ const addressZipCodeFieldName = 'zip_code';
 const addressReferenceFieldName = 'reference';
 const addressCityFieldName = 'city';
 const addressStateFieldName = 'state';
+const addressPhoneNumberFieldName = 'phone_number';

@@ -22,6 +22,7 @@ class AddressEventCreateAddress extends AddressEvent {
   final String state;
   final String street;
   final String zipCode;
+  final String phoneNumber;
 
   const AddressEventCreateAddress(
     this.city,
@@ -32,6 +33,7 @@ class AddressEventCreateAddress extends AddressEvent {
     this.state,
     this.street,
     this.zipCode,
+    this.phoneNumber,
   );
 }
 

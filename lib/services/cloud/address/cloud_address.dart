@@ -13,6 +13,7 @@ class CloudAddress {
   final String street;
   final String zipCode;
   final DateTime timeCreated;
+  final String phoneNumber;
 
   CloudAddress({
     required this.documentId,
@@ -22,6 +23,7 @@ class CloudAddress {
     required this.intNumber,
     required this.neighborhood,
     required this.zipCode,
+    required this.phoneNumber,
     required this.reference,
     required this.city,
     required this.state,
@@ -37,8 +39,10 @@ class CloudAddress {
       intNumber = snapshot.data()[addressIntNumberFieldName] as String,
       neighborhood = snapshot.data()[addressNeighborhoodFieldName] as String,
       zipCode = snapshot.data()[addressZipCodeFieldName] as String,
+      phoneNumber = snapshot.data()[addressPhoneNumberFieldName] as String,
       reference = snapshot.data()[addressReferenceFieldName] as String,
       city = snapshot.data()[addressCityFieldName] as String,
       state = snapshot.data()[addressStateFieldName] as String,
-      timeCreated = (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate();
+      timeCreated =
+          (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate();
 }
