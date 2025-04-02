@@ -74,4 +74,33 @@ class CloudAddressStorage {
       throw CouldNotDeleteAddressException();
     }
   }
+
+  Future<void> updateAddress({
+    required String documentId,
+    required String street,
+    required String extNumber,
+    String? intNumber,
+    required String neighborhood,
+    required String zipCode,
+    required String phoneNumber,
+    String? reference,
+    required String city,
+    required String state,
+  }) async {
+    try {
+      await addresses.doc(documentId).update({
+        addressStreetFieldName: street,
+        addressExtNumberFieldName: extNumber,
+        addressIntNumberFieldName: intNumber,
+        addressNeighborhoodFieldName: neighborhood,
+        addressZipCodeFieldName: zipCode,
+        addressPhoneNumberFieldName: phoneNumber,
+        addressReferenceFieldName: reference,
+        addressCityFieldName: city,
+        addressStateFieldName: state,
+      });
+    } catch (e) {
+      throw CouldNotUpdateAddressException();
+    }
+  }
 }

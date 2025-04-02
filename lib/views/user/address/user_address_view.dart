@@ -3,8 +3,8 @@ import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/cloud_address.dart';
-import 'package:acopiatech/views/user/create_address_view.dart';
-import 'package:acopiatech/widgets/address_list_view.dart';
+import 'package:acopiatech/views/user/address/create_update_address_view.dart';
+import 'package:acopiatech/views/user/address/address_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +29,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
       },
       builder: (context, state) {
         if (state is AddressStateCreatingAddress) {
-          return CreateAddressView();
+          return CreateUpdateAddressView();
         } else if (state is AddressStateLoadedAddress) {
           return Scaffold(
             body: StreamBuilder(

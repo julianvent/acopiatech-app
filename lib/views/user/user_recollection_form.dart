@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/views/user/create_address_view.dart';
+import 'package:acopiatech/views/user/address/create_update_address_view.dart';
 import 'package:acopiatech/widgets/user_date_picker.dart';
 import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
@@ -209,7 +209,7 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CreateAddressView(),
+                                builder: (context) => CreateUpdateAddressView(),
                               ),
                             );
                           },

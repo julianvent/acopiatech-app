@@ -3,18 +3,21 @@ import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/utilities/generics/get_arguments.dart';
 import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateAddressView extends StatefulWidget {
-  const CreateAddressView({super.key});
+class CreateUpdateAddressView extends StatefulWidget {
+  const CreateUpdateAddressView({super.key});
 
   @override
-  State<CreateAddressView> createState() => _CreateAddressViewState();
+  State<CreateUpdateAddressView> createState() => _CreateUpdateAddressViewState();
 }
 
-class _CreateAddressViewState extends State<CreateAddressView> {
+class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
+  CloudAddress? _address;
   final _formKey = GlobalKey<FormState>();
   late final String _street;
   late final String _extNumber;
@@ -25,6 +28,10 @@ class _CreateAddressViewState extends State<CreateAddressView> {
   String? _reference;
   late final String _city;
   late final String _state;
+
+  // Future<CloudAddress> _createOrGetExistingAddress(BuildContext context) async {
+  //   final widgetAddress = context.getArgument<CloudAddress>();
+  // }
 
   String? _validateField(String? value) =>
       (value == null || value.isEmpty) ? 'Requerido' : null;
