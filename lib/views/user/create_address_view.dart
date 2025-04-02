@@ -7,14 +7,14 @@ import 'package:acopiatech/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateAddress extends StatefulWidget {
-  const CreateAddress({super.key});
+class CreateAddressView extends StatefulWidget {
+  const CreateAddressView({super.key});
 
   @override
-  State<CreateAddress> createState() => _CreateAddressState();
+  State<CreateAddressView> createState() => _CreateAddressViewState();
 }
 
-class _CreateAddressState extends State<CreateAddress> {
+class _CreateAddressViewState extends State<CreateAddressView> {
   final _formKey = GlobalKey<FormState>();
   late final String _street;
   late final String _extNumber;
@@ -40,9 +40,19 @@ class _CreateAddressState extends State<CreateAddress> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Agregar nueva dirección',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          title: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  context.read<AddressBloc>().add(AddressEventLoadAdresses());
+                },
+                icon: Icon(Icons.arrow_back),
+              ),
+              const Text(
+                'Agregar nueva dirección',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+            ],
           ),
         ),
         body: SingleChildScrollView(
@@ -80,6 +90,7 @@ class _CreateAddressState extends State<CreateAddress> {
                           fieldName: 'No. int(opcional)',
                           myIcon: Icons.numbers_rounded,
                           filled: false,
+                          onSaved: (intNumber) => _intNumber = intNumber,
                         ),
                       ),
                     ],
@@ -100,9 +111,10 @@ class _CreateAddressState extends State<CreateAddress> {
                     validator: (value) => _validateField(value),
                     onSaved: (zip) => _zipCode = zip!,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   UserTextField(
                     fieldName: 'Referencias (opcional)',
+                    maxLength: 200,
                     myIcon: Icons.home_work_outlined,
                     filled: false,
                     numberOfLines: 3,

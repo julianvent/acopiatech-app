@@ -1,27 +1,11 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:flutter/material.dart';
 
 class UserAddressPreview extends StatelessWidget {
-  final String street;
-  final String extNumber;
-  final String? intNumber;
-  final String neighborhood;
-  final String zipCode;
-  final String? reference;
-  final String city;
-  final String state;
+  final CloudAddress? address;
 
-  const UserAddressPreview({
-    super.key,
-    required this.street,
-    required this.extNumber,
-    this.intNumber,
-    required this.neighborhood,
-    required this.zipCode,
-    this.reference,
-    required this.city,
-    required this.state,
-  });
+  const UserAddressPreview({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +30,7 @@ class UserAddressPreview extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '$street $neighborhood, $zipCode',
+                '${address!.street} ${address!.neighborhood}, ${address!.zipCode}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -56,7 +40,7 @@ class UserAddressPreview extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '$city, $state',
+                '${address!.city}, ${address!.state}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,

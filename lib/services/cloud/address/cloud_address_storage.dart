@@ -44,7 +44,7 @@ class CloudAddressStorage {
       });
 
       final fetchedAddress = await document.get();
-      
+
       return CloudAddress(
         documentId: fetchedAddress.id,
         ownerUserId: ownerUserId,

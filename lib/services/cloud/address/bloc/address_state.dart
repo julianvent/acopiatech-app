@@ -1,3 +1,4 @@
+import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:flutter/material.dart' show immutable;
 
 @immutable
@@ -15,6 +16,11 @@ class AddressStateUnintialized extends AddressState {
   const AddressStateUnintialized({required super.isLoading});
 }
 
+class AddressStateLoadedAddress extends AddressState {
+  final Stream<Iterable<CloudAddress>>? addressesStream;
+  const AddressStateLoadedAddress({required this.addressesStream, required super.isLoading});
+}
+
 class AddressStateCreatingAddress extends AddressState {
   final Exception? exception;
 
@@ -26,4 +32,8 @@ class AddressStateCreatingAddress extends AddressState {
 
 class AddressStateCreatedAdress extends AddressState {
   const AddressStateCreatedAdress({required super.isLoading});
+}
+
+class AddressStateListAddresses extends AddressState {
+  const AddressStateListAddresses({required super.isLoading});
 }
