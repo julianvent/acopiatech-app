@@ -5,6 +5,10 @@ abstract class AddressEvent {
   const AddressEvent();
 }
 
+class AddressEventLoadAdresses extends AddressEvent {
+  const AddressEventLoadAdresses();
+}
+
 class AddressEventReturnToList extends AddressEvent {
   const AddressEventReturnToList();
 }
@@ -32,5 +36,5 @@ class AddressEventCreateAddress extends AddressEvent {
 }
 
 class AddressEventShouldCreateAddress extends AddressEvent {
-
+  const AddressEventShouldCreateAddress();
 }

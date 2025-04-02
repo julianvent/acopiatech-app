@@ -1,6 +1,8 @@
+import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:acopiatech/views/user/create_address_view.dart';
 import 'package:acopiatech/widgets/user_address_preview.dart';
 import 'package:acopiatech/widgets/user_menu_app_bar.dart';
@@ -16,6 +18,7 @@ class UserAddressView extends StatefulWidget {
 
 class _UserDirectionViewState extends State<UserAddressView> {
   static final List<Map<String, dynamic>> _addresses = [];
+  late final Iterable<CloudAddress> _cloudAdresses;
 
   void _addAddress() async {
     final address = await Navigator.pushNamed(context, '/create-address');
@@ -43,12 +46,20 @@ class _UserDirectionViewState extends State<UserAddressView> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AddressBloc>().add(AddressEventLoadAdresses());
     return BlocConsumer<AddressBloc, AddressState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isLoading) {
+          LoadingScreen().show(context: context, text: 'Cargando direcciones');
+        } else {
+          LoadingScreen().hide();
+        }
+      },
       builder: (context, state) {
         if (state is AddressStateCreatingAddress) {
           return CreateAddressView();
-        } else {
+        } else if (state is AddressStateLoadedAddress) {
+          _cloudAdresses = state.addresses;
           return Scaffold(
             appBar: UserMenuAppBar(),
             body: Padding(
@@ -61,18 +72,47 @@ class _UserDirectionViewState extends State<UserAddressView> {
                       itemCount: _addresses.length,
                       separatorBuilder: (_, _) => const SizedBox(height: 16),
                       itemBuilder: (context, index) {
-                        final address = _addresses[index];
-                        return UserAddressPreview(
-                          street: address['street'],
-                          extNumber: address['extNumber'],
-                          neighborhood: address['neighborhood'],
-                          zipCode: address['zipCode'],
-                          city: address['city'],
-                          state: address['state'],
-                        );
+                        
                       },
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed:
+                        () => context.read<AddressBloc>().add(
+                          AddressEventShouldCreateAddress(),
+                        ),
+                    child: const Text('Agregar dirección'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: UserMenuAppBar(),
+            body: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  // Expanded(
+                  //   child: ListView.separated(
+                  //     scrollDirection: Axis.vertical,
+                  //     itemCount: _addresses.length,
+                  //     separatorBuilder: (_, _) => const SizedBox(height: 16),
+                  //     itemBuilder: (context, index) {
+                  //       final address = _addresses[index];
+                  //       return UserAddressPreview(
+                  //         street: address['street'],
+                  //         extNumber: address['extNumber'],
+                  //         neighborhood: address['neighborhood'],
+                  //         zipCode: address['zipCode'],
+                  //         city: address['city'],
+                  //         state: address['state'],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed:
