@@ -1,15 +1,15 @@
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/views/user/user_recollection_form.dart';
+import 'package:acopiatech/views/user/collection/user_collection_form.dart';
 import 'package:flutter/material.dart';
 
-class UserRecollectionView extends StatefulWidget {
-  const UserRecollectionView({super.key});
+class UserCollectionView extends StatefulWidget {
+  const UserCollectionView({super.key});
 
   @override
-  State<UserRecollectionView> createState() => _UserRecollectionViewState();
+  State<UserCollectionView> createState() => _UserCollectionViewState();
 }
 
-class _UserRecollectionViewState extends State<UserRecollectionView> {
+class _UserCollectionViewState extends State<UserCollectionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +24,7 @@ class _UserRecollectionViewState extends State<UserRecollectionView> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => UserRecollectionForm(),
-                  ),
+                  MaterialPageRoute(builder: (context) => UserCollectionForm()),
                 );
               },
               style: ElevatedButton.styleFrom(

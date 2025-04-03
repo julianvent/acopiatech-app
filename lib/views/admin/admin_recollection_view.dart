@@ -1,4 +1,4 @@
-import 'package:acopiatech/widgets/collection_preview.dart';
+import 'package:acopiatech/widgets/admin/collection_preview.dart';
 import 'package:flutter/material.dart';
 
 class AdminRecollectionView extends StatefulWidget {

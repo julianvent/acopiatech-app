@@ -1,24 +1,28 @@
 import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/views/user/address/create_update_address_view.dart';
-import 'package:acopiatech/widgets/user_date_picker.dart';
-import 'package:acopiatech/widgets/user_text_field.dart';
+import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/views/user/address/user_address_view.dart';
+import 'package:acopiatech/widgets/user/user_date_picker.dart';
+import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UserRecollectionForm extends StatefulWidget {
-  const UserRecollectionForm({super.key});
+class UserCollectionForm extends StatefulWidget {
+  const UserCollectionForm({super.key});
 
   @override
-  State<UserRecollectionForm> createState() => _UserRecollectionFormState();
+  State<UserCollectionForm> createState() => _UserCollectionFormState();
 }
 
 enum Turno { matutino, vespertino }
 
-class _UserRecollectionFormState extends State<UserRecollectionForm> {
+class _UserCollectionFormState extends State<UserCollectionForm> {
+  CloudAddress? _selectedAddress;
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
   List<XFile>? _selectedImages = [];
+
+  late final String _description;
 
   pickMultiImages() async {
     final List<XFile> pickedImages = await _picker.pickMultiImage();
@@ -43,6 +47,9 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
     _descriptionController.dispose();
     super.dispose();
   }
+
+  String? _validateField(String? value) =>
+      (value == null || value.isEmpty) ? 'Requerido' : null;
 
   @override
   Widget build(BuildContext context) {
@@ -186,18 +193,13 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                 const SizedBox(height: 20),
                 // Descripción
                 UserTextField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese una descripción';
-                    }
-                    return null;
-                  },
-                  controller: _descriptionController,
                   fieldName: 'Descripción',
                   myIcon: Icons.description_outlined,
                   prefixiedIconColor: ColorsPalette.hardGreen,
                   filled: true,
+                  validator: (value) => _validateField(value),
                   numberOfLines: 5,
+                  onSaved: (description) => _description = _description,
                 ),
                 const SizedBox(height: 20),
                 // Dirección
@@ -211,42 +213,87 @@ class _UserRecollectionFormState extends State<UserRecollectionForm> {
                       bottom: BorderSide(color: Colors.grey, width: 2.0),
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Dirección',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      const SizedBox(height: 12),
-                      Center(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CreateUpdateAddressView(),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.location_on_outlined),
-                          label: const Text(
-                            'Cambiar dirección',
-                            style: TextStyle(fontSize: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      spacing: 20,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Dirección',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
                           ),
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 12,
+                          textAlign: TextAlign.left,
+                        ),
+                        _selectedAddress == null
+                            ? const Text(
+                              'No hay direcciones seleccionadas',
+                              style: TextStyle(fontSize: 16),
+                            )
+                            : Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  title: Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 10.0,
+                                    ),
+                                    child: Text(
+                                      '${_selectedAddress!.street} #${_selectedAddress!.extNumber}, ${_selectedAddress!.neighborhood}',
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    spacing: 5,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(_selectedAddress!.phoneNumber),
+                                      Text(
+                                        '${_selectedAddress!.city}, ${_selectedAddress!.state}',
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.edit),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        Center(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserAddressView(),
+                                ),
+                              ).then((selectedAddress) {
+                                if (selectedAddress != null) {
+                                  setState(() {
+                                    _selectedAddress =
+                                        selectedAddress as CloudAddress;
+                                  });
+                                }
+                              });
+                            },
+                            icon: const Icon(Icons.location_on_outlined),
+                            label: const Text(
+                              'Cambiar dirección',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),

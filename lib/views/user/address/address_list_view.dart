@@ -24,28 +24,53 @@ class AddressListView extends StatelessWidget {
         final address = addresses.elementAt(index);
         return Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
-                onTap: () => onTap(address),
-                title: Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Text(
-                    '${address.street} #${address.extNumber}, ${address.neighborhood}',
+          child: Stack(
+            children: [
+              Positioned.fill(
+                bottom: 1,
+                left: 1,
+                right: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        ColorsPalette.backgroundHardGreen,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomLeft,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                subtitle: Column(
-                  spacing: 5,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(address.phoneNumber),
-                    Text('${address.city}, ${address.state}'),
-                  ],
-                ),
-                trailing: IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               ),
-            ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    onTap: () => onTap(address),
+                    title: Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        '${address.street} #${address.extNumber}, ${address.neighborhood}',
+                      ),
+                    ),
+                    subtitle: Column(
+                      spacing: 5,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(address.phoneNumber),
+                        Text('${address.city}, ${address.state}'),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.edit),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

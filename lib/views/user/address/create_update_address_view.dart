@@ -5,7 +5,7 @@ import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/cloud_address.dart';
 import 'package:acopiatech/utilities/generics/get_arguments.dart';
-import 'package:acopiatech/widgets/user_text_field.dart';
+import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

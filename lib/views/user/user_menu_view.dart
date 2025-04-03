@@ -1,6 +1,8 @@
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
+import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/views/user/user_account_view.dart';
 import 'package:acopiatech/views/user/address/user_address_view.dart';
-import 'package:acopiatech/widgets/user_menu_provider.dart';
+import 'package:acopiatech/widgets/user/user_menu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -40,23 +42,31 @@ class _MenuMainView extends StatelessWidget {
   Widget build(BuildContext context) {
     final menuProvider = context.read<UserMenuProvider>();
 
-    return Center(
-      child: Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        alignment: WrapAlignment.center,
-        children: [
-          _MenuTile(
-            icon: Icons.person,
-            label: 'Perfil',
-            onTap: () => menuProvider.goTo(1),
-          ),
-          _MenuTile(
-            icon: Icons.delivery_dining_rounded,
-            label: 'Direcciones',
-            onTap: () => menuProvider.goTo(2),
-          ),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (!didPop) {
+          context.read<UserMenuProvider>().goTo(0);
+        }
+      },
+      child: Center(
+        child: Wrap(
+          spacing: 20,
+          runSpacing: 20,
+          alignment: WrapAlignment.center,
+          children: [
+            _MenuTile(
+              icon: Icons.person,
+              label: 'Perfil',
+              onTap: () => menuProvider.goTo(1),
+            ),
+            _MenuTile(
+              icon: Icons.delivery_dining_rounded,
+              label: 'Direcciones',
+              onTap: () => menuProvider.goTo(2),
+            ),
+          ],
+        ),
       ),
     );
   }

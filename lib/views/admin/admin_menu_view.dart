@@ -1,7 +1,7 @@
 import 'package:acopiatech/views/admin/admin_account_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:acopiatech/widgets/admin_menu_provider.dart';
+import 'package:acopiatech/widgets/admin/admin_menu_provider.dart';
 
 class AdminMenuView extends StatelessWidget {
   const AdminMenuView({super.key});

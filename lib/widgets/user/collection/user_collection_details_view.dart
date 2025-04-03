@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class UserCollectionView extends StatelessWidget {
-  const UserCollectionView({super.key});
+class UserCollectionDetailsView extends StatelessWidget {
+  const UserCollectionDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {

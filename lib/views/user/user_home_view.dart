@@ -1,5 +1,3 @@
-import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/constants/images_routes.dart';
 import 'package:flutter/material.dart';
 
 class UserHomeView extends StatefulWidget {

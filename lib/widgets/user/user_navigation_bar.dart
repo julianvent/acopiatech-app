@@ -1,9 +1,9 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
+import 'package:acopiatech/views/user/collection/user_collection_view.dart';
 import 'package:acopiatech/views/user/user_home_view.dart';
 import 'package:acopiatech/views/user/user_menu_view.dart';
 import 'package:acopiatech/views/user/user_notification_view.dart';
-import 'package:acopiatech/views/user/user_recollection_view.dart';
 import 'package:acopiatech/views/user/user_shop_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +91,7 @@ class UserNavigationController extends GetxController {
 
   final views = [
     const UserHomeView(),
-    const UserRecollectionView(),
+    const UserCollectionView(),
     const UserShopView(),
     const UserMenuView(),
   ];
