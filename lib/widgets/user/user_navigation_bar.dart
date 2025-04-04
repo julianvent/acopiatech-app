@@ -1,10 +1,7 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
-import 'package:acopiatech/views/user/collection/user_collection_view.dart';
-import 'package:acopiatech/views/user/user_home_view.dart';
-import 'package:acopiatech/views/user/user_menu_view.dart';
 import 'package:acopiatech/views/user/user_notification_view.dart';
-import 'package:acopiatech/views/user/user_shop_view.dart';
+import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -86,13 +83,4 @@ class UserNavigationBar extends StatelessWidget {
   }
 }
 
-class UserNavigationController extends GetxController {
-  final Rx<int> selectedIndex = 0.obs;
 
-  final views = [
-    const UserHomeView(),
-    const UserCollectionView(),
-    const UserShopView(),
-    const UserMenuView(),
-  ];
-}

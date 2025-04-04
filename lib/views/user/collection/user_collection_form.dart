@@ -66,6 +66,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
+              spacing: 30,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Turno
@@ -93,7 +94,6 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                     });
                   },
                 ),
-                const SizedBox(height: 20),
                 // Fecha
                 Container(
                   decoration: const BoxDecoration(
@@ -110,50 +110,72 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
                 // Datos de recolección
-                Text(
-                  'Datos de recolección',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.left,
-                ),
-                const SizedBox(height: 8),
-                // Evidencias
-                Text(
-                  'Evidencias',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.left,
-                ),
-                const SizedBox(height: 8),
-                Stack(
-                  children: [
-                    Container(
-                      height: 250,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      padding: const EdgeInsets.all(8.0),
-                      child:
-                          _selectedImages != null && _selectedImages!.isNotEmpty
-                              // Creamos una cuadrícula de 3 columnas y filas
-                              ? GridView.builder(
-                                scrollDirection: Axis.horizontal,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 1,
-                                      mainAxisSpacing: 8,
-                                      crossAxisSpacing: 8,
-                                    ),
-                                itemCount: _selectedImages!.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // Mostrar previsualización de la imagen
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) {
-                                          return Dialog(
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      spacing: 20,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Datos de recolección',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        // // Evidencias
+                        Text(
+                          'Evidencias',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        Stack(
+                          children: [
+                            Container(
+                              height: 250,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              padding: const EdgeInsets.all(8.0),
+                              child:
+                                  _selectedImages != null &&
+                                          _selectedImages!.isNotEmpty
+                                      // Creamos una cuadrícula de 3 columnas y filas
+                                      ? GridView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 1,
+                                              mainAxisSpacing: 8,
+                                              crossAxisSpacing: 8,
+                                            ),
+                                        itemCount: _selectedImages!.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              // Mostrar previsualización de la imagen
+                                              showDialog(
+                                                context: context,
+                                                builder: (_) {
+                                                  return Dialog(
+                                                    child: Image.file(
+                                                      File(
+                                                        _selectedImages![index]
+                                                            .path,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
                                             child: Image.file(
                                               File(
                                                 _selectedImages![index].path,
@@ -162,47 +184,41 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                             ),
                                           );
                                         },
-                                      );
-                                    },
-                                    child: Image.file(
-                                      File(_selectedImages![index].path),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
+                                      )
+                                      : const Center(
+                                        child: Text(
+                                          'No hay fotos seleccionadas',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                      ),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  pickMultiImages();
                                 },
-                              )
-                              : const Center(
-                                child: Text(
-                                  'No hay fotos seleccionadas',
-                                  style: TextStyle(fontSize: 16),
-                                ),
+                                mini: true,
+                                child: const Icon(Icons.add_a_photo),
                               ),
+                            ),
+                          ],
+                        ),
+                        // Descripción
+                        UserTextField(
+                          fieldName: 'Descripción',
+                          myIcon: Icons.description_outlined,
+                          prefixiedIconColor: ColorsPalette.hardGreen,
+                          filled: true,
+                          validator: (value) => _validateField(value),
+                          numberOfLines: 5,
+                          onSaved: (description) => _description = _description,
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      bottom: 10,
-                      left: 10,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          pickMultiImages();
-                        },
-                        mini: true,
-                        child: const Icon(Icons.add_a_photo),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                // Descripción
-                UserTextField(
-                  fieldName: 'Descripción',
-                  myIcon: Icons.description_outlined,
-                  prefixiedIconColor: ColorsPalette.hardGreen,
-                  filled: true,
-                  validator: (value) => _validateField(value),
-                  numberOfLines: 5,
-                  onSaved: (description) => _description = _description,
-                ),
-                const SizedBox(height: 20),
                 // Dirección
                 Container(
                   height: 200,
@@ -223,7 +239,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                         const Text(
                           'Dirección',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: FontWeight.w700,
                           ),
                           textAlign: TextAlign.left,
@@ -297,7 +313,6 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate() &&
