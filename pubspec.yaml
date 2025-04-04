@@ -78,6 +78,8 @@ flutter:
     - lib/assets/images/FondoBienvenida.png
     - lib/assets/images/FondoContrasenia.png
     - lib/assets/images/EmailIcon.png
+    - lib/assets/images/Mascota.png
+    # Animations
     - lib/assets/animations/lottie/Animation - 1743178505858.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

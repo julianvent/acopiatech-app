@@ -1,6 +1,6 @@
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
-import 'package:acopiatech/views/user/user_account_view.dart';
+import 'package:acopiatech/views/user/account/user_account_view.dart';
 import 'package:acopiatech/views/user/address/user_address_view.dart';
 import 'package:acopiatech/widgets/user/user_menu_provider.dart';
 import 'package:provider/provider.dart';
