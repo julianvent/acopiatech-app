@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
-import 'package:acopiatech/services/auth/auth_service.dart';
-import 'package:acopiatech/services/auth/auth_user.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/views/user/account/user_account_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,7 +18,6 @@ class UserAccountView extends StatefulWidget {
 }
 
 class _UserAccountViewState extends State<UserAccountView> {
-  late AuthUser? _user;
   File? userProfileImage;
   final _picker = ImagePicker();
 
@@ -73,17 +71,17 @@ class _UserAccountViewState extends State<UserAccountView> {
                                       ),
                                     ),
                           ),
-                          Positioned(
-                            bottom: 1,
-                            right: 1,
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                pickUserProfileImage();
-                              },
-                              mini: true,
-                              child: const Icon(Icons.account_circle),
-                            ),
-                          ),
+                          // Positioned(
+                          //   bottom: 1,
+                          //   right: 1,
+                          //   child: FloatingActionButton(
+                          //     onPressed: () {
+                          //       pickUserProfileImage();
+                          //     },
+                          //     mini: true,
+                          //     child: const Icon(Icons.account_circle),
+                          //   ),
+                          // ),
                         ],
                       ),
                       Expanded(
@@ -93,7 +91,6 @@ class _UserAccountViewState extends State<UserAccountView> {
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -101,11 +98,17 @@ class _UserAccountViewState extends State<UserAccountView> {
                   UserAccountCard(
                     title: 'Editar perfil',
                     icon: Icons.edit,
-                    onTap: () {},
-                  ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserAccountForm(user:user,),
+                        ),
+                      );
+                    },),
                   UserAccountCard(
                     title: 'Métodos de pago',
-                    icon: Icons.edit,
+                    icon: Icons.credit_card_off,
                     onTap: () {},
                   ),
                   ElevatedButton(

@@ -15,6 +15,7 @@ class UserTextField extends StatelessWidget {
     this.maxLength,
     this.keyboardType,
     this.initialValue,
+    this.isEnabled = true,
   });
 
   final FormFieldValidator<String>? validator;
@@ -28,6 +29,7 @@ class UserTextField extends StatelessWidget {
   final int? maxLength;
   final TextInputType? keyboardType;
   final String? initialValue;
+  final bool? isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class UserTextField extends StatelessWidget {
         onSaved: onSaved,
         maxLines: numberOfLines, // Allows the text field to expand to 5 lines
         maxLength: maxLength, // Limits the input to 200 characters
+        enabled: isEnabled, // Enables or disables the text field
         decoration: InputDecoration(
           labelText: fieldName,
           prefixIcon: Icon(myIcon, color: prefixiedIconColor),
