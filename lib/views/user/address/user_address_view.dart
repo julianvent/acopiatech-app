@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
@@ -28,10 +30,11 @@ class _UserDirectionViewState extends State<UserAddressView> {
         }
       },
       builder: (context, state) {
-        if (state is AddressStateCreatingAddress) {
+        if (state is AddressStateCreatingUpdatingAddress) {
           return CreateUpdateAddressView();
         } else if (state is AddressStateLoadedAddress) {
           return Scaffold(
+            appBar: AppBar(title: const Text('Direcciones'),),
             body: StreamBuilder(
               stream: state.addressesStream,
               builder: (context, snaphost) {
@@ -49,13 +52,21 @@ class _UserDirectionViewState extends State<UserAddressView> {
                               child: AddressListView(
                                 addresses: allAddresses,
                                 onDeleteAddress: (address) {},
-                                onTap: (address) {},
+                                onTap: (address) {
+                                  context.read<AddressBloc>().add(
+                                    AddressEventShouldCreateUpdateAddress(
+                                      address: address,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                             ElevatedButton(
                               onPressed:
                                   () => context.read<AddressBloc>().add(
-                                    AddressEventShouldCreateAddress(),
+                                    AddressEventShouldCreateUpdateAddress(
+                                      address: null,
+                                    ),
                                   ),
                               child: const Text('Agregar dirección'),
                             ),

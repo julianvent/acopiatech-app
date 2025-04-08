@@ -65,7 +65,7 @@ class AddressListView extends StatelessWidget {
                     ),
                     trailing: IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.edit),
+                      icon: Icon(Icons.delete),
                     ),
                   ),
                 ),

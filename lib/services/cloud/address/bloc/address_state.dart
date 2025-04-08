@@ -18,22 +18,38 @@ class AddressStateUnintialized extends AddressState {
 
 class AddressStateLoadedAddress extends AddressState {
   final Stream<Iterable<CloudAddress>>? addressesStream;
-  const AddressStateLoadedAddress({required this.addressesStream, required super.isLoading});
+  const AddressStateLoadedAddress({
+    required this.addressesStream,
+    required super.isLoading,
+  });
 }
 
-class AddressStateCreatingAddress extends AddressState {
+class AddressStateCreatingUpdatingAddress extends AddressState {
+  final CloudAddress? address;
   final Exception? exception;
 
-  const AddressStateCreatingAddress({
+  const AddressStateCreatingUpdatingAddress({
+    required this.address,
     required super.isLoading,
     required this.exception,
   });
 }
 
-class AddressStateCreatedAdress extends AddressState {
-  const AddressStateCreatedAdress({required super.isLoading});
+class AddressStateCreatedAddress extends AddressState {
+  const AddressStateCreatedAddress({required super.isLoading});
 }
 
 class AddressStateListAddresses extends AddressState {
   const AddressStateListAddresses({required super.isLoading});
+}
+
+class AddressStateUpdatingAddress extends AddressState {
+  final CloudAddress? address;
+  final Exception? exception;
+
+  const AddressStateUpdatingAddress({
+    required this.address,
+    required this.exception,
+    required super.isLoading,
+  });
 }

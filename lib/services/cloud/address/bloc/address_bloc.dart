@@ -23,37 +23,83 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       );
     });
 
-    on<AddressEventShouldCreateAddress>((event, emit) {
-      emit(AddressStateCreatingAddress(isLoading: false, exception: null));
+    on<AddressEventShouldCreateUpdateAddress>((event, emit) {
+      emit(
+        AddressStateCreatingUpdatingAddress(
+          address: event.address,
+          isLoading: false,
+          exception: null,
+        ),
+      );
     });
 
-    on<AddressEventCreateAddress>((event, emit) async {
-      emit(AddressStateCreatingAddress(isLoading: true, exception: null));
-      try {
-        await addressService.createNewAddress(
-          ownerUserId: currentUser.id,
-          street: event.street,
-          extNumber: event.extNumber,
-          intNumber: event.intNumber,
-          neighborhood: event.neighborhood,
-          zipCode: event.zipCode,
-          phoneNumber: event.phoneNumber,
-          reference: event.reference,
-          city: event.city,
-          state: event.state,
-        );
-        Stream<Iterable<CloudAddress>> addressesStream = addressService
-            .allAddresses(ownerUserId: currentUser.id);
+    on<AddressEventCreateUpdateAddress>((event, emit) async {
+      final address = event.address;
+      emit(
+        AddressStateCreatingUpdatingAddress(
+          address: address,
+          isLoading: true,
+          exception: null,
+        ),
+      );
 
-        emit(
-          AddressStateLoadedAddress(
-            addressesStream: addressesStream,
-            isLoading: false,
-          ),
-        );
-      } on Exception catch (e) {
-        emit(AddressStateCreatingAddress(isLoading: false, exception: e));
+      if (address != null) {
+        try {
+          await addressService.updateAddress(
+            documentId: address.documentId,
+            street: event.street,
+            extNumber: event.extNumber,
+            intNumber: event.intNumber,
+            neighborhood: event.neighborhood,
+            zipCode: event.zipCode,
+            phoneNumber: event.phoneNumber,
+            reference: event.reference,
+            city: event.city,
+            state: event.state,
+          );
+        } on Exception catch (e) {
+          emit(
+            AddressStateCreatingUpdatingAddress(
+              address: address,
+              isLoading: false,
+              exception: e,
+            ),
+          );
+        }
+      } else {
+        try {
+          await addressService.createNewAddress(
+            ownerUserId: currentUser.id,
+            street: event.street,
+            extNumber: event.extNumber,
+            intNumber: event.intNumber,
+            neighborhood: event.neighborhood,
+            zipCode: event.zipCode,
+            phoneNumber: event.phoneNumber,
+            reference: event.reference,
+            city: event.city,
+            state: event.state,
+          );
+        } on Exception catch (e) {
+          emit(
+            AddressStateCreatingUpdatingAddress(
+              address: null,
+              isLoading: false,
+              exception: e,
+            ),
+          );
+        }
       }
+
+      Stream<Iterable<CloudAddress>> addressesStream = addressService
+          .allAddresses(ownerUserId: currentUser.id);
+
+      emit(
+        AddressStateLoadedAddress(
+          addressesStream: addressesStream,
+          isLoading: false,
+        ),
+      );
     });
 
     on<AddressEventReturnToList>((event, emit) {
