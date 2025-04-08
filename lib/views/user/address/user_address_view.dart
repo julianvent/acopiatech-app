@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
@@ -34,7 +32,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
           return CreateUpdateAddressView();
         } else if (state is AddressStateLoadedAddress) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Direcciones'),),
+            appBar: AppBar(title: const Text('Direcciones')),
             body: StreamBuilder(
               stream: state.addressesStream,
               builder: (context, snaphost) {
@@ -51,7 +49,13 @@ class _UserDirectionViewState extends State<UserAddressView> {
                             Expanded(
                               child: AddressListView(
                                 addresses: allAddresses,
-                                onDeleteAddress: (address) {},
+                                onDeleteAddress: (address) {
+                                  context.read<AddressBloc>().add(
+                                    AddressEventDeleteAddress(
+                                      documentId: address.documentId,
+                                    ),
+                                  );
+                                },
                                 onTap: (address) {
                                   context.read<AddressBloc>().add(
                                     AddressEventShouldCreateUpdateAddress(

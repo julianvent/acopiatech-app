@@ -44,3 +44,8 @@ class AddressEventShouldCreateUpdateAddress extends AddressEvent {
   final CloudAddress? address;
   const AddressEventShouldCreateUpdateAddress({required this.address});
 }
+
+class AddressEventDeleteAddress extends AddressEvent {
+  final String documentId;
+  const AddressEventDeleteAddress({required this.documentId});
+}

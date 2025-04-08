@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/cloud_address.dart';
-import 'package:acopiatech/utilities/generics/get_arguments.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,21 +17,17 @@ class CreateUpdateAddressView extends StatefulWidget {
 }
 
 class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
-  CloudAddress? _address;
   final _formKey = GlobalKey<FormState>();
-  late final String _street;
-  late final String _extNumber;
+  CloudAddress? _address;
+  String? _street;
+  String? _extNumber;
   String? _intNumber;
-  late final String _neighborhood;
-  late final String _zipCode;
-  late final String _phoneNumber;
+  String? _neighborhood;
+  String? _zipCode;
+  String? _phoneNumber;
   String? _reference;
-  late final String _city;
-  late final String _state;
-
-  // Future<CloudAddress> _createOrGetExistingAddress(BuildContext context) async {
-  //   final widgetAddress = context.getArgument<CloudAddress>();
-  // }
+  String? _city;
+  String? _state;
 
   String? _validateField(String? value) =>
       (value == null || value.isEmpty) ? 'Requerido' : null;
@@ -44,7 +37,10 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
     return BlocConsumer<AddressBloc, AddressState>(
       listener: (context, state) {
         if (state.isLoading) {
-          LoadingScreen().show(context: context, text: 'Creando dirección...');
+          LoadingScreen().show(
+            context: context,
+            text: 'Actualizando direcciones...',
+          );
         } else {
           LoadingScreen().hide();
         }
@@ -185,15 +181,15 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                             context.read<AddressBloc>().add(
                               AddressEventCreateUpdateAddress(
                                 _address,
-                                _city,
-                                _extNumber,
+                                _city!,
+                                _extNumber!,
                                 _intNumber,
-                                _neighborhood,
+                                _neighborhood!,
                                 _reference,
-                                _state,
-                                _street,
-                                _zipCode,
-                                _phoneNumber,
+                                _state!,
+                                _street!,
+                                _zipCode!,
+                                _phoneNumber!,
                               ),
                             );
                           }

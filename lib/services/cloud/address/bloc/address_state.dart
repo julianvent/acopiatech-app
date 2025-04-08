@@ -53,3 +53,11 @@ class AddressStateUpdatingAddress extends AddressState {
     required super.isLoading,
   });
 }
+
+class AddressStateDeletingAddress extends AddressState {
+  final Exception? exception;
+  const AddressStateDeletingAddress({
+    required this.exception,
+    required super.isLoading,
+  });
+}
