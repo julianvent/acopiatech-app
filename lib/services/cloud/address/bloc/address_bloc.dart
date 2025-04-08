@@ -1,11 +1,11 @@
 import 'package:acopiatech/services/auth/auth_user.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address_storage.dart';
+import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
-  AddressBloc(AuthUser currentUser, CloudAddressStorage addressService)
+  AddressBloc(AuthUser currentUser, AddressStorage addressService)
     : super(const AddressStateUnintialized(isLoading: false)) {
     void emitUpdateAddressList(Emitter<AddressState> emit) {
       final addressesStream = addressService.allAddresses(

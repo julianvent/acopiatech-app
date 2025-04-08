@@ -2,7 +2,7 @@ import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/views/user/address/create_update_address_view.dart';
 import 'package:acopiatech/views/user/address/address_list_view.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,15 @@ class _UserDirectionViewState extends State<UserAddressView> {
           return CreateUpdateAddressView();
         } else if (state is AddressStateLoadedAddress) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Direcciones')),
+            appBar: AppBar(
+              title: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: const Text(
+                  'Direcciones',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
             body: StreamBuilder(
               stream: state.addressesStream,
               builder: (context, snaphost) {
@@ -41,7 +49,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
                   case ConnectionState.active:
                     if (snaphost.hasData) {
                       final allAddresses =
-                          snaphost.data as Iterable<CloudAddress>;
+                          snaphost.data as Iterable<Address>;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(

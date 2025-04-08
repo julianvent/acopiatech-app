@@ -1,9 +1,9 @@
-import 'package:acopiatech/services/cloud/cloud_storage_constants.dart';
+import 'package:acopiatech/services/cloud/storage_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class CloudCollection {
+class Collection {
   final String documentId;
   final String ownerUserId;
   final DateTime timeCreated;
@@ -15,7 +15,7 @@ class CloudCollection {
   final String stateId;
   final String mode;
 
-  const CloudCollection({
+  const Collection({
     required this.documentId,
     required this.ownerUserId,
     required this.timeCreated,
@@ -28,7 +28,7 @@ class CloudCollection {
     required this.mode
   });
 
-  CloudCollection.fromSnapshot(
+  Collection.fromSnapshot(
     QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
   ) : documentId = snapshot.id,
       ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,

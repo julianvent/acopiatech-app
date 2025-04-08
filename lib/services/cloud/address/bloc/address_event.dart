@@ -1,4 +1,4 @@
-import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:flutter/cupertino.dart' show immutable;
 
 @immutable
@@ -15,7 +15,7 @@ class AddressEventReturnToList extends AddressEvent {
 }
 
 class AddressEventCreateUpdateAddress extends AddressEvent {
-  final CloudAddress? address;
+  final Address? address;
   final String city;
   final String extNumber;
   final String? intNumber;
@@ -41,7 +41,7 @@ class AddressEventCreateUpdateAddress extends AddressEvent {
 }
 
 class AddressEventShouldCreateUpdateAddress extends AddressEvent {
-  final CloudAddress? address;
+  final Address? address;
   const AddressEventShouldCreateUpdateAddress({required this.address});
 }
 

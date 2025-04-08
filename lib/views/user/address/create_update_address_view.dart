@@ -3,7 +3,7 @@ import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,7 @@ class CreateUpdateAddressView extends StatefulWidget {
 
 class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
   final _formKey = GlobalKey<FormState>();
-  CloudAddress? _address;
+  Address? _address;
   String? _street;
   String? _extNumber;
   String? _intNumber;
@@ -64,7 +64,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                     (_address != null)
                         ? 'Actualizar dirección'
                         : 'Agregar nueva dirección',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),

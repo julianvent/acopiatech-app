@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/views/user/address/user_address_view.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
@@ -17,7 +17,7 @@ class UserCollectionForm extends StatefulWidget {
 enum Turno { matutino, vespertino }
 
 class _UserCollectionFormState extends State<UserCollectionForm> {
-  CloudAddress? _selectedAddress;
+  Address? _selectedAddress;
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
   List<XFile>? _selectedImages = [];
@@ -291,7 +291,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                 if (selectedAddress != null) {
                                   setState(() {
                                     _selectedAddress =
-                                        selectedAddress as CloudAddress;
+                                        selectedAddress as Address;
                                   });
                                 }
                               });

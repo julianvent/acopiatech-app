@@ -1,6 +1,6 @@
-import 'package:acopiatech/services/cloud/cloud_storage_constants.dart';
-import 'package:acopiatech/services/cloud/cloud_storage_exceptions.dart';
-import 'package:acopiatech/services/cloud/collections/cloud_collection.dart';
+import 'package:acopiatech/services/cloud/storage_constants.dart';
+import 'package:acopiatech/services/cloud/storage_exceptions.dart';
+import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CloudCollectionStorage {
@@ -12,15 +12,15 @@ class CloudCollectionStorage {
 
   final collections = FirebaseFirestore.instance.collection('collection');
 
-  Stream<Iterable<CloudCollection>> allCollections({
+  Stream<Iterable<Collection>> allCollections({
     required String ownerUserId,
   }) => collections.snapshots().map(
     (event) => event.docs
-        .map((doc) => CloudCollection.fromSnapshot(doc))
+        .map((doc) => Collection.fromSnapshot(doc))
         .where((collection) => collection.ownerUserId == ownerUserId),
   );
 
-  Future<Iterable<CloudCollection>> getCollections({
+  Future<Iterable<Collection>> getCollections({
     required String ownerUserId,
   }) async {
     try {
@@ -29,14 +29,14 @@ class CloudCollectionStorage {
           .get()
           .then(
             (value) =>
-                value.docs.map((doc) => CloudCollection.fromSnapshot(doc)),
+                value.docs.map((doc) => Collection.fromSnapshot(doc)),
           );
     } catch (e) {
       throw CouldNotGetAllCollectionsException();
     }
   }
 
-  Future<CloudCollection> createNewCollection({
+  Future<Collection> createNewCollection({
     required String ownerUserId,
     required String description,
   }) async {
@@ -52,7 +52,7 @@ class CloudCollectionStorage {
 
     final fetchedCollection = await document.get();
 
-    return CloudCollection(
+    return Collection(
       documentId: fetchedCollection.id,
       ownerUserId: ownerUserId,
       timeCreated: DateTime.timestamp(),

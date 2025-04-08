@@ -1,27 +1,27 @@
-import 'package:acopiatech/services/cloud/address/cloud_address.dart';
-import 'package:acopiatech/services/cloud/cloud_storage_constants.dart';
-import 'package:acopiatech/services/cloud/cloud_storage_exceptions.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
+import 'package:acopiatech/services/cloud/storage_constants.dart';
+import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CloudAddressStorage {
-  CloudAddressStorage._sharedInstance();
-  static final CloudAddressStorage _shared =
-      CloudAddressStorage._sharedInstance();
-  factory CloudAddressStorage() => _shared;
+class AddressStorage {
+  AddressStorage._sharedInstance();
+  static final AddressStorage _shared =
+      AddressStorage._sharedInstance();
+  factory AddressStorage() => _shared;
 
   final addresses = FirebaseFirestore.instance.collection('address');
 
-  Stream<Iterable<CloudAddress>> allAddresses({required String ownerUserId}) =>
+  Stream<Iterable<Address>> allAddresses({required String ownerUserId}) =>
       addresses.snapshots().map(
         (event) => event.docs
-            .map((doc) => CloudAddress.fromSnapshot(doc))
+            .map((doc) => Address.fromSnapshot(doc))
             .where(
               (address) =>
                   address.ownerUserId == ownerUserId && !address.isDeleted,
             ),
       );
 
-  Future<CloudAddress> createNewAddress({
+  Future<Address> createNewAddress({
     required String ownerUserId,
     required String street,
     required String extNumber,
@@ -52,7 +52,7 @@ class CloudAddressStorage {
 
       final fetchedAddress = await document.get();
 
-      return CloudAddress(
+      return Address(
         documentId: fetchedAddress.id,
         ownerUserId: ownerUserId,
         street: street,

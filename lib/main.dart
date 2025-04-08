@@ -4,7 +4,7 @@ import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address_storage.dart';
+import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
@@ -70,7 +70,7 @@ class HomePage extends StatelessWidget {
         if (state is AuthStateLoggedIn || state is AuthStateLoggedInAsAdmin) {
           final user = (state as dynamic).user;
           return BlocProvider(
-            create: (context) => AddressBloc(user, CloudAddressStorage()),
+            create: (context) => AddressBloc(user, AddressStorage()),
             child:
                 state is AuthStateLoggedInAsAdmin
                     ? const AdminNavigationBar()

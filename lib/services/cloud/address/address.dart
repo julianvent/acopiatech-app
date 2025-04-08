@@ -1,7 +1,7 @@
-import 'package:acopiatech/services/cloud/cloud_storage_constants.dart';
+import 'package:acopiatech/services/cloud/storage_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CloudAddress {
+class Address {
   final String documentId;
   final String ownerUserId;
   final String city;
@@ -16,7 +16,7 @@ class CloudAddress {
   final String phoneNumber;
   final bool isDeleted;
 
-  CloudAddress({
+  Address({
     required this.documentId,
     required this.ownerUserId,
     required this.street,
@@ -32,7 +32,7 @@ class CloudAddress {
     required this.isDeleted,
   });
 
-  CloudAddress.fromSnapshot(
+  Address.fromSnapshot(
     QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
   ) : documentId = snapshot.id,
       ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,

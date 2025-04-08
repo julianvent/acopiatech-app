@@ -1,12 +1,12 @@
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/utilities/dialogs/delete_dialog.dart';
 import 'package:flutter/material.dart';
 
-typedef AddressCallback = void Function(CloudAddress address);
+typedef AddressCallback = void Function(Address address);
 
 class AddressListView extends StatelessWidget {
-  final Iterable<CloudAddress> addresses;
+  final Iterable<Address> addresses;
   final AddressCallback onDeleteAddress;
   final AddressCallback onTap;
 
