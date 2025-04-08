@@ -14,6 +14,7 @@ class CloudAddress {
   final String zipCode;
   final DateTime timeCreated;
   final String phoneNumber;
+  final bool isDeleted;
 
   CloudAddress({
     required this.documentId,
@@ -28,6 +29,7 @@ class CloudAddress {
     required this.city,
     required this.state,
     required this.timeCreated,
+    required this.isDeleted,
   });
 
   CloudAddress.fromSnapshot(
@@ -44,5 +46,6 @@ class CloudAddress {
       city = snapshot.data()[addressCityFieldName] as String,
       state = snapshot.data()[addressStateFieldName] as String,
       timeCreated =
-          (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate();
+          (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
+      isDeleted = snapshot.data()[addressIsDeletedFieldName];
 }

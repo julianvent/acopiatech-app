@@ -15,7 +15,10 @@ class CloudAddressStorage {
       addresses.snapshots().map(
         (event) => event.docs
             .map((doc) => CloudAddress.fromSnapshot(doc))
-            .where((address) => address.ownerUserId == ownerUserId),
+            .where(
+              (address) =>
+                  address.ownerUserId == ownerUserId && !address.isDeleted,
+            ),
       );
 
   Future<CloudAddress> createNewAddress({
@@ -44,6 +47,7 @@ class CloudAddressStorage {
         addressCityFieldName: city,
         addressStateFieldName: state,
         timeCreatedFieldName: timeCreated,
+        addressIsDeletedFieldName: false,
       });
 
       final fetchedAddress = await document.get();
@@ -61,6 +65,7 @@ class CloudAddressStorage {
         city: city,
         state: state,
         timeCreated: timeCreated,
+        isDeleted: false,
       );
     } catch (e) {
       throw CouldNotCreateAddressException();
@@ -69,7 +74,7 @@ class CloudAddressStorage {
 
   Future<void> deleteAddress({required String documentId}) async {
     try {
-      await addresses.doc(documentId).delete();
+      await addresses.doc(documentId).update({addressIsDeletedFieldName: true});
     } catch (e) {
       throw CouldNotDeleteAddressException();
     }

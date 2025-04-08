@@ -1,5 +1,6 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/cloud_address.dart';
+import 'package:acopiatech/utilities/dialogs/delete_dialog.dart';
 import 'package:flutter/material.dart';
 
 typedef AddressCallback = void Function(CloudAddress address);
@@ -64,7 +65,12 @@ class AddressListView extends StatelessWidget {
                       ],
                     ),
                     trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final shouldDelete = await showDeleteDialog(context);
+                        if (shouldDelete) {
+                          onDeleteAddress(address);
+                        }
+                      },
                       icon: Icon(Icons.delete),
                     ),
                   ),

@@ -20,3 +20,4 @@ const addressReferenceFieldName = 'reference';
 const addressCityFieldName = 'city';
 const addressStateFieldName = 'state';
 const addressPhoneNumberFieldName = 'phone_number';
+const addressIsDeletedFieldName = 'is_deleted';
