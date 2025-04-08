@@ -87,7 +87,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         myIcon: Icons.location_on_outlined,
                         filled: false,
                         validator: (value) => _validateField(value),
-                        onSaved: (street) => _street = street!,
+                        onSaved: (street) => _street = street!.trim(),
                       ),
                       const SizedBox(height: 10),
                       Row(
@@ -100,7 +100,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                               myIcon: Icons.numbers_rounded,
                               filled: false,
                               validator: (value) => _validateField(value),
-                              onSaved: (extNumber) => _extNumber = extNumber!,
+                              onSaved: (extNumber) => _extNumber = extNumber!.trim(),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -110,7 +110,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                               fieldName: 'No. int(opcional)',
                               myIcon: Icons.numbers_rounded,
                               filled: false,
-                              onSaved: (intNumber) => _intNumber = intNumber,
+                              onSaved: (intNumber) => _intNumber = intNumber?.trim(),
                             ),
                           ),
                         ],
@@ -123,7 +123,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         filled: false,
                         validator: (value) => _validateField(value),
                         onSaved:
-                            (neighborhood) => _neighborhood = neighborhood!,
+                            (neighborhood) => _neighborhood = neighborhood!.trim(),
                       ),
                       const SizedBox(height: 10),
                       UserTextField(
@@ -133,7 +133,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         myIcon: Icons.local_post_office_outlined,
                         filled: false,
                         validator: (value) => _validateField(value),
-                        onSaved: (zip) => _zipCode = zip!,
+                        onSaved: (zip) => _zipCode = zip!.trim(),
                       ),
                       const SizedBox(height: 10),
                       UserTextField(
@@ -143,7 +143,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         myIcon: Icons.phone,
                         filled: false,
                         validator: (value) => _validateField(value),
-                        onSaved: (phoneNumber) => _phoneNumber = phoneNumber!,
+                        onSaved: (phoneNumber) => _phoneNumber = phoneNumber!.trim(),
                       ),
                       const SizedBox(height: 20),
                       UserTextField(
@@ -153,7 +153,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         myIcon: Icons.home_work_outlined,
                         filled: false,
                         numberOfLines: 3,
-                        onSaved: (reference) => _reference = reference,
+                        onSaved: (reference) => _reference = reference?.trim(),
                       ),
                       const SizedBox(height: 10),
                       UserTextField(
@@ -162,7 +162,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         myIcon: Icons.location_city,
                         filled: false,
                         validator: (value) => _validateField(value),
-                        onSaved: (city) => _city = city!,
+                        onSaved: (city) => _city = city!.trim(),
                       ),
                       const SizedBox(height: 10),
                       UserTextField(
@@ -171,7 +171,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                         myIcon: Icons.location_city,
                         filled: false,
                         validator: (value) => _validateField(value),
-                        onSaved: (state) => _state = state!,
+                        onSaved: (state) => _state = state!.trim(),
                       ),
                       const SizedBox(height: 10),
                       ElevatedButton(

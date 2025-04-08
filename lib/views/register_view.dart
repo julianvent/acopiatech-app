@@ -206,8 +206,8 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(height: 30),
                           FilledButton.icon(
                             onPressed: () {
-                              final name = _nameController.text; // Check
-                              final email = _emailController.text;
+                              final name = _nameController.text.trim(); // Check
+                              final email = _emailController.text.trim();
                               final password = _passwordController.text;
                               final confirmPassword =
                                   _confirmPasswordController.text;
