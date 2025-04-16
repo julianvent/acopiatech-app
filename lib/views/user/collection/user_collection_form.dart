@@ -1,10 +1,14 @@
 import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
-import 'package:acopiatech/views/user/address/user_address_view.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
+import 'package:acopiatech/views/user/address/collection_address_view.dart';
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserCollectionForm extends StatefulWidget {
@@ -18,6 +22,7 @@ enum Turno { matutino, vespertino }
 
 class _UserCollectionFormState extends State<UserCollectionForm> {
   Address? _selectedAddress;
+
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
   List<XFile>? _selectedImages = [];
@@ -273,7 +278,28 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                     ],
                                   ),
                                   trailing: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      final Address? selectedAddress;
+                                      selectedAddress = await Navigator.push<
+                                        Address
+                                      >(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => BlocProvider.value(
+                                                value:
+                                                    context.read<AddressBloc>(),
+                                                child:
+                                                    const CollectionAddressView(),
+                                              ),
+                                        ),
+                                      );
+                                      if (selectedAddress != null) {
+                                        setState(() {
+                                          _selectedAddress = selectedAddress;
+                                        });
+                                      }
+                                    },
                                     icon: Icon(Icons.edit),
                                   ),
                                 ),
@@ -281,20 +307,23 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                             ),
                         Center(
                           child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
+                            onPressed: () async {
+                              final Address? selectedAddress;
+                              selectedAddress = await Navigator.push<Address>(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UserAddressView(),
+                                  builder:
+                                      (_) => BlocProvider.value(
+                                        value: context.read<AddressBloc>(),
+                                        child: const CollectionAddressView(),
+                                      ),
                                 ),
-                              ).then((selectedAddress) {
-                                if (selectedAddress != null) {
-                                  setState(() {
-                                    _selectedAddress =
-                                        selectedAddress as Address;
-                                  });
-                                }
-                              });
+                              );
+                              if (selectedAddress != null) {
+                                setState(() {
+                                  _selectedAddress = selectedAddress;
+                                });
+                              }
                             },
                             icon: const Icon(Icons.location_on_outlined),
                             label: const Text(

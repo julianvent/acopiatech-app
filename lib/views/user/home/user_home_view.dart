@@ -1,7 +1,13 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
+import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/services/cloud/address/address_storage.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/views/user/collection/user_collection_form.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -18,6 +24,12 @@ class _UserHomeViewState extends State<UserHomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! AuthStateLoggedIn) {
+      return const Center(child: Text('No autenticado'));
+    }
+    final user = authState.user;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -72,7 +84,17 @@ class _UserHomeViewState extends State<UserHomeView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserCollectionForm(),
+                                builder:
+                                    (_) => BlocProvider(
+                                      create:
+                                          (_) => AddressBloc(
+                                            user,
+                                            AddressStorage(),
+                                          )..add(
+                                            const AddressEventLoadAdresses(),
+                                          ),
+                                      child: const UserCollectionForm(),
+                                    ),
                               ),
                             );
                           },
@@ -94,7 +116,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                   height: 250,
                   width: double.infinity,
                   child: SingleChildScrollView(
-                    child: Column( 
+                    child: Column(
                       spacing: 30,
                       children: [
                         Container(
@@ -160,7 +182,17 @@ class _UserHomeViewState extends State<UserHomeView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => UserCollectionForm(),
+                                    builder:
+                                        (_) => BlocProvider(
+                                          create:
+                                              (_) => AddressBloc(
+                                                user,
+                                                AddressStorage(),
+                                              )..add(
+                                                const AddressEventLoadAdresses(),
+                                              ),
+                                          child: const UserCollectionForm(),
+                                        ),
                                   ),
                                 );
                               },

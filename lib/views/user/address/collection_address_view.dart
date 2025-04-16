@@ -1,21 +1,22 @@
 import 'package:acopiatech/helpers/loading/loading_screen.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
-import 'package:acopiatech/services/cloud/address/address.dart';
-import 'package:acopiatech/views/user/address/create_update_address_view.dart';
-import 'package:acopiatech/views/user/address/address_list_view.dart';
+import 'package:acopiatech/views/user/address/collection_address_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserAddressView extends StatefulWidget {
-  const UserAddressView({super.key});
+class CollectionAddressView extends StatefulWidget {
+  const CollectionAddressView({super.key});
 
   @override
-  State<UserAddressView> createState() => _UserDirectionViewState();
+  State<CollectionAddressView> createState() => _CollectionAddressViewState();
 }
 
-class _UserDirectionViewState extends State<UserAddressView> {
+class _CollectionAddressViewState extends State<CollectionAddressView> {
+  Address? _selectedAddress;
+
   @override
   Widget build(BuildContext context) {
     context.read<AddressBloc>().add(const AddressEventLoadAdresses());
@@ -28,9 +29,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
         }
       },
       builder: (context, state) {
-        if (state is AddressStateCreatingUpdatingAddress) {
-          return CreateUpdateAddressView();
-        } else if (state is AddressStateLoadedAddress) {
+        if (state is AddressStateLoadedAddress) {
           return Scaffold(
             appBar: AppBar(
               title: Padding(
@@ -54,32 +53,28 @@ class _UserDirectionViewState extends State<UserAddressView> {
                         child: Column(
                           children: [
                             Expanded(
-                              child: AddressListView(
+                              child: CollectionAddressList(
                                 addresses: allAddresses,
-                                onDeleteAddress: (address) {
-                                  context.read<AddressBloc>().add(
-                                    AddressEventDeleteAddress(
-                                      documentId: address.documentId,
-                                    ),
-                                  );
-                                },
                                 onTap: (address) {
-                                  context.read<AddressBloc>().add(
-                                    AddressEventShouldCreateUpdateAddress(
-                                      address: address,
-                                    ),
-                                  );
+                                  setState(() {
+                                    _selectedAddress = address;
+                                  });
                                 },
                               ),
                             ),
                             ElevatedButton(
-                              onPressed:
-                                  () => context.read<AddressBloc>().add(
-                                    AddressEventShouldCreateUpdateAddress(
-                                      address: null,
+                              onPressed: () {
+                                if (_selectedAddress != null) {
+                                  Navigator.pop(context, _selectedAddress);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Selecciona una dirección"),
                                     ),
-                                  ),
-                              child: const Text('Agregar dirección'),
+                                  );
+                                }
+                              },
+                              child: const Text('Confirmar dirección'),
                             ),
                           ],
                         ),
