@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
-import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +34,12 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
         _selectedImages!.addAll(pickedImages);
       });
     }
+  }
+
+  removeImage(int index) {
+    setState(() {
+      _selectedImages!.removeAt(index);
+    });
   }
 
   Turno turnoSeleccionado = Turno.matutino;
@@ -181,11 +185,29 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                                 },
                                               );
                                             },
-                                            child: Image.file(
-                                              File(
-                                                _selectedImages![index].path,
-                                              ),
-                                              fit: BoxFit.cover,
+                                            child: Stack(
+                                              children: [
+                                                Image.file(
+                                                  File(
+                                                    _selectedImages![index]
+                                                        .path,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                Positioned(
+                                                  top: 1,
+                                                  right: 1,
+                                                  child: IconButton(
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .disabled_by_default_rounded,
+                                                    ),
+                                                    onPressed: () {
+                                                      removeImage(index);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           );
                                         },
@@ -226,7 +248,6 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                 ),
                 // Dirección
                 Container(
-                  height: 200,
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -343,6 +364,13 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                   ),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorsPalette.darkCian,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate() &&
                         _selectedImages != null) {
@@ -351,7 +379,11 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                   },
                   child: const Text(
                     'Enviar solicitud de recolección',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

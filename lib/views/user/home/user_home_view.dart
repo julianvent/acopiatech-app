@@ -42,7 +42,6 @@ class _UserHomeViewState extends State<UserHomeView> {
               children: [
                 // last collection
                 SizedBox(
-                  height: 250,
                   width: double.infinity,
                   child: SingleChildScrollView(
                     child: Column(
@@ -53,7 +52,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           child: Text(
                             'Última solicitud de recolección',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: Colors.black,
                             ),
@@ -66,7 +65,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                   : Text(
                                     'No cuentas con recolecciones\n¡Solicita una ahora!',
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black,
                                     ),
@@ -101,7 +100,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           child: const Text(
                             'Solicitar recolección',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                             ),
@@ -113,7 +112,6 @@ class _UserHomeViewState extends State<UserHomeView> {
                 ),
                 // ongoing collections max 3
                 SizedBox(
-                  height: 250,
                   width: double.infinity,
                   child: SingleChildScrollView(
                     child: Column(
@@ -124,7 +122,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           child: Text(
                             'Recolecciones en camino',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: Colors.black,
                             ),
@@ -138,83 +136,177 @@ class _UserHomeViewState extends State<UserHomeView> {
                                   : Text(
                                     'Recuerda estar al pendiente el día de entrega\n¡Gracias por tu apoyo!',
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    ColorsPalette.backgroundDarkGreen,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: () {
-                                final controller =
-                                    Get.find<UserNavigationController>();
-                                controller.setView(1);
-                              },
-                              child: Text(
-                                'Ver recoleciones',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    ColorsPalette.backgroundDarkGreen,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (_) => BlocProvider(
-                                          create:
-                                              (_) => AddressBloc(
-                                                user,
-                                                AddressStorage(),
-                                              )..add(
-                                                const AddressEventLoadAdresses(),
-                                              ),
-                                          child: const UserCollectionForm(),
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            if (constraints.maxWidth > 600) {
+                              return Center(
+                                child: Row(
+                                  spacing: 10,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            ColorsPalette.backgroundDarkGreen,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                         ),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Solicitar recoleción',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        final controller =
+                                            Get.find<
+                                              UserNavigationController
+                                            >();
+                                        controller.setView(1);
+                                      },
+                                      child: Text(
+                                        'Ver recoleciones',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            ColorsPalette.backgroundDarkGreen,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) => BlocProvider(
+                                                  create:
+                                                      (_) => AddressBloc(
+                                                        user,
+                                                        AddressStorage(),
+                                                      )..add(
+                                                        const AddressEventLoadAdresses(),
+                                                      ),
+                                                  child:
+                                                      const UserCollectionForm(),
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Solicitar recoleción',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ),
-                          ],
+                              );
+                            } else {
+                              return Center(
+                                child: Row(
+                                  spacing: 8,
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ColorsPalette.backgroundDarkGreen,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          final controller =
+                                              Get.find<
+                                                UserNavigationController
+                                              >();
+                                          controller.setView(1);
+                                        },
+                                        child: Text(
+                                          'Ver recoleciones',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ColorsPalette.backgroundDarkGreen,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (_) => BlocProvider(
+                                                    create:
+                                                        (_) => AddressBloc(
+                                                          user,
+                                                          AddressStorage(),
+                                                        )..add(
+                                                          const AddressEventLoadAdresses(),
+                                                        ),
+                                                    child:
+                                                        const UserCollectionForm(),
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          'Solicitar recoleción',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),
                   ),
                 ),
+                // Map
                 Text(
                   'Encuentra un centro de acopio',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
@@ -227,7 +319,6 @@ class _UserHomeViewState extends State<UserHomeView> {
                     child: Column(
                       spacing: 15,
                       children: [
-                        // Map
                         Container(
                           height: 400,
                           width: double.infinity,
