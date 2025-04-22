@@ -35,7 +35,7 @@ class _CollectionAddressViewState extends State<CollectionAddressView> {
               title: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: const Text(
-                  'Direcciones',
+                  'Selecciona una dirección',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -51,16 +51,15 @@ class _CollectionAddressViewState extends State<CollectionAddressView> {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
+                          spacing: 20,
                           children: [
-                            Expanded(
-                              child: CollectionAddressList(
-                                addresses: allAddresses,
-                                onTap: (address) {
-                                  setState(() {
-                                    _selectedAddress = address;
-                                  });
-                                },
-                              ),
+                            CollectionAddressList(
+                              addresses: allAddresses,
+                              onTap: (address) {
+                                setState(() {
+                                  _selectedAddress = address;
+                                });
+                              },
                             ),
                             // Confirmar dirección
                             ElevatedButton(

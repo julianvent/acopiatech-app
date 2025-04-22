@@ -30,23 +30,38 @@ class _CollectionAddressListState extends State<CollectionAddressList> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: RadioListTile<Address>(
-            selectedTileColor: ColorsPalette.backgroundDarkGreen,
-            value: _selectedAddress = addressList[0],
-            groupValue: _selectedAddress,
-            onChanged: (Address? selectedAddress) {
-              setState(() {
-                _selectedAddress = selectedAddress;
-              });
-              if (selectedAddress != null) {
-                widget.onTap(selectedAddress);
-              }
-            },
-          ),
-        ),
+      child: Column(
+        spacing: 20,
+        children: [
+          if (addressList.isEmpty)
+            const Center(
+              child: Text(
+                'No tienes direcciones guardadas',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              ),
+            ),
+          for (var address in addressList)
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: RadioListTile<Address>(
+                  selectedTileColor: ColorsPalette.backgroundDarkGreen,
+                  value: address,
+                  groupValue: _selectedAddress,
+                  onChanged: (Address? selectedAddress) {
+                    setState(() {
+                      _selectedAddress = selectedAddress;
+                    });
+                    if (selectedAddress != null) {
+                      widget.onTap(selectedAddress);
+                    }
+                  },
+                  title: Text('${address.street}, ${address.city}'),
+                  subtitle: Text('${address.neighborhood}, ${address.state}'),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
