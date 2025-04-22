@@ -1,24 +1,24 @@
-import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/views/user/address/address_list_view.dart';
 import 'package:flutter/material.dart';
 
-class CollectionAddressList extends StatefulWidget {
+class CollectionUpdate extends StatefulWidget {
   final Iterable<Address> addresses;
   final AddressCallback onTap;
-  const CollectionAddressList({
+
+  const CollectionUpdate({
     super.key,
     required this.addresses,
     required this.onTap,
   });
 
   @override
-  State<CollectionAddressList> createState() => _CollectionAddressListState();
+  State<CollectionUpdate> createState() => _CollectionUpdateState();
 }
 
-class _CollectionAddressListState extends State<CollectionAddressList> {
-  late List<Address> addressList;
+class _CollectionUpdateState extends State<CollectionUpdate> {
   Address? _selectedAddress;
+  late List<Address> addressList;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _CollectionAddressListState extends State<CollectionAddressList> {
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: RadioListTile<Address>(
-            selectedTileColor: ColorsPalette.backgroundDarkGreen,
+            selectedTileColor: Colors.lightGreen,
             value: _selectedAddress = addressList[0],
             groupValue: _selectedAddress,
             onChanged: (Address? selectedAddress) {

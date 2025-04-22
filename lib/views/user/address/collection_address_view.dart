@@ -62,6 +62,7 @@ class _CollectionAddressViewState extends State<CollectionAddressView> {
                                 },
                               ),
                             ),
+                            // Confirmar dirección
                             ElevatedButton(
                               onPressed: () {
                                 if (_selectedAddress != null) {
