@@ -5,7 +5,7 @@ import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
-  CollectionBloc(AuthUser currentUser, CollectionStorage collectionService)
+  CollectionBloc(CollectionStorage collectionService)
     : super(const CollectionStateUnintialized(isLoading: false)) {
       
     }

@@ -263,14 +263,10 @@ class _UserHomeViewState extends State<UserHomeView> {
                                             context,
                                             MaterialPageRoute(
                                               builder:
-                                                  (
-                                                    context,
-                                                  ) => BlocProvider.value(
-                                                    value:
-                                                        context
-                                                            .read<
-                                                              CollectionBloc
-                                                            >(),
+                                                  (_) => BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                      CollectionBloc
+                                                    >(context),
                                                     child:
                                                         const UserCollectionForm(),
                                                   ),

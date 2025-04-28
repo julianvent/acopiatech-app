@@ -11,7 +11,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     : super(const AddressStateUnintialized(isLoading: false)) {
     Future<void> emitUpdateAddressList(Emitter<AddressState> emit) async {
       final currentUser = await AuthService.firebase().currentUser;
-      log(currentUser!.id);
       final addressesStream = addressService.allAddresses(
         ownerUserId: currentUser!.id,
       );

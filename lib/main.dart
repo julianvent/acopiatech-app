@@ -71,7 +71,6 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         // where scaffold = actual view
         if (state is AuthStateLoggedIn || state is AuthStateLoggedInAsAdmin) {
-          final currentUser = (state as dynamic).user;
           return MultiBlocProvider(
             providers: [
               BlocProvider<AddressBloc>(
@@ -80,7 +79,7 @@ class HomePage extends StatelessWidget {
               BlocProvider<CollectionBloc>(
                 create:
                     (context) =>
-                        CollectionBloc(currentUser, CollectionStorage()),
+                        CollectionBloc(CollectionStorage()),
               ),
             ],
             child:
