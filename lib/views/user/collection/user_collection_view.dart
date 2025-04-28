@@ -40,7 +40,7 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                         (_) => BlocProvider(
                           create:
                               (_) =>
-                                  AddressBloc(user, AddressStorage())
+                                  AddressBloc(AddressStorage())
                                     ..add(const AddressEventLoadAdresses()),
                           child: const UserCollectionForm(),
                         ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
+import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
@@ -334,8 +335,10 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                 context,
                                 MaterialPageRoute(
                                   builder:
-                                      (_) => BlocProvider.value(
-                                        value: context.read<AddressBloc>(),
+                                      (_) => BlocProvider(
+                                        create:
+                                            (context) =>
+                                                AddressBloc(AddressStorage()),
                                         child: const CollectionAddressView(),
                                       ),
                                 ),
@@ -371,10 +374,10 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                       vertical: 12,
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate() &&
                         _selectedImages != null) {
-                      // Process the data
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text(

@@ -5,11 +5,14 @@ import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/auth/firebase_auth_provider.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
 import 'package:acopiatech/views/forgot_password_view.dart';
 import 'package:acopiatech/views/login_view.dart';
 import 'package:acopiatech/views/register_view.dart';
 import 'package:acopiatech/views/user/account/user_account_form.dart';
 import 'package:acopiatech/views/user/address/create_update_address_view.dart';
+import 'package:acopiatech/views/user/home/user_home_view.dart';
 import 'package:acopiatech/views/verification_view.dart';
 import 'package:acopiatech/widgets/admin/Admin_navigation_bar.dart';
 import 'package:acopiatech/widgets/user/user_navigation_bar.dart';
@@ -68,9 +71,18 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         // where scaffold = actual view
         if (state is AuthStateLoggedIn || state is AuthStateLoggedInAsAdmin) {
-          final user = (state as dynamic).user;
-          return BlocProvider(
-            create: (context) => AddressBloc(user, AddressStorage()),
+          final currentUser = (state as dynamic).user;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<AddressBloc>(
+                create: (context) => AddressBloc(AddressStorage()),
+              ),
+              BlocProvider<CollectionBloc>(
+                create:
+                    (context) =>
+                        CollectionBloc(currentUser, CollectionStorage()),
+              ),
+            ],
             child:
                 state is AuthStateLoggedInAsAdmin
                     ? const AdminNavigationBar()

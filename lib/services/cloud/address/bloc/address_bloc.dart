@@ -1,15 +1,19 @@
-import 'package:acopiatech/services/auth/auth_user.dart';
+import 'dart:developer';
+
+import 'package:acopiatech/services/auth/auth_service.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
-  AddressBloc(AuthUser currentUser, AddressStorage addressService)
+  AddressBloc(AddressStorage addressService)
     : super(const AddressStateUnintialized(isLoading: false)) {
-    void emitUpdateAddressList(Emitter<AddressState> emit) {
+    Future<void> emitUpdateAddressList(Emitter<AddressState> emit) async {
+      final currentUser = await AuthService.firebase().currentUser;
+      log(currentUser!.id);
       final addressesStream = addressService.allAddresses(
-        ownerUserId: currentUser.id,
+        ownerUserId: currentUser!.id,
       );
       emit(
         AddressStateLoadedAddress(
@@ -21,7 +25,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
     on<AddressEventLoadAdresses>((event, emit) async {
       emit(AddressStateLoadedAddress(addressesStream: null, isLoading: true));
-      emitUpdateAddressList(emit);
+      await emitUpdateAddressList(emit);
     });
 
     on<AddressEventShouldCreateUpdateAddress>((event, emit) {
@@ -69,8 +73,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         }
       } else {
         try {
+          final currentUser = await AuthService.firebase().currentUser;
           await addressService.createNewAddress(
-            ownerUserId: currentUser.id,
+            ownerUserId: currentUser!.id,
             street: event.street,
             extNumber: event.extNumber,
             intNumber: event.intNumber,
@@ -92,7 +97,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         }
       }
 
-      emitUpdateAddressList(emit);
+      await emitUpdateAddressList(emit);
     });
 
     on<AddressEventReturnToList>((event, emit) {
@@ -109,7 +114,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       } on Exception catch (e) {
         emit(AddressStateDeletingAddress(exception: e, isLoading: false));
       }
-      emitUpdateAddressList(emit);
+      await emitUpdateAddressList(emit);
     });
   }
 }

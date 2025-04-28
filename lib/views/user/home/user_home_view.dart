@@ -4,6 +4,7 @@ import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/views/user/collection/user_collection_form.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
@@ -84,15 +85,11 @@ class _UserHomeViewState extends State<UserHomeView> {
                               context,
                               MaterialPageRoute(
                                 builder:
-                                    (_) => BlocProvider(
-                                      create:
-                                          (_) => AddressBloc(
-                                            user,
-                                            AddressStorage(),
-                                          )..add(
-                                            const AddressEventLoadAdresses(),
-                                          ),
-                                      child: const UserCollectionForm(),
+                                    (_) => BlocProvider.value(
+                                      value: BlocProvider.of<CollectionBloc>(
+                                        context,
+                                      ),
+                                      child: UserCollectionForm(),
                                     ),
                               ),
                             );
@@ -194,7 +191,6 @@ class _UserHomeViewState extends State<UserHomeView> {
                                                 (_) => BlocProvider(
                                                   create:
                                                       (_) => AddressBloc(
-                                                        user,
                                                         AddressStorage(),
                                                       )..add(
                                                         const AddressEventLoadAdresses(),
@@ -267,14 +263,14 @@ class _UserHomeViewState extends State<UserHomeView> {
                                             context,
                                             MaterialPageRoute(
                                               builder:
-                                                  (_) => BlocProvider(
-                                                    create:
-                                                        (_) => AddressBloc(
-                                                          user,
-                                                          AddressStorage(),
-                                                        )..add(
-                                                          const AddressEventLoadAdresses(),
-                                                        ),
+                                                  (
+                                                    context,
+                                                  ) => BlocProvider.value(
+                                                    value:
+                                                        context
+                                                            .read<
+                                                              CollectionBloc
+                                                            >(),
                                                     child:
                                                         const UserCollectionForm(),
                                                   ),

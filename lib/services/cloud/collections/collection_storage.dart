@@ -3,12 +3,12 @@ import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CloudCollectionStorage {
+class CollectionStorage {
   // singleton
-  CloudCollectionStorage._sharedInstance();
-  static final CloudCollectionStorage _shared =
-      CloudCollectionStorage._sharedInstance();
-  factory CloudCollectionStorage() => _shared;
+  CollectionStorage._sharedInstance();
+  static final CollectionStorage _shared =
+      CollectionStorage._sharedInstance();
+  factory CollectionStorage() => _shared;
 
   final collections = FirebaseFirestore.instance.collection('collection');
 
