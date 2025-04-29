@@ -26,10 +26,11 @@ class UserCollectionForm extends StatefulWidget {
 enum Turno { matutino, vespertino }
 
 class _UserCollectionFormState extends State<UserCollectionForm> {
-  Turno turnoSeleccionado = Turno.matutino;
-  DateTime pickedDate = DateTime.now().add(const Duration(days: 2));
+  late final Turno _turnoSeleccionado;
+  late final DateTime _earliestSelectableDate;
+  late DateTime _pickedDate;
 
-  final _picker = ImagePicker();
+  late final ImagePicker _picker;
   late final List<XFile> _selectedImages;
 
   late final String _description;
@@ -56,12 +57,18 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
   String? _validateField(String? value) =>
       (value == null || value.isEmpty) ? 'Requerido' : null;
 
-  void _getSelectedDate(DateTime date) => setState(() => pickedDate = date);
+  void _getSelectedDate(DateTime date) => setState(() {
+    _pickedDate = date;
+  });
 
   @override
   void initState() {
+    _turnoSeleccionado = Turno.matutino;
     _selectedImages = [];
     _descriptionController = TextEditingController();
+    _earliestSelectableDate = DateTime.timestamp().add(const Duration(days: 2));
+    _pickedDate = _earliestSelectableDate;
+    _picker = ImagePicker();
     super.initState();
   }
 
@@ -125,10 +132,10 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                         label: Text('Vespertino'),
                       ),
                     ],
-                    selected: <Turno>{turnoSeleccionado},
+                    selected: <Turno>{_turnoSeleccionado},
                     onSelectionChanged: (Set<Turno> newTurno) {
                       setState(() {
-                        turnoSeleccionado = newTurno.first;
+                        _turnoSeleccionado = newTurno.first;
                       });
                     },
                   ),
@@ -144,7 +151,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                       children: [
                         const SizedBox(height: 8),
                         UserDatePicker(
-                          earliestSelectableDate: pickedDate,
+                          earliestSelectableDate: _earliestSelectableDate,
                           onDateSelected: _getSelectedDate,
                         ),
                         const SizedBox(height: 8),
@@ -395,8 +402,8 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                         } else {
                           context.read<CollectionBloc>().add(
                             CollectionEventCreateCollection(
-                              schedule: turnoSeleccionado.toString(),
-                              date: pickedDate,
+                              schedule: _turnoSeleccionado.toString(),
+                              date: _pickedDate,
                               description: _descriptionController.text,
                               addressId: _selectedAddress!.documentId,
                             ),

@@ -2,7 +2,7 @@ const ownerUserIdFieldName = 'user_id';
 const timeCreatedFieldName = 'time_created';
 
 // collection constants
-const collectionDateFieldName = 'date';
+const collectionDateFieldName = 'date_scheduled';
 const collectionScheduleFieldName = 'schedule';
 const collectionEvidenceFieldName = 'evidence';
 const collectionDescriptionFieldName = 'description';
