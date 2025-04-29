@@ -320,7 +320,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           ),
                           child: Center(
                             child: Text(
-                              '¡Añadir el mapa! ☠️☠️☠️',
+                              'Google Maps',
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,

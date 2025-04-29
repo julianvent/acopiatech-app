@@ -1,0 +1,1 @@
+class CouldNotCreateCollectionException implements Exception {}

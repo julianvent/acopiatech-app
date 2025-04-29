@@ -2,24 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class UserDatePicker extends StatefulWidget {
-  const UserDatePicker({super.key});
+  final void Function(DateTime)? onDateSelected;
+  final DateTime earliestSelectableDate;
+
+  const UserDatePicker({
+    super.key,
+    this.onDateSelected,
+    required this.earliestSelectableDate,
+  });
 
   @override
   State<UserDatePicker> createState() => _UserDatePickerState();
 }
 
 class _UserDatePickerState extends State<UserDatePicker> {
-  DateTime earliestSelectableDate = DateTime.now().add(const Duration(days: 2));
-  DateTime _selectedDate = DateTime.now().add(const Duration(days: 2));
+  late DateTime selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = widget.earliestSelectableDate;
+  }
 
   @override
   Widget build(BuildContext context) {
-    void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-      if (selectedDay.isAfter(earliestSelectableDate) ||
-          isSameDay(selectedDay, earliestSelectableDate)) {
+    void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+      if (selectedDay.isAfter(widget.earliestSelectableDate) ||
+          isSameDay(selectedDay, widget.earliestSelectableDate)) {
         setState(() {
-          _selectedDate = selectedDay;
+          selectedDate = selectedDay;
         });
+        widget.onDateSelected?.call(selectedDay);
       }
     }
 
@@ -40,11 +53,11 @@ class _UserDatePickerState extends State<UserDatePicker> {
         return (day.weekday != DateTime.sunday &&
             day.weekday != DateTime.saturday);
       },
-      currentDay: earliestSelectableDate,
-      focusedDay: _selectedDate,
+      currentDay: widget.earliestSelectableDate,
+      focusedDay: selectedDate,
       availableGestures: AvailableGestures.all,
-      selectedDayPredicate: (day) => isSameDay(day, _selectedDate),
-      onDaySelected: _onDaySelected,
+      selectedDayPredicate: (day) => isSameDay(day, selectedDate),
+      onDaySelected: onDaySelected,
       firstDay: DateTime.utc(2024, 12, 25),
       lastDay: DateTime.utc(2079, 12, 31),
     );

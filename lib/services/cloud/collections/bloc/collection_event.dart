@@ -10,8 +10,15 @@ class CollectionEventLoadCollections extends CollectionEvent {
 }
 
 class CollectionEventCreateCollection extends CollectionEvent {
+  final String schedule;
+  final DateTime date;
   final String description;
+  final String addressId;
 
-  const CollectionEventCreateCollection({required this.description});
+  const CollectionEventCreateCollection({
+    required this.schedule,
+    required this.date,
+    required this.description,
+    required this.addressId,
+  });
 }
-
