@@ -381,16 +381,27 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                       ),
                     ),
                     onPressed: () async {
-                      if (_formKey.currentState!.validate() &&
-                          _selectedImages.isNotEmpty) {
-                        context.read<CollectionBloc>().add(
-                          CollectionEventCreateCollection(
-                            schedule: turnoSeleccionado.toString(),
-                            date: pickedDate,
-                            description: _descriptionController.text,
-                            addressId: _selectedAddress!.documentId,
-                          ),
-                        );
+                      if (_formKey.currentState!.validate()) {
+                        if (_selectedImages.isEmpty) {
+                          showErrorDialog(
+                            context,
+                            'Por favor, selecciona las evidencias de la recolección para crear una recolección.',
+                          );
+                        } else if (_selectedAddress == null) {
+                          showErrorDialog(
+                            context,
+                            'Por favor, selecciona una dirección para crear una recolección.',
+                          );
+                        } else {
+                          context.read<CollectionBloc>().add(
+                            CollectionEventCreateCollection(
+                              schedule: turnoSeleccionado.toString(),
+                              date: pickedDate,
+                              description: _descriptionController.text,
+                              addressId: _selectedAddress!.documentId,
+                            ),
+                          );
+                        }
                       }
                     },
                     child: const Text(
