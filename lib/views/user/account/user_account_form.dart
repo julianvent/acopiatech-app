@@ -46,90 +46,91 @@ class _UserAccountFormState extends State<UserAccountForm> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              spacing: 26.0,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child:
-                          userProfileImage != null
-                              ? Image.file(userProfileImage!)
-                              : Center(
-                                child: Image.asset(
-                                  ImagesRoutes.mascota,
-                                  fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                spacing: 26.0,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child:
+                            userProfileImage != null
+                                ? Image.file(userProfileImage!)
+                                : Center(
+                                  child: Image.asset(
+                                    ImagesRoutes.mascota,
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
-                              ),
-                    ),
-                    Positioned(
-                      bottom: 1,
-                      right: 1,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          pickUserProfileImage();
-                        },
-                        mini: true,
-                        child: const Icon(Icons.account_circle),
+                      ),
+                      Positioned(
+                        bottom: 1,
+                        right: 1,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            pickUserProfileImage();
+                          },
+                          mini: true,
+                          child: const Icon(Icons.account_circle),
+                        ),
+                      ),
+                    ],
+                  ),
+                  UserTextField(
+                    myIcon: Icons.person,
+                    fieldName: 'Nombres',
+                    filled: false,
+                  ),
+                  UserTextField(
+                    myIcon: Icons.person,
+                    fieldName: 'Apellidos',
+                    filled: false,
+                  ),
+                  UserTextField(
+                    fieldName: 'Correo electrónico',
+                    initialValue: user.email,
+                    filled: false,
+                    myIcon: Icons.email,
+                    isEnabled: false,
+                  ),
+                  UserTextField(
+                    fieldName: 'Número de teléfono',
+                    filled: false,
+                    myIcon: Icons.phone,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsPalette.backgroundDarkGreen,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                  ],
-                ),
-
-                UserTextField(
-                  myIcon: Icons.person,
-                  fieldName: 'Nombres',
-                  filled: false,
-                ),
-                UserTextField(
-                  myIcon: Icons.person,
-                  fieldName: 'Apellidos',
-                  filled: false,
-                ),
-                UserTextField(
-                  fieldName: 'Correo electrónico',
-                  initialValue: user.email,
-                  filled: false,
-                  myIcon: Icons.email,
-                  isEnabled: false,
-                ),
-                UserTextField(
-                  fieldName: 'Número de teléfono',
-                  filled: false,
-                  myIcon: Icons.phone,
-                  keyboardType: TextInputType.phone,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsPalette.backgroundDarkGreen,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {}
+                    },
+                    child: Text(
+                      'Confirmar cambios',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
-                  },
-                  child: Text(
-                    'Confirmar cambios',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
