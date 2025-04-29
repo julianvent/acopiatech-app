@@ -95,8 +95,21 @@ class _UserShopViewState extends State<UserShopView> {
                             color: ColorsPalette.darkGreen,
                           ),
                         ),
-                        IconButton(onPressed: () {}, icon: icon),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.shopping_cart_rounded),
+                        ),
                       ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 200,
+                    child: CarouselView(
+                      scrollDirection: Axis.horizontal,
+                      itemExtent: 200,
+                      children: List<Widget>.generate(10, (int index) {
+                        return Container(color: ColorsPalette.lightGreen);
+                      }),
                     ),
                   ),
                 ],
