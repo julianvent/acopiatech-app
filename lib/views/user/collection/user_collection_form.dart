@@ -31,7 +31,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
   late DateTime _pickedDate;
 
   late final ImagePicker _picker;
-  late final List<XFile> _selectedImages;
+  late final List<String> _selectedImages;
 
   late final String _description;
   late final TextEditingController _descriptionController;
@@ -43,7 +43,9 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
     final List<XFile> pickedImages = await _picker.pickMultiImage();
     if (pickedImages.isNotEmpty) {
       setState(() {
-        _selectedImages.addAll(pickedImages);
+        for (XFile image in pickedImages) {
+          _selectedImages.add(image.path);
+        }
       });
     }
   }
@@ -214,8 +216,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                                     return Dialog(
                                                       child: Image.file(
                                                         File(
-                                                          _selectedImages[index]
-                                                              .path,
+                                                          _selectedImages[index],
                                                         ),
                                                         fit: BoxFit.cover,
                                                       ),
@@ -227,8 +228,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                                                 children: [
                                                   Image.file(
                                                     File(
-                                                      _selectedImages[index]
-                                                          .path,
+                                                      _selectedImages[index],
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
@@ -405,6 +405,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                               schedule: _turnoSeleccionado.toString(),
                               date: _pickedDate,
                               description: _descriptionController.text,
+                              images: _selectedImages,
                               addressId: _selectedAddress!.documentId,
                             ),
                           );

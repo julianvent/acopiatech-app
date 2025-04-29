@@ -1,8 +1,10 @@
 import 'package:acopiatech/services/cloud/collections/collection_exception.dart';
+import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
 import 'package:acopiatech/services/cloud/storage_constants.dart';
 import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CollectionStorage {
   // singleton
@@ -11,6 +13,7 @@ class CollectionStorage {
   factory CollectionStorage() => _shared;
 
   final collections = FirebaseFirestore.instance.collection('collection');
+  final CollectionImageStorage imageStorage = CollectionImageStorage();
 
   Stream<Iterable<Collection>> allCollections({required String ownerUserId}) =>
       collections.snapshots().map(
@@ -38,6 +41,7 @@ class CollectionStorage {
     required String ownerUserId,
     required String schedule,
     required DateTime date,
+    required List<String> images,
     required String description,
     required String addressId,
   }) async {
@@ -58,13 +62,22 @@ class CollectionStorage {
 
       final fetchedCollection = await document.get();
 
+      try {
+        await imageStorage.uploadImages(
+          imagesPath: images,
+          documentId: fetchedCollection.id,
+          userId: ownerUserId,
+        );
+      } on Exception {
+        throw CouldNotCreateCollectionException();
+      }
+
       return Collection(
         documentId: fetchedCollection.id,
         ownerUserId: ownerUserId,
         timeCreated: timeCreated,
         date: date,
         schedule: schedule,
-        evidence: 'fotos',
         description: description,
         addressId: addressId,
         stateId: 'state_id',

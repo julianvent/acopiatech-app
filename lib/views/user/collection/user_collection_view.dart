@@ -22,7 +22,6 @@ class _UserCollectionViewState extends State<UserCollectionView> {
     if (authState is! AuthStateLoggedIn) {
       return const Center(child: Text('No autenticado'));
     }
-    final user = authState.user;
     return Scaffold(
       body: Center(
         child: Column(

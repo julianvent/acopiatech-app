@@ -3,11 +3,8 @@ import 'dart:io';
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/auth_user.dart';
-import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
-import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserAccountForm extends StatefulWidget {

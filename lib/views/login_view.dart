@@ -4,7 +4,6 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
-import 'package:acopiatech/views/user/collection/collection_list_view.dart';
 import 'package:acopiatech/views/user/collection/user_collection_view.dart';
 import 'package:acopiatech/widgets/custom_scaffold.dart';
 import 'package:acopiatech/widgets/welcome_buttom.dart';

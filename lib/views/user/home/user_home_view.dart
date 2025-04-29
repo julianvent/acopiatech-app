@@ -29,7 +29,6 @@ class _UserHomeViewState extends State<UserHomeView> {
     if (authState is! AuthStateLoggedIn) {
       return const Center(child: Text('No autenticado'));
     }
-    final user = authState.user;
 
     return Scaffold(
       body: SingleChildScrollView(

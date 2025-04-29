@@ -9,7 +9,6 @@ class Collection {
   final DateTime timeCreated;
   final DateTime date;
   final String schedule;
-  final String evidence;
   final String description;
   final String addressId;
   final String stateId;
@@ -21,7 +20,6 @@ class Collection {
     required this.timeCreated,
     required this.date,
     required this.schedule,
-    required this.evidence,
     required this.description,
     required this.addressId,
     required this.stateId,
@@ -35,7 +33,6 @@ class Collection {
       timeCreated = (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
       date = (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
       schedule = snapshot.data()[collectionScheduleFieldName] as String,
-      evidence = snapshot.data()[collectionEvidenceFieldName] as String,
       description = snapshot.data()[collectionDescriptionFieldName] as String,
       addressId = snapshot.data()[addressIdFieldName] as String,
       stateId = snapshot.data()[collectionStateIdFieldName] as String,

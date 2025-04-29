@@ -16,6 +16,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
           schedule: event.schedule,
           date: event.date,
           description: event.description,
+          images: event.images,
           addressId: event.addressId,
         );
         emit(CollectionStateCreatingCollection(isLoading: false, exception: null));

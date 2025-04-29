@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' show immutable;
+import 'package:image_picker/image_picker.dart';
 
 @immutable
 abstract class CollectionEvent {
@@ -12,6 +13,7 @@ class CollectionEventLoadCollections extends CollectionEvent {
 class CollectionEventCreateCollection extends CollectionEvent {
   final String schedule;
   final DateTime date;
+  final List<String> images;
   final String description;
   final String addressId;
 
@@ -19,6 +21,7 @@ class CollectionEventCreateCollection extends CollectionEvent {
     required this.schedule,
     required this.date,
     required this.description,
+    required this.images,
     required this.addressId,
   });
 }
