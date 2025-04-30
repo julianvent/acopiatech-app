@@ -43,12 +43,12 @@ class _UserDirectionViewState extends State<UserAddressView> {
             ),
             body: StreamBuilder(
               stream: state.addressesStream,
-              builder: (context, snaphost) {
-                switch (snaphost.connectionState) {
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                   case ConnectionState.active:
-                    if (snaphost.hasData) {
-                      final allAddresses = snaphost.data as Iterable<Address>;
+                    if (snapshot.hasData) {
+                      final allAddresses = snapshot.data as Iterable<Address>;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(

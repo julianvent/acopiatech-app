@@ -1,12 +1,20 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:flutter/material.dart';
 
 // typedef Callback = void Function(Collection collections);
 class CollectionListView extends StatelessWidget {
-  //  final Iterable<CloudAddress> collections;
+  final Iterable<Collection> collections;
+  final int itemCount;
+
+  const CollectionListView({
+    super.key,
+    required this.collections,
+    required this.itemCount,
+  });
   // final Callback onDeleteCollections;
   // final Callback onTap;
-    String getAddress() {
+  String getAddress() {
     return 'Calle 123, Colonia Centro, 12345';
   }
 
@@ -14,14 +22,15 @@ class CollectionListView extends StatelessWidget {
     return 'En espera';
   }
 
-  const CollectionListView({super.key});
-
   @override
   Widget build(BuildContext context) {
+    if (collections.isEmpty) {
+      return const Text('No existen recolecciones');
+    }
     return ListView.builder(
-      itemCount: 10,
+      itemCount: 1,
       itemBuilder: (context, index) {
-        // final collections = collections.elementAt(index);
+        final collection = collections.elementAt(index);
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -85,7 +94,6 @@ class CollectionListView extends StatelessWidget {
             ),
           ),
         );
-  
       },
     );
   }

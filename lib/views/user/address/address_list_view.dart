@@ -19,6 +19,9 @@ class AddressListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (addresses.isEmpty) {
+      return const Center(child: Text('No existen direcciones registradas.'));
+    }
     return ListView.builder(
       itemCount: addresses.length,
       itemBuilder: (context, index) {

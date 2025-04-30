@@ -1,10 +1,16 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/auth/auth_service.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
+import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
+import 'package:acopiatech/views/user/collection/collection_list_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +31,7 @@ class _UserHomeViewState extends State<UserHomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = context.read<AuthBloc>().state;
-    if (authState is! AuthStateLoggedIn) {
-      return const Center(child: Text('No autenticado'));
-    }
+    context.read<CollectionBloc>().add(const CollectionEventLoadCollections());
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -45,7 +48,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                   width: double.infinity,
                   child: SingleChildScrollView(
                     child: Column(
-                      spacing: 30,
+                      spacing: 24,
                       children: [
                         Container(
                           alignment: Alignment.centerLeft,
@@ -59,24 +62,57 @@ class _UserHomeViewState extends State<UserHomeView> {
                           ),
                         ),
                         Center(
-                          child:
-                              userlastCollection != null
-                                  ? const CircularProgressIndicator()
-                                  : Text(
-                                    'No cuentas con recolecciones\n¡Solicita una ahora!',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                          child: BlocBuilder<CollectionBloc, CollectionState>(
+                            builder: (context, state) {
+                              if (state is CollectionStateLoadedCollections) {
+                                return StreamBuilder(
+                                  stream: state.collectionsStream,
+                                  builder: (context, snapshot) {
+                                    switch (snapshot.connectionState) {
+                                      case ConnectionState.waiting:
+                                      case ConnectionState.active:
+                                        if (snapshot.hasData) {
+                                          final allCollections =
+                                              snapshot.data
+                                                  as Iterable<Collection>;
+
+                                          return CollectionListView(
+                                            collections: allCollections,
+                                            itemCount: 1,
+                                          );
+                                        } else {
+                                          return const CircularProgressIndicator();
+                                        }
+                                      default:
+                                        return const CircularProgressIndicator();
+                                    }
+                                  },
+                                );
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                          ),
+
+                          // child:
+                          //     userlastCollection != null
+                          //         ? const CircularProgressIndicator()
+                          //         : Text(
+                          //           'No cuentas con recolecciones\n¡Solicita una ahora!',
+                          //           style: TextStyle(
+                          //             fontSize: 16,
+                          //             fontWeight: FontWeight.w500,
+                          //             color: Colors.black,
+                          //           ),
+                          //           textAlign: TextAlign.center,
+                          //         ),
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorsPalette.backgroundDarkGreen,
+                            padding: EdgeInsets.all(13.0),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
                           onPressed: () {
@@ -96,7 +132,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                           child: const Text(
                             'Solicitar recolección',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                             ),

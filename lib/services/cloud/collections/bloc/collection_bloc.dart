@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:acopiatech/services/auth/auth_service.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
@@ -7,6 +9,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   CollectionBloc(CollectionStorage collectionService)
     : super(const CollectionStateUnintialized(isLoading: false)) {
+    on<CollectionEventLoadCollections>((event, emit) async {
+      emit(
+        CollectionStateLoadedCollections(
+          collectionsStream: null,
+          isLoading: true,
+        ),
+      );
+      final currentUser = await AuthService.firebase().currentUser;
+      final collectionsStream = collectionService.allCollections(
+        ownerUserId: currentUser!.id,
+      );
+
+      emit(
+        CollectionStateLoadedCollections(
+          collectionsStream: collectionsStream,
+          isLoading: false,
+        ),
+      );
+    });
+
     on<CollectionEventCreateCollection>((event, emit) async {
       emit(CollectionStateCreatingCollection(isLoading: true, exception: null));
       final currentUser = await AuthService.firebase().currentUser;
@@ -19,7 +41,9 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
           images: event.images,
           addressId: event.addressId,
         );
-        emit(CollectionStateCreatingCollection(isLoading: false, exception: null));
+        emit(
+          CollectionStateCreatingCollection(isLoading: false, exception: null),
+        );
       } on Exception catch (e) {
         emit(CollectionStateCreatingCollection(isLoading: false, exception: e));
       }
