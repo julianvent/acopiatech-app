@@ -27,13 +27,12 @@ class CollectionListView extends StatelessWidget {
     if (collections.isEmpty) {
       return const Text('No existen recolecciones');
     }
-    return ListView.builder(
-      itemCount: 1,
-      itemBuilder: (context, index) {
-        final collection = collections.elementAt(index);
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
+    return Container(
+      height: 150,
+      width: double.infinity,
+      child: ListView(
+        children: [
+          Card(
             margin: EdgeInsets.all(10),
             child: Stack(
               children: [
@@ -58,34 +57,51 @@ class CollectionListView extends StatelessWidget {
                 Material(
                   color: Colors.transparent,
                   child: ListTile(
-                    title: Text('Recolección a domicilio'),
-                    subtitle: Text(
-                      'Entregar en:\n${getAddress()}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
+                    title: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Recolección a domicilio',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Spacer(),
+                          Flexible(
+                            child: Text(
                               getStatus(),
                               style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            Icon(Icons.circle, color: Colors.amber),
-                          ],
+                          ),
+                          const Icon(Icons.circle, color: Colors.amber),
+                        ],
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Entregar en:\n${getAddress()}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
                         ),
-                        Icon(Icons.more_vert, color: ColorsPalette.neutralGray),
                       ],
+                    ),
+                    trailing: Icon(
+                      Icons.more_vert,
+                      color: ColorsPalette.neutralGray,
                     ),
                     onTap: () {},
                   ),
@@ -93,8 +109,8 @@ class CollectionListView extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

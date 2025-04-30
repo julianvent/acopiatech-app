@@ -75,7 +75,6 @@ class _UserHomeViewState extends State<UserHomeView> {
                                           final allCollections =
                                               snapshot.data
                                                   as Iterable<Collection>;
-
                                           return CollectionListView(
                                             collections: allCollections,
                                             itemCount: 1,
