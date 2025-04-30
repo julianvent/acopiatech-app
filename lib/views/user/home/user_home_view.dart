@@ -5,7 +5,7 @@ import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
-import 'package:acopiatech/views/user/collection/user_collection_form.dart';
+import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,7 +88,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                       value: BlocProvider.of<CollectionBloc>(
                                         context,
                                       ),
-                                      child: UserCollectionForm(),
+                                      child: CreateCollectionView(),
                                     ),
                               ),
                             );
@@ -195,7 +195,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                                         const AddressEventLoadAdresses(),
                                                       ),
                                                   child:
-                                                      const UserCollectionForm(),
+                                                      const CreateCollectionView(),
                                                 ),
                                           ),
                                         );
@@ -267,7 +267,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                                       CollectionBloc
                                                     >(context),
                                                     child:
-                                                        const UserCollectionForm(),
+                                                        const CreateCollectionView(),
                                                   ),
                                             ),
                                           );

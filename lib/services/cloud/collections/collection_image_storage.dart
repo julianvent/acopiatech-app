@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:acopiatech/services/cloud/collections/collection_exception.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectionImageStorage {

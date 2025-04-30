@@ -4,7 +4,7 @@ import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
-import 'package:acopiatech/views/user/collection/user_collection_form.dart';
+import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +41,7 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                               (_) =>
                                   AddressBloc(AddressStorage())
                                     ..add(const AddressEventLoadAdresses()),
-                          child: const UserCollectionForm(),
+                          child: const CreateCollectionView(),
                         ),
                   ),
                 );

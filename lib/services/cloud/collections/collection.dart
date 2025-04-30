@@ -7,34 +7,35 @@ class Collection {
   final String documentId;
   final String ownerUserId;
   final DateTime timeCreated;
-  final DateTime date;
-  final String schedule;
+  final DateTime dateScheduled;
+  final String scheduleId;
   final String description;
   final String addressId;
   final String stateId;
-  final String mode;
+  final String modeId;
 
   const Collection({
     required this.documentId,
     required this.ownerUserId,
     required this.timeCreated,
-    required this.date,
-    required this.schedule,
+    required this.dateScheduled,
+    required this.scheduleId,
     required this.description,
     required this.addressId,
     required this.stateId,
-    required this.mode
+    required this.modeId,
   });
 
-  Collection.fromSnapshot(
-    QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
-  ) : documentId = snapshot.id,
+  Collection.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
+    : documentId = snapshot.id,
       ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,
-      timeCreated = (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
-      date = (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
-      schedule = snapshot.data()[collectionScheduleFieldName] as String,
+      timeCreated =
+          (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
+      dateScheduled =
+          (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
+      scheduleId = snapshot.data()[collectionScheduleIdFieldName] as String,
       description = snapshot.data()[collectionDescriptionFieldName] as String,
       addressId = snapshot.data()[addressIdFieldName] as String,
       stateId = snapshot.data()[collectionStateIdFieldName] as String,
-      mode = snapshot.data()[collectionModeIdFieldName] as String;
+      modeId = snapshot.data()[collectionModeIdFieldName] as String;
 }

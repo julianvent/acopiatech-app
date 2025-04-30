@@ -4,7 +4,6 @@ import 'package:acopiatech/services/cloud/storage_constants.dart';
 import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CollectionStorage {
   // singleton
@@ -51,13 +50,12 @@ class CollectionStorage {
       final document = await collections.add({
         ownerUserIdFieldName: ownerUserId,
         timeCreatedFieldName: timeCreated,
-        collectionScheduleFieldName: schedule,
+        collectionScheduleIdFieldName: schedule,
         collectionDateFieldName: date,
-        collectionEvidenceFieldName: 'fotos',
         collectionDescriptionFieldName: description,
         addressIdFieldName: addressId,
-        collectionStateIdFieldName: 'state_id',
-        collectionModeIdFieldName: 'domicilio',
+        collectionStateIdFieldName: '1',
+        collectionModeIdFieldName: '1',
       });
 
       final fetchedCollection = await document.get();
@@ -76,12 +74,12 @@ class CollectionStorage {
         documentId: fetchedCollection.id,
         ownerUserId: ownerUserId,
         timeCreated: timeCreated,
-        date: date,
-        schedule: schedule,
+        dateScheduled: date,
+        scheduleId: schedule,
         description: description,
         addressId: addressId,
         stateId: 'state_id',
-        mode: 'domicilio',
+        modeId: 'domicilio',
       );
     } on Exception {
       throw CouldNotCreateCollectionException();

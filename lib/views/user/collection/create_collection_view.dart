@@ -16,25 +16,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UserCollectionForm extends StatefulWidget {
-  const UserCollectionForm({super.key});
+class CreateCollectionView extends StatefulWidget {
+  const CreateCollectionView({super.key});
 
   @override
-  State<UserCollectionForm> createState() => _UserCollectionFormState();
+  State<CreateCollectionView> createState() => _CreateCollectionViewState();
 }
 
-enum Turno { matutino, vespertino }
-
-class _UserCollectionFormState extends State<UserCollectionForm> {
-  late final Turno _turnoSeleccionado;
+class _CreateCollectionViewState extends State<CreateCollectionView> {
+  late String _selectedScheduledId;
   late final DateTime _earliestSelectableDate;
   late DateTime _pickedDate;
 
   late final ImagePicker _picker;
   late final List<String> _selectedImages;
 
-  late final String _description;
-  late final TextEditingController _descriptionController;
+  String? _description;
   final _formKey = GlobalKey<FormState>();
 
   Address? _selectedAddress;
@@ -65,9 +62,8 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
 
   @override
   void initState() {
-    _turnoSeleccionado = Turno.matutino;
+    _selectedScheduledId = '1';
     _selectedImages = [];
-    _descriptionController = TextEditingController();
     _earliestSelectableDate = DateTime.timestamp().add(const Duration(days: 2));
     _pickedDate = _earliestSelectableDate;
     _picker = ImagePicker();
@@ -76,7 +72,6 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
 
   @override
   void dispose() {
-    _descriptionController.dispose();
     super.dispose();
   }
 
@@ -113,7 +108,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
-                spacing: 30,
+                spacing: 20,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Turno
@@ -122,22 +117,22 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.left,
                   ),
-                  SegmentedButton<Turno>(
+                  SegmentedButton<String>(
                     multiSelectionEnabled: false,
-                    segments: const <ButtonSegment<Turno>>[
-                      ButtonSegment<Turno>(
-                        value: Turno.matutino,
+                    segments: const <ButtonSegment<String>>[
+                      ButtonSegment<String>(
+                        value: '1',
                         label: Text('Matutino'),
                       ),
-                      ButtonSegment<Turno>(
-                        value: Turno.vespertino,
+                      ButtonSegment<String>(
+                        value: '2',
                         label: Text('Vespertino'),
                       ),
                     ],
-                    selected: <Turno>{_turnoSeleccionado},
-                    onSelectionChanged: (Set<Turno> newTurno) {
+                    selected: <String>{_selectedScheduledId},
+                    onSelectionChanged: (Set<String> newTurno) {
                       setState(() {
-                        _turnoSeleccionado = newTurno.first;
+                        _selectedScheduledId = newTurno.first;
                       });
                     },
                   ),
@@ -161,128 +156,125 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                     ),
                   ),
                   // Datos de recolección
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        spacing: 20,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Datos de recolección',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.left,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      spacing: 20,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Datos de recolección',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
                           ),
-                          // // Evidencias
-                          Text(
-                            'Evidencias',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.left,
+                          textAlign: TextAlign.left,
+                        ),
+                        // // Evidencias
+                        Text(
+                          'Evidencias',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
                           ),
-                          Stack(
-                            children: [
-                              Container(
-                                height: 250,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                ),
-                                padding: const EdgeInsets.all(8.0),
-                                child:
-                                    _selectedImages.isNotEmpty
-                                        // Creamos una cuadrícula de 3 columnas y filas
-                                        ? GridView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 1,
-                                                mainAxisSpacing: 8,
-                                                crossAxisSpacing: 8,
-                                              ),
-                                          itemCount: _selectedImages.length,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                // Mostrar previsualización de la imagen
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (_) {
-                                                    return Dialog(
-                                                      child: Image.file(
-                                                        File(
-                                                          _selectedImages[index],
-                                                        ),
-                                                        fit: BoxFit.cover,
+                          textAlign: TextAlign.left,
+                        ),
+                        Stack(
+                          children: [
+                            Container(
+                              height: 250,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              padding: const EdgeInsets.all(8.0),
+                              child:
+                                  _selectedImages.isNotEmpty
+                                      // Creamos una cuadrícula de 3 columnas y filas
+                                      ? GridView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 1,
+                                              mainAxisSpacing: 8,
+                                              crossAxisSpacing: 8,
+                                            ),
+                                        itemCount: _selectedImages.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              // Mostrar previsualización de la imagen
+                                              showDialog(
+                                                context: context,
+                                                builder: (_) {
+                                                  return Dialog(
+                                                    child: Image.file(
+                                                      File(
+                                                        _selectedImages[index],
                                                       ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: Stack(
-                                                children: [
-                                                  Image.file(
-                                                    File(
-                                                      _selectedImages[index],
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  Positioned(
-                                                    top: 1,
-                                                    right: 1,
-                                                    child: IconButton(
-                                                      icon: const Icon(
-                                                        Icons
-                                                            .disabled_by_default_rounded,
-                                                      ),
-                                                      onPressed: () {
-                                                        removeImage(index);
-                                                      },
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                Image.file(
+                                                  File(_selectedImages[index]),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                Positioned(
+                                                  top: 1,
+                                                  right: 1,
+                                                  child: IconButton(
+                                                    icon: const Icon(
+                                                      Icons
+                                                          .disabled_by_default_rounded,
                                                     ),
+                                                    onPressed: () {
+                                                      removeImage(index);
+                                                    },
                                                   ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        )
-                                        : const Center(
-                                          child: Text(
-                                            'No hay fotos seleccionadas',
-                                            style: TextStyle(fontSize: 16),
-                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      )
+                                      : const Center(
+                                        child: Text(
+                                          'No hay fotos seleccionadas',
+                                          style: TextStyle(fontSize: 16),
                                         ),
+                                      ),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  pickMultiImages();
+                                },
+                                mini: true,
+                                child: const Icon(Icons.add_a_photo),
                               ),
-                              Positioned(
-                                bottom: 10,
-                                left: 10,
-                                child: FloatingActionButton(
-                                  onPressed: () {
-                                    pickMultiImages();
-                                  },
-                                  mini: true,
-                                  child: const Icon(Icons.add_a_photo),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Descripción
-                          UserTextField(
-                            fieldName: 'Descripción',
-                            myIcon: Icons.description_outlined,
-                            prefixiedIconColor: ColorsPalette.hardGreen,
-                            filled: true,
-                            validator: (value) => _validateField(value),
-                            numberOfLines: 5,
-                            onSaved:
-                                (description) => _description = _description,
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        // Descripción
+                        UserTextField(
+                          fieldName: 'Descripción',
+                          myIcon: Icons.description_outlined,
+                          prefixiedIconColor: ColorsPalette.hardGreen,
+                          filled: true,
+                          validator: (value) => _validateField(value),
+                          numberOfLines: 5,
+                          onSaved:
+                              (description) =>
+                                  _description = description!.trim(),
+                        ),
+                      ],
                     ),
                   ),
                   // Dirección
@@ -389,6 +381,7 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
                         if (_selectedImages.isEmpty) {
                           showErrorDialog(
                             context,
@@ -402,9 +395,9 @@ class _UserCollectionFormState extends State<UserCollectionForm> {
                         } else {
                           context.read<CollectionBloc>().add(
                             CollectionEventCreateCollection(
-                              schedule: _turnoSeleccionado.toString(),
+                              schedule: _selectedScheduledId,
                               date: _pickedDate,
-                              description: _descriptionController.text,
+                              description: _description!,
                               images: _selectedImages,
                               addressId: _selectedAddress!.documentId,
                             ),

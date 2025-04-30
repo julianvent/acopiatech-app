@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' show immutable;
-import 'package:image_picker/image_picker.dart';
 
 @immutable
 abstract class CollectionEvent {
