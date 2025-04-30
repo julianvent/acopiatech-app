@@ -85,4 +85,13 @@ class CollectionStorage {
       throw CouldNotCreateCollectionException();
     }
   }
+
+  Future<Collection> getLastCollection({required String ownerUserId}) async {
+    final querySnapshot = await collections
+        .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+        .orderBy(timeCreatedFieldName, descending: true)
+        .limit(1)
+        .get()
+        .then();
+  }
 }

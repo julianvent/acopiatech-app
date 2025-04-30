@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:acopiatech/services/auth/auth_service.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
@@ -27,6 +25,14 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
           isLoading: false,
         ),
       );
+    });
+
+    on<CollectionEventLoadLastCollection>((event, emit) {
+      emit(
+        CollectionStateLoadedLastCollection(collection: null, isLoading: true),
+      );
+
+            
     });
 
     on<CollectionEventCreateCollection>((event, emit) async {

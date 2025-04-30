@@ -1,4 +1,3 @@
-import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -24,9 +23,6 @@ class CollectionListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (collections.isEmpty) {
-      return const Text('No existen recolecciones');
-    }
     return Card(
       child: Stack(
         children: [
@@ -43,53 +39,62 @@ class CollectionListView extends StatelessWidget {
           ),
           Material(
             color: Colors.transparent,
-            child: ListTile(
-              title: Text(
-                'Recolección a domicilio',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Text(
+                      'Recolección a domicilio',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Spacer(),
+                    const Icon(Icons.circle, color: Colors.amber),
+                  ],
+                ),
+                subtitle: Row(
+                  spacing: 15,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 5,
+                        children: [
+                          Text(
+                            'Entregar en:',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            '${getAddress()}',
+                            overflow: TextOverflow.clip,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      '${getStatus()}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              subtitle: Row(
-                spacing: 30,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Entregar en:',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          '${getAddress()}',
-                          overflow: TextOverflow.clip,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    '${getStatus()}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              trailing: const Icon(Icons.circle, color: Colors.amber),
             ),
           ),
         ],

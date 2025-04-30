@@ -9,6 +9,10 @@ class CollectionEventLoadCollections extends CollectionEvent {
   const CollectionEventLoadCollections();
 }
 
+class CollectionEventLoadLastCollection extends CollectionEvent {
+  const CollectionEventLoadLastCollection();
+}
+
 class CollectionEventCreateCollection extends CollectionEvent {
   final String schedule;
   final DateTime date;

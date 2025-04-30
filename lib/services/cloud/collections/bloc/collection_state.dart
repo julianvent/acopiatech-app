@@ -25,6 +25,16 @@ class CollectionStateLoadedCollections extends CollectionState {
   });
 }
 
+class CollectionStateLoadedLastCollection extends CollectionState {
+  final Collection? collection;
+
+  const CollectionStateLoadedLastCollection({
+    required this.collection,
+    required super.isLoading,
+    super.loadingText,
+  });
+}
+
 class CollectionStateCreatingCollection extends CollectionState {
   final Exception? exception;
 
