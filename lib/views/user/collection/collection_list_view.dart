@@ -27,70 +27,49 @@ class CollectionListView extends StatelessWidget {
     if (collections.isEmpty) {
       return const Text('No existen recolecciones');
     }
-    return Container(
-      height: 150,
-      width: double.infinity,
-      child: ListView(
+    return Card(
+      child: Stack(
         children: [
-          Card(
-            margin: EdgeInsets.all(10),
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  bottom: 1,
-                  left: 1,
-                  right: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          ColorsPalette.backgroundHardGreen,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+          Positioned.fill(
+            bottom: 1,
+            left: 1,
+            right: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white60,
+              ),
+            ),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: ListTile(
+              title: Text(
+                'Recolección a domicilio',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
                 ),
-                Material(
-                  color: Colors.transparent,
-                  child: ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Recolección a domicilio',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Spacer(),
-                          Flexible(
-                            child: Text(
-                              getStatus(),
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const Icon(Icons.circle, color: Colors.amber),
-                        ],
-                      ),
-                    ),
-                    subtitle: Column(
+              ),
+              subtitle: Row(
+                spacing: 30,
+                children: [
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Entregar en:\n${getAddress()}',
+                          'Entregar en:',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          '${getAddress()}',
+                          overflow: TextOverflow.clip,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -99,14 +78,18 @@ class CollectionListView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    trailing: Icon(
-                      Icons.more_vert,
-                      color: ColorsPalette.neutralGray,
-                    ),
-                    onTap: () {},
                   ),
-                ),
-              ],
+                  Text(
+                    '${getStatus()}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              trailing: const Icon(Icons.circle, color: Colors.amber),
             ),
           ),
         ],
