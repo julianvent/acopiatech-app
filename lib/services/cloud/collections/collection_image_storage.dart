@@ -28,4 +28,40 @@ class CollectionImageStorage {
       throw CouldNotUploadImageException();
     }
   }
+
+  Future<List<String>> getImages({
+    required String userId,
+    required String documentId,
+  }) async {
+    
+    try {
+      final storageReference = rootReference.child(
+        'collection/images/$userId/$documentId',
+      );
+
+      final ListResult result = await storageReference.listAll();
+      
+      final List<String> imageUrls = await Future.wait(
+        result.items.map((item) async {
+          // Obtenemos las URLs públicas de las imágenes
+          final String downloadUrl = await item.getDownloadURL();
+          return downloadUrl;
+        }).toList(),
+      );
+
+      return imageUrls;
+    } on Exception {
+      throw CouldNotGetImageException();
+    }
+  }
+
+}
+
+class CouldNotGetImageException implements Exception {
+  final String message;
+
+  CouldNotGetImageException([this.message = 'Could not get images.']);
+
+  @override
+  String toString() => 'CouldNotGetImageException: $message';
 }
