@@ -1,5 +1,8 @@
+import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/views/user/collection/user_collection_details_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollectionListGenerateView extends StatelessWidget {
   final Iterable<Collection> collections;
@@ -31,78 +34,92 @@ class CollectionListGenerateView extends StatelessWidget {
         final date =
             '${collection.dateScheduled.day}-${collection.dateScheduled.month}-${collection.dateScheduled.year} ${collection.schedule}';
 
-        return Card(
-          child: Stack(
-            children: [
-              Positioned.fill(
-                bottom: 1,
-                left: 1,
-                right: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white60,
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (_) => BlocProvider.value(
+                      value: BlocProvider.of<CollectionBloc>(context),
+                      child: UserCollectionDetailsView(collection: collection),
+                    ),
+              ),
+            );
+          },
+          child: Card(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  bottom: 1,
+                  left: 1,
+                  right: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white60,
+                    ),
                   ),
                 ),
-              ),
-              Material(
-                color: Colors.transparent,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Container(
-                      margin: EdgeInsets.only(bottom: 10.0),
-                      child: Row(
+                Material(
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Container(
+                        margin: EdgeInsets.only(bottom: 10.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              collection.mode,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Spacer(),
+                            const Icon(Icons.circle, color: Colors.amber),
+                          ],
+                        ),
+                      ),
+                      subtitle: Column(
+                        spacing: 10,
                         children: [
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Icon(Icons.date_range),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(date),
+                              ),
+                            ],
+                          ),
                           Text(
-                            collection.mode,
+                            '$street $number, $neighborhood',
+                            overflow: TextOverflow.clip,
                             style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
                               color: Colors.black,
                             ),
                           ),
-                          Spacer(),
-                          const Icon(Icons.circle, color: Colors.amber),
+                          Text(
+                            collection.status,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    subtitle: Column(
-                      spacing: 10,
-                      children: [
-                        Row(
-                          spacing: 10,
-                          children: [
-                            Icon(Icons.date_range),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(date),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '$street $number, $neighborhood',
-                          overflow: TextOverflow.clip,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          collection.status,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }),
