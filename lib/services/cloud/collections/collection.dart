@@ -8,22 +8,22 @@ class Collection {
   final String ownerUserId;
   final DateTime timeCreated;
   final DateTime dateScheduled;
-  final String scheduleId;
+  final String schedule;
   final String description;
-  final List<String> address;
-  final String stateId;
-  final String modeId;
+  final List<String?> address;
+  final String status;
+  final String mode;
 
   const Collection({
     required this.documentId,
     required this.ownerUserId,
     required this.timeCreated,
     required this.dateScheduled,
-    required this.scheduleId,
+    required this.schedule,
     required this.description,
     required this.address,
-    required this.stateId,
-    required this.modeId,
+    required this.status,
+    required this.mode,
   });
 
   Collection.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
@@ -33,9 +33,9 @@ class Collection {
           (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
       dateScheduled =
           (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
-      scheduleId = snapshot.data()[collectionScheduleIdFieldName] as String,
+      schedule = snapshot.data()[collectionScheduleFieldName] as String,
       description = snapshot.data()[collectionDescriptionFieldName] as String,
-      address = snapshot.data()[addressFieldName] as List<String>,
-      stateId = snapshot.data()[collectionStateIdFieldName] as String,
-      modeId = snapshot.data()[collectionModeIdFieldName] as String;
+      address = List<String?>.from(snapshot.data()[addressFieldName]),
+      status = snapshot.data()[collectionStatusFieldName] as String,
+      mode = snapshot.data()[collectionModeFieldName] as String;
 }

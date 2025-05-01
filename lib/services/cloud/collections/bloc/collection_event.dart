@@ -18,13 +18,17 @@ class CollectionEventCreateCollection extends CollectionEvent {
   final DateTime date;
   final List<String> images;
   final String description;
-  final String addressId;
+  final List<String?> address;
+  final String status;
+  final String mode;
 
   const CollectionEventCreateCollection({
     required this.schedule,
     required this.date,
     required this.description,
     required this.images,
-    required this.addressId,
+    required this.address,
+    required this.status,
+    required this.mode,
   });
 }

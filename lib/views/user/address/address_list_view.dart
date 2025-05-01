@@ -56,7 +56,7 @@ class AddressListView extends StatelessWidget {
                     title: Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        '${address.street} #${address.extNumber}, ${address.neighborhood}',
+                        '${address.street} ${address.extNumber}, ${address.neighborhood}',
                       ),
                     ),
                     subtitle: Column(

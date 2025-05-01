@@ -15,11 +15,14 @@ class CollectionStorage {
   final CollectionImageStorage imageStorage = CollectionImageStorage();
 
   Stream<Iterable<Collection>> allCollections({required String ownerUserId}) =>
-      collections.snapshots().map(
-        (event) => event.docs
-            .map((doc) => Collection.fromSnapshot(doc))
-            .where((collection) => collection.ownerUserId == ownerUserId),
-      );
+      collections
+          .orderBy(timeCreatedFieldName, descending: true)
+          .snapshots()
+          .map(
+            (event) => event.docs
+                .map((doc) => Collection.fromSnapshot(doc))
+                .where((collection) => collection.ownerUserId == ownerUserId),
+          );
 
   Future<Iterable<Collection>> getCollections({
     required String ownerUserId,
@@ -42,7 +45,9 @@ class CollectionStorage {
     required DateTime date,
     required List<String> images,
     required String description,
-    required List<String> address,
+    required List<String?> address,
+    required String status,
+    required String mode,
   }) async {
     final timeCreated = DateTime.timestamp();
 
@@ -50,12 +55,12 @@ class CollectionStorage {
       final document = await collections.add({
         ownerUserIdFieldName: ownerUserId,
         timeCreatedFieldName: timeCreated,
-        collectionScheduleIdFieldName: schedule,
+        collectionScheduleFieldName: schedule,
         collectionDateFieldName: date,
         collectionDescriptionFieldName: description,
         addressFieldName: address,
-        collectionStateIdFieldName: '1',
-        collectionModeIdFieldName: '1',
+        collectionStatusFieldName: status,
+        collectionModeFieldName: mode,
       });
 
       final fetchedCollection = await document.get();
@@ -75,21 +80,24 @@ class CollectionStorage {
         ownerUserId: ownerUserId,
         timeCreated: timeCreated,
         dateScheduled: date,
-        scheduleId: schedule,
+        schedule: schedule,
         description: description,
         address: address,
-        stateId: 'state_id',
-        modeId: 'domicilio',
+        status: status,
+        mode: mode,
       );
     } on Exception {
       throw CouldNotCreateCollectionException();
     }
   }
 
-  Future<Collection> getLastCollection({required String ownerUserId}) async {
+  Future<Collection?> getLastOngoingCollection({
+    required String ownerUserId,
+  }) async {
     try {
-      final querySnapshot = await collections
+      final Iterable<Collection?> querySnapshot = await collections
           .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+          .where(collectionStatusFieldName, isNotEqualTo: 'Cancelada')
           .orderBy(timeCreatedFieldName, descending: true)
           .limit(1)
           .get()
@@ -97,9 +105,22 @@ class CollectionStorage {
             (value) => value.docs.map((doc) => Collection.fromSnapshot(doc)),
           );
 
-      return querySnapshot.first;
+      // return last collection
+      if (querySnapshot.isNotEmpty) {
+        return querySnapshot.first;
+      }
+      return null;
     } on Exception {
       throw CouldNotGetCollectionException();
     }
   }
+
+  Stream<Iterable<Collection>> allUserOngoingCollections({
+    required String ownerUserId,
+  }) => collections
+      .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+      .where(collectionStatusFieldName, isEqualTo: 'En camino')
+      .orderBy(timeCreatedFieldName, descending: true)
+      .snapshots()
+      .map((event) => event.docs.map((doc) => Collection.fromSnapshot(doc)));
 }

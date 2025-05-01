@@ -8,10 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CollectionListView extends StatelessWidget {
   final Collection? collection;
 
-  const CollectionListView({
-    super.key,
-    required this.collection,
-  });
+  const CollectionListView({super.key, required this.collection});
   // final Callback onDeleteCollections;
   // final Callback onTap;
   String getAddress() {
@@ -25,8 +22,15 @@ class CollectionListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (collection == null) {
-      return const Text('No existen recolecciones');
+      return const Text('No cuentas con direcciones registradas.');
     }
+
+    final String? street = collection?.address.elementAt(0);
+    final String number =
+        '${collection?.address.elementAt(1)} ${collection?.address.elementAt(2)}'
+            .trim();
+    final String? neighborhood = collection?.address.elementAt(3);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -35,9 +39,7 @@ class CollectionListView extends StatelessWidget {
             builder:
                 (_) => BlocProvider.value(
                   value: BlocProvider.of<CollectionBloc>(context),
-                  child: UserCollectionDetailsView(
-                    collection: collection!,
-                  ),
+                  child: UserCollectionDetailsView(collection: collection!),
                 ),
           ),
         );
@@ -58,53 +60,65 @@ class CollectionListView extends StatelessWidget {
             ),
             Material(
               color: Colors.transparent,
-              child: ListTile(
-                title: Text(
-                  'Recolección a domicilio',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  title: Container(
+                    margin: EdgeInsets.only(bottom: 10.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          collection!.timeCreated.toIso8601String(),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Spacer(),
+                        const Icon(Icons.circle, color: Colors.amber),
+                      ],
+                    ),
+                  ),
+                  subtitle: Row(
+                    spacing: 30,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5,
+                          children: [
+                            Text(
+                              'Entregar en:',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              '$street #$number $neighborhood',
+                              overflow: TextOverflow.clip,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        collection!.status,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                subtitle: Row(
-                  spacing: 30,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Entregar en:',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            collection!.address,
-                            overflow: TextOverflow.clip,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      '${getStatus()}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: const Icon(Icons.circle, color: Colors.amber),
               ),
             ),
           ],

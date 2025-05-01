@@ -12,25 +12,47 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
         CollectionStateLoadedCollections(
           collectionsStream: null,
           lastCollection: null,
+          ongoingCollectionsStream: null,
           isLoading: true,
+          exception: null,
         ),
       );
+
       final currentUser = await AuthService.firebase().currentUser;
-      final collectionsStream = collectionService.allCollections(
-        ownerUserId: currentUser!.id,
-      );
+      final userId = currentUser!.id;
 
-      final lastCollection = await collectionService.getLastCollection(
-        ownerUserId: currentUser.id,
-      );
+      try {
+        final collectionsStream = collectionService.allCollections(
+          ownerUserId: userId,
+        );
 
-      emit(
-        CollectionStateLoadedCollections(
-          collectionsStream: collectionsStream,
-          lastCollection: lastCollection,
-          isLoading: false,
-        ),
-      );
+        final lastCollection = await collectionService.getLastOngoingCollection(
+          ownerUserId: userId,
+        );
+
+        final ongoingCollectionsStream = collectionService
+            .allUserOngoingCollections(ownerUserId: userId);
+
+        emit(
+          CollectionStateLoadedCollections(
+            collectionsStream: collectionsStream,
+            lastCollection: lastCollection,
+            ongoingCollectionsStream: ongoingCollectionsStream,
+            isLoading: false,
+            exception: null,
+          ),
+        );
+      } on Exception catch (e) {
+        emit(
+          CollectionStateLoadedCollections(
+            collectionsStream: null,
+            lastCollection: null,
+            ongoingCollectionsStream: null,
+            isLoading: false,
+            exception: e,
+          ),
+        );
+      }
     });
 
     on<CollectionEventLoadLastCollection>((event, emit) async {
@@ -39,10 +61,10 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       );
 
       final currentUser = await AuthService.firebase().currentUser;
-      final lastCollection = await collectionService.getLastCollection(
+      final lastCollection = await collectionService.getLastOngoingCollection(
         ownerUserId: currentUser!.id,
       );
-      
+
       emit(
         CollectionStateLoadedLastCollection(
           collection: lastCollection,
@@ -61,7 +83,9 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
           date: event.date,
           description: event.description,
           images: event.images,
-          addressId: event.addressId,
+          address: event.address,
+          status: event.status,
+          mode: event.mode,
         );
         emit(
           CollectionStateCreatingCollection(isLoading: false, exception: null),

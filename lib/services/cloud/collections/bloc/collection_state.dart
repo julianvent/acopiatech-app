@@ -19,11 +19,15 @@ class CollectionStateUnintialized extends CollectionState {
 class CollectionStateLoadedCollections extends CollectionState {
   final Stream<Iterable<Collection>>? collectionsStream;
   final Collection? lastCollection;
+  final Stream<Iterable<Collection>>? ongoingCollectionsStream;
+  final Exception? exception;
 
   const CollectionStateLoadedCollections({
     required this.collectionsStream,
     required this.lastCollection,
+    required this.ongoingCollectionsStream,
     required super.isLoading,
+    required this.exception,
   });
 }
 

@@ -24,7 +24,7 @@ class CreateCollectionView extends StatefulWidget {
 }
 
 class _CreateCollectionViewState extends State<CreateCollectionView> {
-  late String _selectedScheduledId;
+  late String _selectedScheduled;
   late final DateTime _earliestSelectableDate;
   late DateTime _pickedDate;
 
@@ -62,9 +62,9 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
 
   @override
   void initState() {
-    _selectedScheduledId = '1';
+    _selectedScheduled = 'Matutino';
     _selectedImages = [];
-    _earliestSelectableDate = DateTime.timestamp().add(const Duration(days: 2));
+    _earliestSelectableDate = DateTime.now().add(const Duration(days: 2));
     _pickedDate = _earliestSelectableDate;
     _picker = ImagePicker();
     super.initState();
@@ -84,6 +84,9 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
             LoadingScreen().show(context: context, text: 'Espere un momento');
           } else {
             LoadingScreen().hide();
+            context.read<CollectionBloc>().add(
+              CollectionEventLoadCollections(),
+            );
             Navigator.pop(context);
           }
 
@@ -121,18 +124,18 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                     multiSelectionEnabled: false,
                     segments: const <ButtonSegment<String>>[
                       ButtonSegment<String>(
-                        value: '1',
+                        value: 'Matutino',
                         label: Text('Matutino'),
                       ),
                       ButtonSegment<String>(
-                        value: '2',
+                        value: 'Vespertino',
                         label: Text('Vespertino'),
                       ),
                     ],
-                    selected: <String>{_selectedScheduledId},
+                    selected: <String>{_selectedScheduled},
                     onSelectionChanged: (Set<String> newTurno) {
                       setState(() {
-                        _selectedScheduledId = newTurno.first;
+                        _selectedScheduled = newTurno.first;
                       });
                     },
                   ),
@@ -315,7 +318,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                                         bottom: 10.0,
                                       ),
                                       child: Text(
-                                        '${_selectedAddress!.street} #${_selectedAddress!.extNumber}, ${_selectedAddress!.neighborhood}',
+                                        '${_selectedAddress!.street} ${_selectedAddress!.extNumber}, ${_selectedAddress!.neighborhood}',
                                       ),
                                     ),
                                     subtitle: Column(
@@ -393,15 +396,21 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                             'Por favor, selecciona una dirección para crear una recolección.',
                           );
                         } else {
-                          final String addressString =
-                              '${_selectedAddress!.street}, ${_selectedAddress!.extNumber}, ${_selectedAddress!.intNumber}, ${_selectedAddress!.neighborhood}';
+                          final List<String?> address = [
+                            _selectedAddress!.street,
+                            _selectedAddress!.extNumber,
+                            _selectedAddress!.intNumber,
+                            _selectedAddress!.neighborhood,
+                          ];
                           context.read<CollectionBloc>().add(
                             CollectionEventCreateCollection(
-                              schedule: _selectedScheduledId,
+                              schedule: _selectedScheduled,
                               date: _pickedDate,
                               description: _description!,
                               images: _selectedImages,
-                              addressId: addressString,
+                              address: address,
+                              status: 'Recibida',
+                              mode: 'Recolección a domicilio',
                             ),
                           );
                         }

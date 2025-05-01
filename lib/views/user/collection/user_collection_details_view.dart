@@ -31,7 +31,7 @@ class UserCollectionDetailsView extends StatelessWidget {
         actions: <Widget>[
           Center(
             child:
-                collection.stateId == "2"
+                collection.status == "2"
                     ? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(

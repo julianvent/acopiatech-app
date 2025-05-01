@@ -3,10 +3,10 @@ const timeCreatedFieldName = 'time_created';
 
 // collection constants
 const collectionDateFieldName = 'date_scheduled';
-const collectionScheduleIdFieldName = 'schedule_id';
+const collectionScheduleFieldName = 'schedule';
 const collectionDescriptionFieldName = 'description';
-const collectionStateIdFieldName = 'state_id';
-const collectionModeIdFieldName = 'mode_id';
+const collectionStatusFieldName = 'status';
+const collectionModeFieldName = 'mode';
 
 // address constants
 const addressFieldName = 'address';
