@@ -41,10 +41,31 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                             if (snapshot.hasData) {
                               final collections =
                                   snapshot.data as Iterable<Collection>;
-                              return CollectionListGenerateView(
-                                collections: collections,
-                                length: collections.length,
-                              );
+                              if (collections.isNotEmpty) {
+                                return CollectionListGenerateView(
+                                  collections: collections,
+                                  length: collections.length,
+                                );
+                              } else {
+                                return Center(
+                                  child: Column(
+                                    spacing: 20,
+                                    children: [
+                                      Text(
+                                        'No cuentas con ninguna recolección\n'
+                                        '¡Crear una recolección!',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      Icon(
+                                        Icons.recycling,
+                                        size: 100,
+                                        color: ColorsPalette.lightGreen,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
                             } else {
                               return const CircularProgressIndicator();
                             }
@@ -54,22 +75,7 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                       },
                     );
                   } else {
-                    return Column(
-                      spacing: 20,
-                      children: [
-                        Text(
-                          'No cuentas con ninguna recolección\n'
-                          '¡Crear una recolección!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Icon(
-                          Icons.recycling,
-                          size: 100,
-                          color: ColorsPalette.lightGreen,
-                        ),
-                      ],
-                    );
+                    return const CircularProgressIndicator();
                   }
                 },
               ),
