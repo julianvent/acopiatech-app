@@ -45,6 +45,7 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                                 return CollectionListGenerateView(
                                   collections: collections,
                                   length: collections.length,
+                                  onTap: (collection) {},
                                 );
                               } else {
                                 return Center(

@@ -1,6 +1,8 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/images/collection_images_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
@@ -100,6 +102,7 @@ class CollectionDetailsView extends StatelessWidget {
               spacing: 20,
               children: [
                 Container(
+                  width: double.maxFinite,
                   alignment: Alignment.centerLeft,
                   child: Text(
                     collection.mode,
@@ -108,6 +111,7 @@ class CollectionDetailsView extends StatelessWidget {
                 ),
                 // Mapa & Estado de la recolección
                 Container(
+                  width: double.maxFinite,
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(color: Colors.grey, width: 0.3),
@@ -168,6 +172,7 @@ class CollectionDetailsView extends StatelessWidget {
                 ),
                 // ------ Detalles de la recolección ------
                 Container(
+                  width: double.maxFinite,
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(color: Colors.grey, width: 0.3),
@@ -254,12 +259,13 @@ class CollectionDetailsView extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder:
-                              (_) => BlocProvider.value(
-                                value: BlocProvider.of<CollectionBloc>(context),
+                              (_) => BlocProvider(
+                                create:
+                                    (context) => CollectionImagesBloc(
+                                      CollectionImageStorage(),
+                                    ),
                                 child: CollectionGalleryView(
-                                  // Cambiar por la lista de imágenes de la recolección
-                                  // images: collection.images,
-                                  images: ['assets/images/LogoAcopiaTech.png'],
+                                  collection: collection,
                                 ),
                               ),
                         ),
