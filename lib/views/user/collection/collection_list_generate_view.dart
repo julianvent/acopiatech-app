@@ -80,43 +80,22 @@ class CollectionListGenerateView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          spacing: 30,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 5,
-                                children: [
-                                  Text(
-                                    'Entregar en:',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Text(
-                                    '$street $number, $neighborhood',
-                                    overflow: TextOverflow.clip,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              collection.status,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          '$street $number, $neighborhood',
+                          overflow: TextOverflow.clip,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          collection.status,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
                         ),
                       ],
                     ),
