@@ -1,5 +1,4 @@
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 
 class UserShopView extends StatefulWidget {
@@ -16,7 +15,7 @@ class _UserShopViewState extends State<UserShopView> {
       body: Column(
         children: [
           Container(
-            height: 150,
+            height: 100,
             width: double.infinity,
             decoration: const BoxDecoration(
               color: ColorsPalette.backgroundDarkGreen,
@@ -83,21 +82,26 @@ class _UserShopViewState extends State<UserShopView> {
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     child: Row(
                       spacing: 10,
                       children: [
                         Text(
                           "Nuestros productos",
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: ColorsPalette.darkGreen,
                           ),
                         ),
+                        Spacer(),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.shopping_cart_rounded),
+                          icon: Icon(
+                            Icons.shopping_cart_rounded,
+                            size: 30,
+                            fill: 1.0,
+                          ),
                         ),
                       ],
                     ),
@@ -107,7 +111,7 @@ class _UserShopViewState extends State<UserShopView> {
                     child: CarouselView(
                       scrollDirection: Axis.horizontal,
                       itemExtent: 200,
-                      children: List<Widget>.generate(10, (int index) {
+                      children: List<Widget>.generate(5, (int index) {
                         return Container(color: ColorsPalette.lightGreen);
                       }),
                     ),
