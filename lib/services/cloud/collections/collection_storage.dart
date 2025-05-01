@@ -42,7 +42,7 @@ class CollectionStorage {
     required DateTime date,
     required List<String> images,
     required String description,
-    required String addressId,
+    required List<String> address,
   }) async {
     final timeCreated = DateTime.timestamp();
 
@@ -53,7 +53,7 @@ class CollectionStorage {
         collectionScheduleIdFieldName: schedule,
         collectionDateFieldName: date,
         collectionDescriptionFieldName: description,
-        addressIdFieldName: addressId,
+        addressFieldName: address,
         collectionStateIdFieldName: '1',
         collectionModeIdFieldName: '1',
       });
@@ -77,7 +77,7 @@ class CollectionStorage {
         dateScheduled: date,
         scheduleId: schedule,
         description: description,
-        addressId: addressId,
+        address: address,
         stateId: 'state_id',
         modeId: 'domicilio',
       );
@@ -87,11 +87,19 @@ class CollectionStorage {
   }
 
   Future<Collection> getLastCollection({required String ownerUserId}) async {
-    final querySnapshot = await collections
-        .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
-        .orderBy(timeCreatedFieldName, descending: true)
-        .limit(1)
-        .get()
-        .then();
+    try {
+      final querySnapshot = await collections
+          .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+          .orderBy(timeCreatedFieldName, descending: true)
+          .limit(1)
+          .get()
+          .then(
+            (value) => value.docs.map((doc) => Collection.fromSnapshot(doc)),
+          );
+
+      return querySnapshot.first;
+    } on Exception {
+      throw CouldNotGetCollectionException();
+    }
   }
 }

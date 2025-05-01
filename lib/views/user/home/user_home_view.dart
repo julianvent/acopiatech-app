@@ -72,12 +72,10 @@ class _UserHomeViewState extends State<UserHomeView> {
                                       case ConnectionState.waiting:
                                       case ConnectionState.active:
                                         if (snapshot.hasData) {
-                                          final allCollections =
-                                              snapshot.data
-                                                  as Iterable<Collection>;
+                                          final lastCollection =
+                                              state.lastCollection!;
                                           return CollectionListView(
-                                            collections: allCollections,
-                                            itemCount: 1,
+                                            collection: lastCollection,
                                           );
                                         } else {
                                           return const CircularProgressIndicator();

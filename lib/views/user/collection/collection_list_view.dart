@@ -1,4 +1,3 @@
-import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/user/collection/user_collection_details_view.dart';
@@ -7,13 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // typedef Callback = void Function(Collection collections);
 class CollectionListView extends StatelessWidget {
-  final Iterable<Collection> collections;
-  final int itemCount;
+  final Collection? collection;
 
   const CollectionListView({
     super.key,
-    required this.collections,
-    required this.itemCount,
+    required this.collection,
   });
   // final Callback onDeleteCollections;
   // final Callback onTap;
@@ -27,7 +24,7 @@ class CollectionListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (collections.isEmpty) {
+    if (collection == null) {
       return const Text('No existen recolecciones');
     }
     return GestureDetector(
@@ -39,7 +36,7 @@ class CollectionListView extends StatelessWidget {
                 (_) => BlocProvider.value(
                   value: BlocProvider.of<CollectionBloc>(context),
                   child: UserCollectionDetailsView(
-                    collection: collections.first,
+                    collection: collection!,
                   ),
                 ),
           ),
@@ -86,7 +83,7 @@ class CollectionListView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${getAddress()}',
+                            collection!.address,
                             overflow: TextOverflow.clip,
                             style: const TextStyle(
                               fontSize: 14,

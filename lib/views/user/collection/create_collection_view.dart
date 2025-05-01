@@ -393,13 +393,15 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                             'Por favor, selecciona una dirección para crear una recolección.',
                           );
                         } else {
+                          final String addressString =
+                              '${_selectedAddress!.street}, ${_selectedAddress!.extNumber}, ${_selectedAddress!.intNumber}, ${_selectedAddress!.neighborhood}';
                           context.read<CollectionBloc>().add(
                             CollectionEventCreateCollection(
                               schedule: _selectedScheduledId,
                               date: _pickedDate,
                               description: _description!,
                               images: _selectedImages,
-                              addressId: _selectedAddress!.documentId,
+                              addressId: addressString,
                             ),
                           );
                         }

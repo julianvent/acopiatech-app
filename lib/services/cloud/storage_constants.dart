@@ -9,6 +9,7 @@ const collectionStateIdFieldName = 'state_id';
 const collectionModeIdFieldName = 'mode_id';
 
 // address constants
+const addressFieldName = 'address';
 const addressIdFieldName = 'address_id';
 const addressStreetFieldName = 'street';
 const addressExtNumberFieldName = 'ext_number';

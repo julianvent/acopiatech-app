@@ -164,7 +164,7 @@ class UserCollectionDetailsView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${collection.addressId}", // getAddress(),
+                      "${collection.address}", // getAddress(),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

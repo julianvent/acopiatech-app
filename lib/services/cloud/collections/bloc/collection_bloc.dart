@@ -11,6 +11,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       emit(
         CollectionStateLoadedCollections(
           collectionsStream: null,
+          lastCollection: null,
           isLoading: true,
         ),
       );
@@ -19,20 +20,35 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
         ownerUserId: currentUser!.id,
       );
 
+      final lastCollection = await collectionService.getLastCollection(
+        ownerUserId: currentUser.id,
+      );
+
       emit(
         CollectionStateLoadedCollections(
           collectionsStream: collectionsStream,
+          lastCollection: lastCollection,
           isLoading: false,
         ),
       );
     });
 
-    on<CollectionEventLoadLastCollection>((event, emit) {
+    on<CollectionEventLoadLastCollection>((event, emit) async {
       emit(
         CollectionStateLoadedLastCollection(collection: null, isLoading: true),
       );
 
-            
+      final currentUser = await AuthService.firebase().currentUser;
+      final lastCollection = await collectionService.getLastCollection(
+        ownerUserId: currentUser!.id,
+      );
+      
+      emit(
+        CollectionStateLoadedLastCollection(
+          collection: lastCollection,
+          isLoading: false,
+        ),
+      );
     });
 
     on<CollectionEventCreateCollection>((event, emit) async {

@@ -10,7 +10,7 @@ class Collection {
   final DateTime dateScheduled;
   final String scheduleId;
   final String description;
-  final String addressId;
+  final List<String> address;
   final String stateId;
   final String modeId;
 
@@ -21,7 +21,7 @@ class Collection {
     required this.dateScheduled,
     required this.scheduleId,
     required this.description,
-    required this.addressId,
+    required this.address,
     required this.stateId,
     required this.modeId,
   });
@@ -35,7 +35,7 @@ class Collection {
           (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
       scheduleId = snapshot.data()[collectionScheduleIdFieldName] as String,
       description = snapshot.data()[collectionDescriptionFieldName] as String,
-      addressId = snapshot.data()[addressIdFieldName] as String,
+      address = snapshot.data()[addressFieldName] as List<String>,
       stateId = snapshot.data()[collectionStateIdFieldName] as String,
       modeId = snapshot.data()[collectionModeIdFieldName] as String;
 }
