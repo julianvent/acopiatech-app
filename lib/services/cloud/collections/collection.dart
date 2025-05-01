@@ -1,4 +1,5 @@
 import 'package:acopiatech/services/cloud/storage_constants.dart';
+import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class Collection {
   final String schedule;
   final String description;
   final List<String?> address;
-  final String status;
+  final CollectionStatus status;
   final String mode;
 
   const Collection({
@@ -36,6 +37,10 @@ class Collection {
       schedule = snapshot.data()[collectionScheduleFieldName] as String,
       description = snapshot.data()[collectionDescriptionFieldName] as String,
       address = List<String?>.from(snapshot.data()[addressFieldName]),
-      status = snapshot.data()[collectionStatusFieldName] as String,
+      status = CollectionStatus.values.firstWhere(
+        (status) =>
+            status.name ==
+            snapshot.data()[collectionStatusFieldName] as String,
+      ),
       mode = snapshot.data()[collectionModeFieldName] as String;
 }

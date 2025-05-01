@@ -1,6 +1,6 @@
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
-import 'package:acopiatech/views/user/collection/user_collection_details_view.dart';
+import 'package:acopiatech/views/user/collection/collection_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,7 +39,7 @@ class CollectionListView extends StatelessWidget {
             builder:
                 (_) => BlocProvider.value(
                   value: BlocProvider.of<CollectionBloc>(context),
-                  child: UserCollectionDetailsView(collection: collection!),
+                  child: CollectionDetailsView(collection: collection!),
                 ),
           ),
         );
@@ -109,7 +109,7 @@ class CollectionListView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        collection!.status,
+                        collection!.status.status,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

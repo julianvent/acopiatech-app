@@ -9,6 +9,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
+import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
@@ -409,7 +410,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                               description: _description!,
                               images: _selectedImages,
                               address: address,
-                              status: 'Recibida',
+                              status: CollectionStatus.recibida,
                               mode: 'Recolección a domicilio',
                             ),
                           );

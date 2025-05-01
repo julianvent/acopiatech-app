@@ -1,4 +1,3 @@
-import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -37,29 +36,7 @@ class CollectionListGenerateView extends StatelessWidget {
             '${collection.dateScheduled.day}-${collection.dateScheduled.month}-${collection.dateScheduled.year} ${collection.schedule}';
 
         // get current status
-        final Color statusColor;
-        switch (collection.status) {
-          case 'Recibida':
-            statusColor = ColorsPalette.statusRecibida;
-            break;
-          case 'En camino':
-            statusColor = ColorsPalette.statusEnCamino;
-            break;
-          case 'Lista para recolección':
-            statusColor = ColorsPalette.statusLista;
-            break;
-          case 'Cancelada':
-            statusColor = ColorsPalette.statusCancelada;
-            break;
-          case 'En evaluación':
-            statusColor = ColorsPalette.statusEvaluacion;
-            break;
-          case 'Finalizada':
-            statusColor = ColorsPalette.statusFinalizada;
-            break;
-          default:
-            statusColor = Colors.yellow;
-        }
+        final Color statusColor = collection.status.color;
 
         return Card(
           child: Stack(
@@ -80,6 +57,7 @@ class CollectionListGenerateView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
+                    onTap: () => onTap(collection),
                     title: Container(
                       margin: EdgeInsets.only(bottom: 10.0),
                       child: Row(
@@ -103,7 +81,7 @@ class CollectionListGenerateView extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              collection.status,
+                              collection.status.status,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,

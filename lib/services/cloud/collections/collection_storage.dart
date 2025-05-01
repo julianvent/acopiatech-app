@@ -3,6 +3,7 @@ import 'package:acopiatech/services/cloud/collections/collection_image_storage.d
 import 'package:acopiatech/services/cloud/storage_constants.dart';
 import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CollectionStorage {
@@ -46,7 +47,7 @@ class CollectionStorage {
     required List<String> images,
     required String description,
     required List<String?> address,
-    required String status,
+    required CollectionStatus status,
     required String mode,
   }) async {
     final timeCreated = DateTime.timestamp();
@@ -59,7 +60,7 @@ class CollectionStorage {
         collectionDateFieldName: date,
         collectionDescriptionFieldName: description,
         addressFieldName: address,
-        collectionStatusFieldName: status,
+        collectionStatusFieldName: status.name,
         collectionModeFieldName: mode,
       });
 
@@ -119,7 +120,10 @@ class CollectionStorage {
     required String ownerUserId,
   }) => collections
       .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
-      .where(collectionStatusFieldName, isEqualTo: 'En camino')
+      .where(
+        collectionStatusFieldName,
+        isEqualTo: CollectionStatus.enCamino.name,
+      )
       .orderBy(timeCreatedFieldName, descending: true)
       .snapshots()
       .map((event) => event.docs.map((doc) => Collection.fromSnapshot(doc)));

@@ -1,3 +1,4 @@
+import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:flutter/material.dart' show immutable;
 
 @immutable
@@ -19,7 +20,7 @@ class CollectionEventCreateCollection extends CollectionEvent {
   final List<String> images;
   final String description;
   final List<String?> address;
-  final String status;
+  final CollectionStatus status;
   final String mode;
 
   const CollectionEventCreateCollection({
