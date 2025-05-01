@@ -17,7 +17,7 @@ class CollectionListGenerateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (collections.isEmpty) {
-      return const Text('No cuentas con recolecciones.');
+      return Center(child: const Text('No cuentas con recolecciones.'));
     }
     return Column(
       children: List.generate(length, (index) {
