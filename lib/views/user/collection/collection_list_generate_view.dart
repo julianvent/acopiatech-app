@@ -1,14 +1,19 @@
+import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:flutter/material.dart';
+
+typedef CollectionCallback = void Function(Collection collection);
 
 class CollectionListGenerateView extends StatelessWidget {
   final Iterable<Collection> collections;
   final int length;
+  final CollectionCallback onTap;
 
   const CollectionListGenerateView({
     super.key,
     required this.collections,
     required this.length,
+    required this.onTap,
   });
 
   @override
@@ -30,6 +35,31 @@ class CollectionListGenerateView extends StatelessWidget {
         // date
         final date =
             '${collection.dateScheduled.day}-${collection.dateScheduled.month}-${collection.dateScheduled.year} ${collection.schedule}';
+
+        // get current status
+        final Color statusColor;
+        switch (collection.status) {
+          case 'Recibida':
+            statusColor = ColorsPalette.statusRecibida;
+            break;
+          case 'En camino':
+            statusColor = ColorsPalette.statusEnCamino;
+            break;
+          case 'Lista para recolección':
+            statusColor = ColorsPalette.statusLista;
+            break;
+          case 'Cancelada':
+            statusColor = ColorsPalette.statusCancelada;
+            break;
+          case 'En evaluación':
+            statusColor = ColorsPalette.statusEvaluacion;
+            break;
+          case 'Finalizada':
+            statusColor = ColorsPalette.statusFinalizada;
+            break;
+          default:
+            statusColor = Colors.yellow;
+        }
 
         return Card(
           child: Stack(
@@ -63,7 +93,7 @@ class CollectionListGenerateView extends StatelessWidget {
                             ),
                           ),
                           Spacer(),
-                          const Icon(Icons.circle, color: Colors.amber),
+                          Icon(Icons.circle, color: statusColor),
                         ],
                       ),
                     ),
@@ -71,31 +101,35 @@ class CollectionListGenerateView extends StatelessWidget {
                       spacing: 10,
                       children: [
                         Row(
-                          spacing: 10,
                           children: [
-                            Icon(Icons.date_range),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(date),
+                            Text(
+                              collection.status,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ],
                         ),
-                        Text(
-                          '$street $number, $neighborhood',
-                          overflow: TextOverflow.clip,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
+                        Row(
+                          spacing: 10,
+                          children: [Icon(Icons.date_range), Text(date)],
                         ),
-                        Text(
-                          collection.status,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Icon(Icons.location_on),
+                            Flexible(
+                              child: Text(
+                                '$street $number, $neighborhood',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

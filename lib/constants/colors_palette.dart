@@ -12,5 +12,13 @@ class ColorsPalette {
   static const darkCian = Color(0XFF004668);
   static const lightCian = Color(0XFF016887);
 
-  static const neutralGray = Color(0XFF2E2E2E);
+  static const neutralGray = Color(0xFF2E2E2E);
+
+  // collection status colors
+  static const statusRecibida = Color.fromRGBO(255, 165, 0, 1);
+  static const statusLista = Color.fromRGBO(0, 128, 0, 1);
+  static const statusEnCamino = lightCian;
+  static const statusCancelada = Color.fromRGBO(255, 33, 33, 1);
+  static const statusEvaluacion = Color.fromRGBO(255, 165, 0, 1);
+  static const statusFinalizada = Color.fromRGBO(68, 68, 68, 1);
 }

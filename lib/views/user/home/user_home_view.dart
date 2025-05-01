@@ -8,6 +8,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
+import 'package:acopiatech/views/user/collection/user_collection_details_view.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,19 @@ class UserHomeView extends StatefulWidget {
 class _UserHomeViewState extends State<UserHomeView> {
   late final userlastCollection = null;
   late final userCollectionOnGoing = [];
+
+  void onTap({required Collection collection}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (_) => BlocProvider.value(
+              value: BlocProvider.of<CollectionBloc>(context),
+              child: UserCollectionDetailsView(collection: collection),
+            ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +80,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                     return CollectionListGenerateView(
                                       collections: collections,
                                       length: 1,
+                                      onTap: (collection) {},
                                     );
                                   } else {
                                     return const CircularProgressIndicator();
@@ -143,6 +158,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                     return CollectionListGenerateView(
                                       collections: allOngoingCollections,
                                       length: 1,
+                                      onTap: (collection) {},
                                     );
                                   } else {
                                     return const Text(

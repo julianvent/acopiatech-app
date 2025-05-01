@@ -67,7 +67,6 @@ class HomePage extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        // where scaffold = actual view
         if (state is AuthStateLoggedIn || state is AuthStateLoggedInAsAdmin) {
           return MultiBlocProvider(
             providers: [
