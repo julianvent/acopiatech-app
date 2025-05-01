@@ -1,6 +1,8 @@
+import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/views/user/collection/images/images_list_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -214,7 +216,20 @@ class UserCollectionDetailsView extends StatelessWidget {
             Container(
               width: 170,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (_) => BlocProvider.value(
+                            value: BlocProvider.of<CollectionBloc>(context),
+                            child: ImageListView(
+                              images: ['assets/images/LogoAcopiaTech.png'],
+                            ),
+                          ),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -229,7 +244,11 @@ class UserCollectionDetailsView extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      Icon(Icons.photo, color: Colors.black, size: 20),
+                      Icon(
+                        Icons.photo,
+                        color: ColorsPalette.darkCian,
+                        size: 20,
+                      ),
                     ],
                   ),
                 ),
@@ -238,7 +257,35 @@ class UserCollectionDetailsView extends StatelessWidget {
             Container(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        surfaceTintColor: ColorsPalette.darkCian,
+                        title: Text("Cancelar recolección"),
+                        content: Text(
+                          "¿Estás seguro de que deseas cancelar la recolección?",
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("No"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Implementar la lógica para cancelar la recolección
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Sí"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 child: Text('Cancelar recolección'),
               ),
             ),
