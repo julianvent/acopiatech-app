@@ -3,6 +3,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart'
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/views/user/collection/collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,22 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                                 return CollectionListGenerateView(
                                   collections: collections,
                                   length: collections.length,
-                                  onTap: (collection) {},
+                                  onTap: (collection) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (_) => BlocProvider.value(
+                                              value: BlocProvider.of<
+                                                CollectionBloc
+                                              >(context),
+                                              child: CollectionDetailsView(
+                                                collection: collection,
+                                              ),
+                                            ),
+                                      ),
+                                    );
+                                  },
                                 );
                               } else {
                                 return Center(
