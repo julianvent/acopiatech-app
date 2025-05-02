@@ -4,12 +4,21 @@ import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddressStorage {
-  AddressStorage._sharedInstance();
-  static final AddressStorage _shared =
-      AddressStorage._sharedInstance();
-  factory AddressStorage() => _shared;
+  final FirebaseFirestore _firestore;
 
-  final addresses = FirebaseFirestore.instance.collection('address');
+  AddressStorage._sharedInstance(this._firestore);
+
+  static AddressStorage? _shared;
+
+  factory AddressStorage({FirebaseFirestore? firestore}) {
+    _shared ??= AddressStorage._sharedInstance(
+      firestore ?? FirebaseFirestore.instance,
+    );
+    return _shared!;
+  }
+
+  CollectionReference<Map<String, dynamic>> get addresses =>
+      _firestore.collection('address');
 
   Stream<Iterable<Address>> allAddresses({required String ownerUserId}) =>
       addresses.snapshots().map(
