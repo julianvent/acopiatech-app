@@ -20,15 +20,12 @@ class AddressStorage {
   CollectionReference<Map<String, dynamic>> get addresses =>
       _firestore.collection('address');
 
-  Stream<Iterable<Address>> allAddresses({required String ownerUserId}) =>
-      addresses.snapshots().map(
-        (event) => event.docs
-            .map((doc) => Address.fromSnapshot(doc))
-            .where(
-              (address) =>
-                  address.ownerUserId == ownerUserId && !address.isDeleted,
-            ),
-      );
+  Stream<Iterable<Address>> allAddressByOwner({required String ownerUserId}) =>
+      addresses
+          .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+          .where(addressIsDeletedFieldName, isEqualTo: false)
+          .snapshots()
+          .map((event) => event.docs.map((doc) => Address.fromSnapshot(doc)));
 
   Future<Address> createNewAddress({
     required String ownerUserId,

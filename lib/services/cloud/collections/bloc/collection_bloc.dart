@@ -2,7 +2,6 @@ import 'package:acopiatech/services/auth/auth_service.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
@@ -24,10 +23,10 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       final userRole = currentUser.role ?? 'user';
 
       try {
-        final collectionsStream = collectionService.allCollections(
-          ownerUserId: userId,
-          role: userRole,
-        );
+        final collectionsStream =
+            userRole == 'admin'
+                ? collectionService.allCollections(ownerUserId: userId)
+                : collectionService.allCollectionsByOwner(ownerUserId: userId);
 
         final lastCollection = await collectionService.getLastOngoingCollection(
           ownerUserId: userId,
