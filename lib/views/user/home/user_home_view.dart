@@ -13,6 +13,7 @@ import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class UserHomeView extends StatefulWidget {
   const UserHomeView({super.key});
@@ -22,6 +23,14 @@ class UserHomeView extends StatefulWidget {
 }
 
 class _UserHomeViewState extends State<UserHomeView> {
+  late GoogleMapController mapsController;
+
+  final LatLng _center = const LatLng(18.14431461778299, -94.47604801699983);
+
+  void onMapCreated(GoogleMapController controller) {
+    mapsController = controller;
+  }
+
   void onTap(Collection collection) {
     Navigator.push(
       context,
@@ -312,47 +321,28 @@ class _UserHomeViewState extends State<UserHomeView> {
                 ],
               ),
               // Map
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Encuentra un centro de acopio',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
+              Column(
+                spacing: 10,
+                children: [
+                  Text(
+                    'Encuentra un centro de acopio',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                height: 250,
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  child: Column(
-                    spacing: 15,
-                    children: [
-                      Container(
-                        height: 400,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Google Maps',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                  SizedBox(
+                    height: 300,
+                    child: GoogleMap(
+                      onMapCreated: onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: _center,
+                        zoom: 13.0,
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
