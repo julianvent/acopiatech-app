@@ -1,14 +1,14 @@
 import 'package:acopiatech/widgets/admin/collection_preview.dart';
 import 'package:flutter/material.dart';
 
-class AdminRecollectionView extends StatefulWidget {
-  const AdminRecollectionView({super.key});
+class AdminCollectionView extends StatefulWidget {
+  const AdminCollectionView({super.key});
 
   @override
-  State<AdminRecollectionView> createState() => _AdminRecollectionViewState();
+  State<AdminCollectionView> createState() => _AdminCollectionViewState();
 }
 
-class _AdminRecollectionViewState extends State<AdminRecollectionView> {
+class _AdminCollectionViewState extends State<AdminCollectionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

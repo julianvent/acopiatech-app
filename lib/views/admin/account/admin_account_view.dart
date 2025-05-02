@@ -1,36 +1,21 @@
-import 'dart:io';
 
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
-import 'package:acopiatech/views/user/account/user_account_form.dart';
+import 'package:acopiatech/views/admin/account/admin_account_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
-class UserAccountView extends StatefulWidget {
-  const UserAccountView({super.key});
+class AdminAccountView extends StatefulWidget {
+  const AdminAccountView({super.key});
 
   @override
-  State<UserAccountView> createState() => _UserAccountViewState();
+  State<AdminAccountView> createState() => _AdminAccountViewState();
 }
 
-class _UserAccountViewState extends State<UserAccountView> {
-  File? userProfileImage;
-  final _picker = ImagePicker();
-
-  Future<void> pickUserProfileImage() async {
-    final image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        userProfileImage = File(image.path);
-        // Now send the image to the server or save it locally
-      });
-    }
-  }
-
+class _AdminAccountViewState extends State<AdminAccountView> {
   @override
   void initState() {
     super.initState();
@@ -40,7 +25,7 @@ class _UserAccountViewState extends State<UserAccountView> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state is AuthStateLoggedIn) {
+        if (state is AuthStateLoggedInAsAdmin) {
           final user = state.user;
           return Scaffold(
             body: Padding(
@@ -61,27 +46,13 @@ class _UserAccountViewState extends State<UserAccountView> {
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey),
                             ),
-                            child:
-                                userProfileImage != null
-                                    ? Image.file(userProfileImage!)
-                                    : Center(
-                                      child: Image.asset(
-                                        ImagesRoutes.mascota,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
+                            child: Center(
+                              child: Image.asset(
+                                ImagesRoutes.mascota,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
-                          // Positioned(
-                          //   bottom: 1,
-                          //   right: 1,
-                          //   child: FloatingActionButton(
-                          //     onPressed: () {
-                          //       pickUserProfileImage();
-                          //     },
-                          //     mini: true,
-                          //     child: const Icon(Icons.account_circle),
-                          //   ),
-                          // ),
                         ],
                       ),
                       Expanded(
@@ -95,21 +66,17 @@ class _UserAccountViewState extends State<UserAccountView> {
                       ),
                     ],
                   ),
-                  UserAccountCard(
+                  AdminAccountCard(
                     title: 'Editar perfil',
                     icon: Icons.edit,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UserAccountForm(user:user,),
+                          builder: (context) => AdminAccountForm(user: user),
                         ),
                       );
-                    },),
-                  UserAccountCard(
-                    title: 'Métodos de pago',
-                    icon: Icons.credit_card_off,
-                    onTap: () {},
+                    },
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -128,13 +95,13 @@ class _UserAccountViewState extends State<UserAccountView> {
   }
 }
 
-class UserAccountCard extends StatelessWidget {
+class AdminAccountCard extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData icon;
   final VoidCallback onTap;
 
-  const UserAccountCard({
+  const AdminAccountCard({
     super.key,
     required this.title,
     this.subtitle,
