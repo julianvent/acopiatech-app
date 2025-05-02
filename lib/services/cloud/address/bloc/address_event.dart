@@ -10,6 +10,11 @@ class AddressEventLoadAdresses extends AddressEvent {
   const AddressEventLoadAdresses();
 }
 
+class AddressEventLoadDropOffPoints extends AddressEvent {
+  const AddressEventLoadDropOffPoints();
+}
+
+
 class AddressEventReturnToList extends AddressEvent {
   const AddressEventReturnToList();
 }

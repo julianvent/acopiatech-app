@@ -1,4 +1,5 @@
-import 'package:acopiatech/views/admin/admin_account_view.dart';
+import 'package:acopiatech/views/admin/account/admin_account_view.dart';
+import 'package:acopiatech/views/admin/drop_off_point/drop_off_point_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/widgets/admin/admin_menu_provider.dart';
@@ -25,7 +26,7 @@ class _AdminMenuContent extends StatelessWidget {
     final views = [
       const _MenuMainView(),
       const AdminAccountView(),
-      const Center(child: Text('Direcciones')), // Otra subsección
+      const DropOffPointView(),
     ];
 
     return Scaffold(body: IndexedStack(index: currentIndex, children: views));
@@ -51,8 +52,8 @@ class _MenuMainView extends StatelessWidget {
             onTap: () => menuProvider.goTo(1),
           ),
           _MenuTile(
-            icon: Icons.delivery_dining_rounded,
-            label: 'Direcciones',
+            icon: Icons.home_work_rounded,
+            label: 'Centros de Acopio',
             onTap: () => menuProvider.goTo(2),
           ),
         ],

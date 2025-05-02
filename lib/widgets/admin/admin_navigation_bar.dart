@@ -3,8 +3,8 @@ import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/views/admin/admin_home_view.dart';
 import 'package:acopiatech/views/admin/admin_menu_view.dart';
 import 'package:acopiatech/views/admin/admin_notification_view.dart';
-import 'package:acopiatech/views/admin/admin_recollection_view.dart';
 import 'package:acopiatech/views/admin/admin_shop_view.dart';
+import 'package:acopiatech/views/admin/collection/admin_collection_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,7 +92,7 @@ class AdminNavigationController extends GetxController {
 
   final views = [
     const AdminHomeView(),
-    const AdminRecollectionView(),
+    const AdminCollectionView(),
     const AdminShopView(),
     const AdminMenuView(),
   ];

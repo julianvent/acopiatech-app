@@ -3,34 +3,65 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart'
 import 'package:acopiatech/services/cloud/collections/bloc/images/collection_images_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
-import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CollectionDetailsView extends StatelessWidget {
+class AdminCollectionDetailsView extends StatefulWidget {
   final Collection collection;
 
-  const CollectionDetailsView({super.key, required this.collection});
+  const AdminCollectionDetailsView({super.key, required this.collection});
+
+  @override
+  State<AdminCollectionDetailsView> createState() =>
+      _AdminCollectionDetailsViewState();
+}
+
+class _AdminCollectionDetailsViewState
+    extends State<AdminCollectionDetailsView> {
+  late String _selectedStatus;
+
+  final List<String> _statusList = [
+    'En revisión',
+    'Lista para recolección',
+    'En camino',
+    'En evaluación',
+    'Finalizada',
+  ];
+
+  void _changeCollectionStatus(String newStatus) {
+    // context.read<CollectionBloc>().add(
+    //   CollectionEventUpdateCollectionStatus(
+    //     collectionId: widget.collection.documentId,
+    //     newStatus: newStatus,
+    //   ),
+    // );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedStatus = "En revisión";
+  }
 
   @override
   Widget build(BuildContext context) {
     // collection data
-    final status = collection.status.status;
-    final statusDescription = collection.status.description;
-    final description = collection.description;
+    final status = widget.collection.status.status;
+    final statusDescription = widget.collection.status.description;
+    final description = widget.collection.description;
 
     // address data
-    final String? street = collection.address.elementAt(0);
+    final String? street = widget.collection.address.elementAt(0);
     final String number =
-        '${collection.address.elementAt(1)} ${collection.address.elementAt(2)}'
+        '${widget.collection.address.elementAt(1)} ${widget.collection.address.elementAt(2)}'
             .trim();
-    final String? neighborhood = collection.address.elementAt(3);
+    final String? neighborhood = widget.collection.address.elementAt(3);
 
     // date
     final date =
-        '${collection.dateScheduled.day}-${collection.dateScheduled.month}-${collection.dateScheduled.year} ${collection.schedule}';
+        '${widget.collection.dateScheduled.day}-${widget.collection.dateScheduled.month}-${widget.collection.dateScheduled.year} ${widget.collection.schedule}';
 
     return Scaffold(
       appBar: AppBar(
@@ -44,53 +75,48 @@ class CollectionDetailsView extends StatelessWidget {
         ),
         actions: <Widget>[
           Center(
-            child:
-                collection.status == CollectionStatus.enCamino
-                    ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (_) => BlocProvider.value(
-                                    value: BlocProvider.of<CollectionBloc>(
-                                      context,
-                                    ),
-                                    child: UserChatView(),
-                                  ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 2.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (_) => BlocProvider.value(
+                            value: BlocProvider.of<CollectionBloc>(context),
+                            child: UserChatView(),
                           ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Ayuda",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ),
-                              const Icon(
-                                Icons.help_center_rounded,
-                                color: Colors.black54,
-                                size: 30,
-                              ),
-                            ],
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2.0),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Contactar al donador",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
                           ),
                         ),
                       ),
-                    )
-                    : SizedBox(),
+                      const Icon(
+                        Icons.help_center_rounded,
+                        color: Colors.black54,
+                        size: 30,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -105,7 +131,7 @@ class CollectionDetailsView extends StatelessWidget {
                   width: double.maxFinite,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    collection.mode,
+                    widget.collection.mode,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -170,53 +196,6 @@ class CollectionDetailsView extends StatelessWidget {
                     ),
                   ),
                 ),
-                // ------ Detalles de la recolección ------
-                Container(
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey, width: 0.3),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Column(
-                      spacing: 10,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Detalles de la recolección",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Column(
-                          spacing: 12,
-                          children: [
-                            Row(
-                              spacing: 10,
-                              children: [
-                                Icon(Icons.location_on_outlined),
-                                Flexible(
-                                  child: Text('$street $number, $neighborhood'),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              spacing: 10,
-                              children: [
-                                Icon(Icons.calendar_month),
-                                Flexible(child: Text(date)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 // ------ Descripción de la recolección ------
                 Container(
                   width: double.maxFinite,
@@ -252,6 +231,22 @@ class CollectionDetailsView extends StatelessWidget {
                   ),
                 ),
 
+                // ------ Cambiar estado ------
+                SizedBox(
+                  width: double.maxFinite,
+                  child: ElevatedButton(
+                    onPressed: () => _showStatusSelectionSheet(context),
+                    child: Text(
+                      "Cambiar estado",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+
                 SizedBox(
                   width: 170,
                   child: ElevatedButton(
@@ -266,7 +261,7 @@ class CollectionDetailsView extends StatelessWidget {
                                       CollectionImageStorage(),
                                     ),
                                 child: CollectionGalleryView(
-                                  collection: collection,
+                                  collection: widget.collection,
                                 ),
                               ),
                         ),
@@ -279,7 +274,7 @@ class CollectionDetailsView extends StatelessWidget {
                         spacing: 10,
                         children: [
                           Text(
-                            "Ver fotos",
+                            "Ver evidencias",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -297,38 +292,10 @@ class CollectionDetailsView extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  alignment: Alignment.centerRight,
+                  alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            surfaceTintColor: ColorsPalette.darkCian,
-                            title: Text("Cancelar recolección"),
-                            content: Text(
-                              "¿Estás seguro de que deseas cancelar la recolección?",
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("No"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Implementar la lógica para cancelar la recolección
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("Sí"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Text('Cancelar recolección'),
+                    onPressed: () {},
+                    child: Text('Confirmar cambios'),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -337,6 +304,44 @@ class CollectionDetailsView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Muestra un modal con una lista de estados para seleccionar
+  // desde el botton de la pantalla
+  void _showStatusSelectionSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Seleccionar Estado',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              DropdownButton<String>(
+                value: _selectedStatus,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedStatus = newValue!;
+                  });
+                  Navigator.pop(context);
+                },
+                items:
+                    _statusList.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
