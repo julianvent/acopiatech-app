@@ -344,8 +344,55 @@ class _UserHomeViewState extends State<UserHomeView> {
                   ),
                 ],
               ),
-            
-              
+
+              // Centros de acopio
+              SizedBox(
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    // Cambiar esto por la logica de los centros de acopio
+                    Center(
+                      child: BlocBuilder<CollectionBloc, CollectionState>(
+                        builder: (context, state) {
+                          if (state is CollectionStateLoadedCollections) {
+                            return StreamBuilder(
+                              stream: state.ongoingCollectionsStream,
+                              builder: (context, snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                  case ConnectionState.active:
+                                    if (snapshot.hasData) {
+                                      final allOngoingCollections =
+                                          snapshot.data as Iterable<Collection>;
+                                      return CollectionListGenerateView(
+                                        collections: allOngoingCollections,
+                                        length: 1,
+                                        onTap:
+                                            (collection) => onTap(collection),
+                                      );
+                                    } else {
+                                      return const Text(
+                                        'No cuentas con recolecciones en camino',
+                                      );
+                                    }
+                                  default:
+                                    return const CircularProgressIndicator();
+                                }
+                              },
+                            );
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ),
+
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Ver centros de acopio'),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
