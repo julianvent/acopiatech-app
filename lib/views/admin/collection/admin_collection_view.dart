@@ -22,96 +22,92 @@ class _AdminCollectionViewState extends State<AdminCollectionView> {
   Widget build(BuildContext context) {
     context.read<CollectionBloc>().add(const CollectionEventLoadCollections());
 
-    return SafeArea(
-      minimum: EdgeInsets.only(top: 20),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Historial de recolecciones',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Historial de recolecciones',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
-          centerTitle: true,
-          backgroundColor: ColorsPalette.greenShadow,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            spacing: 20,
-            children: <Widget>[
-              SizedBox(
-                child: BlocBuilder<CollectionBloc, CollectionState>(
-                  builder: (context, state) {
-                    if (state is CollectionStateLoadedCollections) {
-                      return StreamBuilder(
-                        stream: state.collectionsStream,
-                        builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                            case ConnectionState.active:
-                              if (snapshot.hasData) {
-                                final collections =
-                                    snapshot.data as Iterable<Collection>;
-                                if (collections.isNotEmpty) {
-                                  return CollectionListGenerateView(
-                                    collections: collections,
-                                    length: collections.length,
-                                    onTap: (collection) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (_) => BlocProvider.value(
-                                                value: BlocProvider.of<
-                                                  CollectionBloc
-                                                >(context),
-                                                child:
-                                                    AdminCollectionDetailsView(
-                                                      collection: collection,
-                                                    ),
+        centerTitle: true,
+        backgroundColor: ColorsPalette.greenShadow,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          spacing: 20,
+          children: <Widget>[
+            SizedBox(
+              child: BlocBuilder<CollectionBloc, CollectionState>(
+                builder: (context, state) {
+                  if (state is CollectionStateLoadedCollections) {
+                    return StreamBuilder(
+                      stream: state.collectionsStream,
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.active:
+                            if (snapshot.hasData) {
+                              final collections =
+                                  snapshot.data as Iterable<Collection>;
+                              if (collections.isNotEmpty) {
+                                return CollectionListGenerateView(
+                                  collections: collections,
+                                  length: 3,
+                                  onTap: (collection) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (_) => BlocProvider.value(
+                                              value: BlocProvider.of<
+                                                CollectionBloc
+                                              >(context),
+                                              child: AdminCollectionDetailsView(
+                                                collection: collection,
                                               ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return Center(
-                                    child: Column(
-                                      spacing: 20,
-                                      children: [
-                                        Text(
-                                          'No hay ninguna recolección programada\n',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                        Icon(
-                                          Icons.recycling,
-                                          size: 100,
-                                          color: ColorsPalette.lightGreen,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                );
                               } else {
-                                return const CircularProgressIndicator();
+                                return Center(
+                                  child: Column(
+                                    spacing: 20,
+                                    children: [
+                                      Text(
+                                        'No hay ninguna recolección programada\n',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      Icon(
+                                        Icons.recycling,
+                                        size: 100,
+                                        color: ColorsPalette.lightGreen,
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }
-                            default:
+                            } else {
                               return const CircularProgressIndicator();
-                          }
-                        },
-                      );
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
+                            }
+                          default:
+                            return const CircularProgressIndicator();
+                        }
+                      },
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

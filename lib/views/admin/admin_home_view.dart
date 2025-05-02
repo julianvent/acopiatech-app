@@ -3,7 +3,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart'
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
-import 'package:acopiatech/views/user/collection/collection_details_view.dart';
+import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +23,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
         builder:
             (_) => BlocProvider.value(
               value: BlocProvider.of<CollectionBloc>(context),
-              child: CollectionDetailsView(collection: collection),
+              child: AdminCollectionDetailsView(collection: collection),
             ),
       ),
     );

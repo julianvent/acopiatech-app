@@ -15,15 +15,27 @@ class CollectionStorage {
   final collections = FirebaseFirestore.instance.collection('collection');
   final CollectionImageStorage imageStorage = CollectionImageStorage();
 
-  Stream<Iterable<Collection>> allCollections({required String ownerUserId}) =>
-      collections
+  Stream<Iterable<Collection>> allCollections({
+    required String ownerUserId,
+    required String role,
+  }) {
+    if (role == 'admin') {
+      return collections
           .orderBy(timeCreatedFieldName, descending: true)
           .snapshots()
           .map(
-            (event) => event.docs
-                .map((doc) => Collection.fromSnapshot(doc))
-                .where((collection) => collection.ownerUserId == ownerUserId),
+            (event) => event.docs.map((doc) => Collection.fromSnapshot(doc)),
           );
+    }
+    return collections
+        .orderBy(timeCreatedFieldName, descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map((doc) => Collection.fromSnapshot(doc))
+              .where((collection) => collection.ownerUserId == ownerUserId),
+        );
+  }
 
   Future<Iterable<Collection>> getCollections({
     required String ownerUserId,

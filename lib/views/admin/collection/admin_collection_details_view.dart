@@ -65,14 +65,6 @@ class _AdminCollectionDetailsViewState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Detalles de la recolección",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
         actions: <Widget>[
           Center(
             child: Padding(
@@ -145,7 +137,7 @@ class _AdminCollectionDetailsViewState
                   ),
                   // ------ Mapa ------
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
+                    padding: const EdgeInsets.only(bottom: 10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10,
@@ -234,21 +226,34 @@ class _AdminCollectionDetailsViewState
                 // ------ Cambiar estado ------
                 SizedBox(
                   width: double.maxFinite,
-                  child: ElevatedButton(
-                    onPressed: () => _showStatusSelectionSheet(context),
-                    child: Text(
-                      "Cambiar estado",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
+                  child: DropdownButton<String>(
+                    padding: const EdgeInsets.all(8),
+                    value: _selectedStatus,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
                     ),
+                    items:
+                        _statusList.map<DropdownMenuItem<String>>((
+                          String value,
+                        ) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedStatus = newValue!;
+                      });
+                      _changeCollectionStatus(_selectedStatus);
+                    },
                   ),
                 ),
 
                 SizedBox(
-                  width: 170,
+                  width: 190,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -267,27 +272,24 @@ class _AdminCollectionDetailsViewState
                         ),
                       );
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        spacing: 10,
-                        children: [
-                          Text(
-                            "Ver evidencias",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      spacing: 10,
+                      children: [
+                        Text(
+                          "Ver evidencias",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
                           ),
-                          Icon(
-                            Icons.photo,
-                            color: ColorsPalette.darkCian,
-                            size: 20,
-                          ),
-                        ],
-                      ),
+                        ),
+                        Icon(
+                          Icons.photo,
+                          color: ColorsPalette.darkCian,
+                          size: 20,
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -304,44 +306,6 @@ class _AdminCollectionDetailsViewState
           ),
         ),
       ),
-    );
-  }
-
-  // Muestra un modal con una lista de estados para seleccionar
-  // desde el botton de la pantalla
-  void _showStatusSelectionSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Seleccionar Estado',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              DropdownButton<String>(
-                value: _selectedStatus,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedStatus = newValue!;
-                  });
-                  Navigator.pop(context);
-                },
-                items:
-                    _statusList.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }
