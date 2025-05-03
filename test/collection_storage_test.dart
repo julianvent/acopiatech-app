@@ -63,5 +63,20 @@ void main() async {
       final collections = await collectionService.allCollections().first;
       expect(collections.isNotEmpty, isTrue);
     });
+
+    test('Updating collection status should change status', () async {
+      final collections = await collectionService.allCollections().first;
+      final lastCollection = collections.first;
+      await collectionService.updateCollectionStatus(
+        documentId: lastCollection.documentId,
+        status: CollectionStatus.lista,
+      );
+
+      final updatedCollections = await collectionService.allCollections().first;
+      final updatedCollection = updatedCollections.first;
+
+      expect(updatedCollection.status, isNot(lastCollection.status));
+      expect(updatedCollection.status, CollectionStatus.lista);
+    });
   });
 }
