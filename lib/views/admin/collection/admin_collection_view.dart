@@ -56,7 +56,7 @@ class _AdminCollectionViewState extends State<AdminCollectionView> {
                               if (collections.isNotEmpty) {
                                 return CollectionListGenerateView(
                                   collections: collections,
-                                  length: 3,
+                                  length: collections.length,
                                   onTap: (collection) {
                                     Navigator.push(
                                       context,
