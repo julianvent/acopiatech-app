@@ -20,11 +20,9 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
   final _formKey = GlobalKey<FormState>();
 
   Address? _address;
+  String? _dropOffPointName;
   String? _street;
-  String? _extNumber;
-  String? _intNumber;
   String? _neighborhood;
-  String? _zipCode;
   String? _phoneNumber;
   String? _reference;
   String? _city;
@@ -79,9 +77,19 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                 child: Form(
                   key: _formKey,
                   child: Column(
+                    spacing: 10,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const SizedBox(height: 10),
+                      UserTextField(
+                        initialValue: _dropOffPointName,
+                        fieldName: 'Nombre',
+                        myIcon: Icons.home_work_outlined,
+                        filled: false,
+                        validator: (value) => _validateField(value),
+                        onSaved:
+                            (dropOffPointName) =>
+                                _dropOffPointName = dropOffPointName!.trim(),
+                      ),
                       UserTextField(
                         initialValue: _address?.street,
                         fieldName: 'Calle',
@@ -90,35 +98,6 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         validator: (value) => _validateField(value),
                         onSaved: (street) => _street = street!.trim(),
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: UserTextField(
-                              initialValue: _address?.extNumber,
-                              fieldName: 'No. ext',
-                              myIcon: Icons.numbers_rounded,
-                              filled: false,
-                              validator: (value) => _validateField(value),
-                              onSaved:
-                                  (extNumber) => _extNumber = extNumber!.trim(),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: UserTextField(
-                              initialValue: _address?.intNumber,
-                              fieldName: 'No. int(opcional)',
-                              myIcon: Icons.numbers_rounded,
-                              filled: false,
-                              onSaved:
-                                  (intNumber) => _intNumber = intNumber?.trim(),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
                       UserTextField(
                         initialValue: _address?.neighborhood,
                         fieldName: 'Colonia',
@@ -129,17 +108,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                             (neighborhood) =>
                                 _neighborhood = neighborhood!.trim(),
                       ),
-                      const SizedBox(height: 10),
-                      UserTextField(
-                        initialValue: _address?.zipCode,
-                        fieldName: 'Código postal',
-                        keyboardType: TextInputType.datetime,
-                        myIcon: Icons.local_post_office_outlined,
-                        filled: false,
-                        validator: (value) => _validateField(value),
-                        onSaved: (zip) => _zipCode = zip!.trim(),
-                      ),
-                      const SizedBox(height: 10),
+
                       UserTextField(
                         initialValue: _address?.phoneNumber,
                         fieldName: 'Número de teléfono',
@@ -150,7 +119,6 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         onSaved:
                             (phoneNumber) => _phoneNumber = phoneNumber!.trim(),
                       ),
-                      const SizedBox(height: 20),
                       UserTextField(
                         initialValue: _address?.reference,
                         fieldName: 'Referencias (opcional)',
@@ -160,7 +128,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         numberOfLines: 3,
                         onSaved: (reference) => _reference = reference?.trim(),
                       ),
-                      const SizedBox(height: 10),
+
                       UserTextField(
                         initialValue: _address?.city,
                         fieldName: 'Ciudad',
@@ -169,7 +137,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         validator: (value) => _validateField(value),
                         onSaved: (city) => _city = city!.trim(),
                       ),
-                      const SizedBox(height: 10),
+
                       UserTextField(
                         initialValue: _address?.state,
                         fieldName: 'Estado',
@@ -178,25 +146,22 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         validator: (value) => _validateField(value),
                         onSaved: (state) => _state = state!.trim(),
                       ),
-                      const SizedBox(height: 10),
+
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            context.read<AddressBloc>().add(
-                              AddressEventCreateUpdateAddress(
-                                _address,
-                                _city!,
-                                _extNumber!,
-                                _intNumber,
-                                _neighborhood!,
-                                _reference,
-                                _state!,
-                                _street!,
-                                _zipCode!,
-                                _phoneNumber!,
-                              ),
-                            );
+                            // context.read<AddressBloc>().add(
+                            //   DropOffPointEventCreateUpdateDropOffPoint(
+                            //     _address,
+                            //     _city!,
+                            //     _neighborhood!,
+                            //     _reference,
+                            //     _state!,
+                            //     _street!,
+                            //     _phoneNumber!,
+                            //   ),
+                            // );
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -209,8 +174,8 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         ),
                         child: Text(
                           (_address != null)
-                              ? 'Actualizar dirección'
-                              : 'Guardar dirección',
+                              ? 'Actualizar centro de acopio'
+                              : 'Guardar centro de acopio',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

@@ -30,7 +30,7 @@ class _DropOffPointViewState extends State<DropOffPointView> {
       },
       builder: (context, state) {
         if (state is AddressStateCreatingUpdatingAddress) {
-          return CreateUpdateAddressView();
+          return DropOffPointView();
         } else if (state is AddressStateLoadedAddress) {
           return Scaffold(
             appBar: AppBar(

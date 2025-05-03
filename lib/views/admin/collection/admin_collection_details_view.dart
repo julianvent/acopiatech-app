@@ -1,8 +1,10 @@
 import 'package:acopiatech/constants/colors_palette.dart';
+import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/images/collection_images_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
+import 'package:acopiatech/views/admin/chat/admin_chat_view.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class AdminCollectionDetailsView extends StatefulWidget {
 
 class _AdminCollectionDetailsViewState
     extends State<AdminCollectionDetailsView> {
+  late String _receiverCollectionId = widget.collection.documentId;
   late String _selectedStatus;
 
   final List<String> _statusList = [
@@ -77,7 +80,9 @@ class _AdminCollectionDetailsViewState
                       builder:
                           (_) => BlocProvider.value(
                             value: BlocProvider.of<CollectionBloc>(context),
-                            child: UserChatView(),
+                            child: AdminChatView(
+                              receiverCollectionId: _receiverCollectionId,
+                            ),
                           ),
                     ),
                   );
@@ -251,7 +256,6 @@ class _AdminCollectionDetailsViewState
                     },
                   ),
                 ),
-
                 SizedBox(
                   width: 190,
                   child: ElevatedButton(
