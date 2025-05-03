@@ -20,7 +20,7 @@ class AddressStorage {
   CollectionReference<Map<String, dynamic>> get addresses =>
       _firestore.collection('address');
 
-  Stream<Iterable<Address>> allAddressByOwner({required String ownerUserId}) =>
+  Stream<Iterable<Address>> allAddressesByOwner({required String ownerUserId}) =>
       addresses
           .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
           .where(addressIsDeletedFieldName, isEqualTo: false)
