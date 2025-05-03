@@ -3,7 +3,20 @@ import 'package:acopiatech/services/cloud/collections/collection_exception.dart'
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectionImageStorage {
-  final rootReference = FirebaseStorage.instance.ref();
+  final FirebaseStorage _firebaseStorage;
+
+  CollectionImageStorage._sharedInstance(this._firebaseStorage);
+
+  static CollectionImageStorage? _shared;
+
+  factory CollectionImageStorage({FirebaseStorage? storage}) {
+    _shared ??= CollectionImageStorage._sharedInstance(
+      storage ?? FirebaseStorage.instance,
+    );
+    return _shared!;
+  }
+
+  Reference get rootReference => _firebaseStorage.ref();
 
   Future<void> uploadImages({
     required List<String> imagesPath,
@@ -15,7 +28,6 @@ class CollectionImageStorage {
         imagesPath.map((path) async {
           File file = File(path);
           final fileName = path.split('/').last;
-
 
           final storageReference = rootReference.child(
             'collection/images/$userId/$documentId/$fileName',
@@ -33,14 +45,13 @@ class CollectionImageStorage {
     required String userId,
     required String documentId,
   }) async {
-    
     try {
       final storageReference = rootReference.child(
         'collection/images/$userId/$documentId',
       );
 
       final ListResult result = await storageReference.listAll();
-      
+
       final List<String> imageUrls = await Future.wait(
         result.items.map((item) async {
           // Obtenemos las URLs públicas de las imágenes
@@ -54,7 +65,6 @@ class CollectionImageStorage {
       throw CouldNotGetImageException();
     }
   }
-
 }
 
 class CouldNotGetImageException implements Exception {

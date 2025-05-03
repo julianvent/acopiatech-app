@@ -5,17 +5,22 @@ import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CollectionStorage {
   final FirebaseFirestore _firestore;
-  // singleton
-  CollectionStorage._sharedInstance(this._firestore);
+  final FirebaseStorage _imageStorage;
 
+  CollectionStorage._sharedInstance(this._firestore, this._imageStorage);
   static CollectionStorage? _shared;
 
-  factory CollectionStorage({FirebaseFirestore? firestore}) {
+  factory CollectionStorage({
+    FirebaseFirestore? firestore,
+    FirebaseStorage? imageStorage,
+  }) {
     _shared ??= CollectionStorage._sharedInstance(
       firestore ?? FirebaseFirestore.instance,
+      imageStorage ?? FirebaseStorage.instance,
     );
     return _shared!;
   }
@@ -23,7 +28,8 @@ class CollectionStorage {
   CollectionReference<Map<String, dynamic>> get collections =>
       _firestore.collection('collection');
 
-  final CollectionImageStorage imageStorage = CollectionImageStorage();
+  CollectionImageStorage get imageStorage =>
+      CollectionImageStorage(storage: _imageStorage);
 
   Stream<Iterable<Collection>> allCollections() {
     return collections

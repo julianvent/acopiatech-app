@@ -258,7 +258,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                                     backgroundColor:
                                         ColorsPalette.backgroundDarkGreen,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
                                   ),
                                   onPressed: () {
@@ -280,10 +280,11 @@ class _UserHomeViewState extends State<UserHomeView> {
                               Expanded(
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.all(12.0),
                                     backgroundColor:
                                         ColorsPalette.backgroundDarkGreen,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                   onPressed: () {
