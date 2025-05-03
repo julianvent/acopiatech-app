@@ -7,15 +7,25 @@ import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CollectionStorage {
+  final FirebaseFirestore _firestore;
   // singleton
-  CollectionStorage._sharedInstance();
-  static final CollectionStorage _shared = CollectionStorage._sharedInstance();
-  factory CollectionStorage() => _shared;
+  CollectionStorage._sharedInstance(this._firestore);
 
-  final collections = FirebaseFirestore.instance.collection('collection');
+  static CollectionStorage? _shared;
+
+  factory CollectionStorage({FirebaseFirestore? firestore}) {
+    _shared ??= CollectionStorage._sharedInstance(
+      firestore ?? FirebaseFirestore.instance,
+    );
+    return _shared!;
+  }
+
+  CollectionReference<Map<String, dynamic>> get collections =>
+      _firestore.collection('collection');
+
   final CollectionImageStorage imageStorage = CollectionImageStorage();
 
-  Stream<Iterable<Collection>> allCollections({required String ownerUserId}) {
+  Stream<Iterable<Collection>> allCollections() {
     return collections
         .orderBy(timeCreatedFieldName, descending: true)
         .snapshots()
@@ -29,11 +39,7 @@ class CollectionStorage {
         .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
         .orderBy(timeCreatedFieldName, descending: true)
         .snapshots()
-        .map(
-          (event) => event.docs
-              .map((doc) => Collection.fromSnapshot(doc))
-              .where((collection) => collection.ownerUserId == ownerUserId),
-        );
+        .map((event) => event.docs.map((doc) => Collection.fromSnapshot(doc)));
   }
 
   Future<Iterable<Collection>> getCollections({

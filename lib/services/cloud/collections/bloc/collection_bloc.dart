@@ -25,7 +25,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       try {
         final collectionsStream =
             userRole == 'admin'
-                ? collectionService.allCollections(ownerUserId: userId)
+                ? collectionService.allCollections()
                 : collectionService.allCollectionsByOwner(ownerUserId: userId);
 
         final lastCollection = await collectionService.getLastOngoingCollection(
