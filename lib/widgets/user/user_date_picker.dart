@@ -27,15 +27,9 @@ class _UserDatePickerState extends State<UserDatePicker> {
   @override
   Widget build(BuildContext context) {
     void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-      final dateOnly = DateTime(
-        selectedDay.year,
-        selectedDay.month,
-        selectedDay.day,
-      );
-
-      if (dateOnly.isAfter(widget.earliestSelectableDate)) {
+      if (selectedDay.isAfter(widget.earliestSelectableDate)) {
         setState(() {
-          selectedDate = dateOnly;
+          selectedDate = selectedDay.add(Duration(hours: 6));
         });
         widget.onDateSelected?.call(selectedDate);
       }
