@@ -33,3 +33,13 @@ class CollectionEventCreateCollection extends CollectionEvent {
     required this.mode,
   });
 }
+
+class CollectionEventUpdateStatus extends CollectionEvent {
+  final String documentId;
+  final CollectionStatus status;
+
+  const CollectionEventUpdateStatus({
+    required this.documentId,
+    required this.status,
+  });
+}

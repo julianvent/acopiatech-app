@@ -49,3 +49,13 @@ class CollectionStateCreatingCollection extends CollectionState {
     required this.exception,
   });
 }
+
+class CollectionStateUpdatingCollection extends CollectionState {
+  final Exception? exception;
+
+  const CollectionStateUpdatingCollection({
+    required super.isLoading,
+    required this.exception,
+    super.loadingText = 'Actualizando recolección...'
+  });
+}

@@ -251,7 +251,6 @@ class CollectionDetailsView extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 SizedBox(
                   width: 170,
                   child: ElevatedButton(

@@ -150,4 +150,17 @@ class CollectionStorage {
       .orderBy(timeCreatedFieldName, descending: true)
       .snapshots()
       .map((event) => event.docs.map((doc) => Collection.fromSnapshot(doc)));
+
+  Future<void> updateCollectionStatus({
+    required String documentId,
+    required CollectionStatus status,
+  }) async {
+    try {
+      await collections.doc(documentId).update({
+        collectionStatusFieldName: status.name,
+      });
+    } on Exception {
+      throw CouldNotUpdateCollectionException();
+    }
+  }
 }

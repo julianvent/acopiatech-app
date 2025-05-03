@@ -3,6 +3,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart'
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,9 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                       if (collections.isNotEmpty) {
                                         return CollectionListGenerateView(
                                           collections: collections,
-                                          length: 1,
+                                          statusFilter:
+                                              CollectionStatus.enCamino,
+                                          length: collections.length,
                                           onTap:
                                               (collection) => onTap(collection),
                                         );
@@ -141,7 +144,8 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                       if (collections.isNotEmpty) {
                                         return CollectionListGenerateView(
                                           collections: collections,
-                                          length: 3,
+                                          dayFilter: DateTime.now().day,
+                                          length: collections.length,
                                           onTap:
                                               (collection) => onTap(collection),
                                         );
