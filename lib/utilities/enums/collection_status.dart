@@ -9,7 +9,11 @@ enum CollectionStatus {
     ColorsPalette.statusRecibida,
   ),
   lista('Lista para recolección', '', ColorsPalette.statusLista),
-  enCamino('En camino', '', ColorsPalette.statusEnCamino),
+  enCamino(
+    'En camino',
+    'Nuestro equipo de recolectores está dirigiéndose a tu dirección. Sigue su ubicación en tiempo real.',
+    ColorsPalette.statusEnCamino,
+  ),
   enEvaluacion('En evaluación', '', ColorsPalette.statusEvaluacion),
   finalizada('Finalizada', '', ColorsPalette.statusFinalizada),
   cancelada('Cancelada', '', ColorsPalette.statusCancelada);

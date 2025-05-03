@@ -78,7 +78,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                           collections: collections,
                                           statusFilter:
                                               CollectionStatus.enCamino,
-                                          length: 1,
+                                          length: collections.length,
                                           onTap:
                                               (collection) => onTap(collection),
                                         );

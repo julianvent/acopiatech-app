@@ -96,5 +96,22 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
         emit(CollectionStateCreatingCollection(isLoading: false, exception: e));
       }
     });
+
+    on<CollectionEventUpdateStatus>((event, emit) async {
+      emit(CollectionStateUpdatingCollection(isLoading: true, exception: null));
+
+      try {
+        await collectionService.updateCollectionStatus(
+          documentId: event.documentId,
+          status: event.status,
+        );
+
+        emit(
+          CollectionStateUpdatingCollection(isLoading: false, exception: null),
+        );
+      } on Exception catch (e) {
+        emit(CollectionStateUpdatingCollection(isLoading: false, exception: e));
+      }
+    });
   }
 }
