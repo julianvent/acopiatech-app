@@ -130,6 +130,17 @@ class CollectionListGenerateView extends StatelessWidget {
                               ),
                             ],
                           ),
+                          Visibility(
+                            visible:
+                                collection.status ==
+                                CollectionStatus.finalizada,
+                            child: Row(
+                              children: [
+                                Text('Puntos asignados: '),
+                                Text(collection.pointsEarned.toString()),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),

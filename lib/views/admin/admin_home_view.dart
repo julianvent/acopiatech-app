@@ -180,7 +180,9 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                        },
                         child: const Text(
                           'Ver recolecciones',
                           style: TextStyle(

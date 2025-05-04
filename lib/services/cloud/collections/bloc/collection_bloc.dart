@@ -104,6 +104,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
         await collectionService.updateCollectionStatus(
           documentId: event.documentId,
           status: event.status,
+          pointsEarned: event.pointsEarned,
         );
 
         emit(

@@ -94,15 +94,19 @@ class _AdminCollectionViewState extends State<AdminCollectionView> {
                                 );
                               }
                             } else {
-                              return const CircularProgressIndicator();
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
                             }
                           default:
-                            return const CircularProgressIndicator();
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
                         }
                       },
                     );
                   } else {
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   }
                 },
               ),

@@ -85,6 +85,7 @@ class CollectionStorage {
         addressFieldName: address,
         collectionStatusFieldName: status.name,
         collectionModeFieldName: mode,
+        collectionPointsFieldName: 0,
       });
 
       final fetchedCollection = await document.get();
@@ -154,10 +155,12 @@ class CollectionStorage {
   Future<void> updateCollectionStatus({
     required String documentId,
     required CollectionStatus status,
+    int? pointsEarned,
   }) async {
     try {
       await collections.doc(documentId).update({
         collectionStatusFieldName: status.name,
+        collectionPointsFieldName: pointsEarned ?? 0,
       });
     } on Exception {
       throw CouldNotUpdateCollectionException();

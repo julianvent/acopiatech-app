@@ -4,6 +4,7 @@ import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
+import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +28,6 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
   String? _reference;
   String? _city;
   String? _state;
-
-  String? _validateField(String? value) =>
-      (value == null || value.isEmpty) ? 'Requerido' : null;
 
   @override
   Widget build(context) {
@@ -85,7 +83,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         fieldName: 'Nombre',
                         myIcon: Icons.home_work_outlined,
                         filled: false,
-                        validator: (value) => _validateField(value),
+                        validator: (value) => validateField(value),
                         onSaved:
                             (dropOffPointName) =>
                                 _dropOffPointName = dropOffPointName!.trim(),
@@ -95,7 +93,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         fieldName: 'Calle',
                         myIcon: Icons.location_on_outlined,
                         filled: false,
-                        validator: (value) => _validateField(value),
+                        validator: (value) => validateField(value),
                         onSaved: (street) => _street = street!.trim(),
                       ),
                       UserTextField(
@@ -103,7 +101,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         fieldName: 'Colonia',
                         myIcon: Icons.location_on_outlined,
                         filled: false,
-                        validator: (value) => _validateField(value),
+                        validator: (value) => validateField(value),
                         onSaved:
                             (neighborhood) =>
                                 _neighborhood = neighborhood!.trim(),
@@ -115,7 +113,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         keyboardType: TextInputType.phone,
                         myIcon: Icons.phone,
                         filled: false,
-                        validator: (value) => _validateField(value),
+                        validator: (value) => validateField(value),
                         onSaved:
                             (phoneNumber) => _phoneNumber = phoneNumber!.trim(),
                       ),
@@ -134,7 +132,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         fieldName: 'Ciudad',
                         myIcon: Icons.location_city,
                         filled: false,
-                        validator: (value) => _validateField(value),
+                        validator: (value) => validateField(value),
                         onSaved: (city) => _city = city!.trim(),
                       ),
 
@@ -143,7 +141,7 @@ class _CreateUpdateDropOffPointState extends State<CreateUpdateDropOffPoint> {
                         fieldName: 'Estado',
                         myIcon: Icons.location_city,
                         filled: false,
-                        validator: (value) => _validateField(value),
+                        validator: (value) => validateField(value),
                         onSaved: (state) => _state = state!.trim(),
                       ),
 

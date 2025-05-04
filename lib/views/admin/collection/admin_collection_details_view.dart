@@ -9,9 +9,11 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
+import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/views/admin/chat/admin_chat_view.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
+import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,8 +29,10 @@ class AdminCollectionDetailsView extends StatefulWidget {
 
 class _AdminCollectionDetailsViewState
     extends State<AdminCollectionDetailsView> {
+  final _formKey = GlobalKey<FormState>();
   late String _receiverCollectionId = widget.collection.documentId;
   late CollectionStatus _selectedStatus;
+  int? _pointsEarned;
 
   void _changeCollectionStatus(CollectionStatus newStatus) {
     // mostrar snackbar??
@@ -217,6 +221,32 @@ class _AdminCollectionDetailsViewState
                               _changeCollectionStatus(_selectedStatus);
                             },
                           ),
+                          Visibility(
+                            visible:
+                                _selectedStatus == CollectionStatus.finalizada,
+                            child: Column(
+                              children: [
+                                Text('Asignar puntos a recolección'),
+                                Form(
+                                  key: _formKey,
+                                  child: UserTextField(
+                                    fieldName: 'Puntos',
+                                    filled: false,
+                                    initialValue:
+                                        collection.pointsEarned == 0
+                                            ? null
+                                            : collection.pointsEarned
+                                                .toString(),
+                                    keyboardType: TextInputType.datetime,
+                                    validator: (value) => validateField(value),
+                                    onSaved: (newValue) {
+                                      _pointsEarned = int.parse(newValue!);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Text(
                             _selectedStatus.description,
                             style: TextStyle(
@@ -358,10 +388,18 @@ class _AdminCollectionDetailsViewState
                     child: ElevatedButton(
                       child: Text('Confirmar cambios'),
                       onPressed: () {
+                        if (_selectedStatus == CollectionStatus.finalizada) {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                          } else {
+                            return;
+                          }
+                        }
                         context.read<CollectionBloc>().add(
                           CollectionEventUpdateStatus(
                             documentId: collection.documentId,
                             status: _selectedStatus,
+                            pointsEarned: _pointsEarned,
                           ),
                         );
                       },

@@ -7,6 +7,7 @@ const collectionScheduleFieldName = 'schedule';
 const collectionDescriptionFieldName = 'description';
 const collectionStatusFieldName = 'status';
 const collectionModeFieldName = 'mode';
+const collectionPointsFieldName = 'points_earned';
 
 // address constants
 const addressFieldName = 'address';

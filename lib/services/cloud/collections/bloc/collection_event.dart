@@ -37,9 +37,11 @@ class CollectionEventCreateCollection extends CollectionEvent {
 class CollectionEventUpdateStatus extends CollectionEvent {
   final String documentId;
   final CollectionStatus status;
+  final int? pointsEarned;
 
   const CollectionEventUpdateStatus({
     required this.documentId,
     required this.status,
+    this.pointsEarned,
   });
 }

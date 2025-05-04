@@ -14,6 +14,7 @@ class Collection {
   final List<String?> address;
   final CollectionStatus status;
   final String mode;
+  final int? pointsEarned;
 
   const Collection({
     required this.documentId,
@@ -25,6 +26,7 @@ class Collection {
     required this.address,
     required this.status,
     required this.mode,
+    this.pointsEarned = 0,
   });
 
   Collection.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
@@ -39,8 +41,8 @@ class Collection {
       address = List<String?>.from(snapshot.data()[addressFieldName]),
       status = CollectionStatus.values.firstWhere(
         (status) =>
-            status.name ==
-            snapshot.data()[collectionStatusFieldName] as String,
+            status.name == snapshot.data()[collectionStatusFieldName] as String,
       ),
-      mode = snapshot.data()[collectionModeFieldName] as String;
+      mode = snapshot.data()[collectionModeFieldName] as String,
+      pointsEarned = snapshot.data()[collectionPointsFieldName] as int;
 }

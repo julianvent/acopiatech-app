@@ -10,6 +10,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart
 import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
+import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
@@ -53,9 +54,6 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
       _selectedImages.removeAt(index);
     });
   }
-
-  String? _validateField(String? value) =>
-      (value == null || value.isEmpty) ? 'Requerido' : null;
 
   void _getSelectedDate(DateTime date) => setState(() {
     _pickedDate = date;
@@ -272,7 +270,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           myIcon: Icons.description_outlined,
                           prefixiedIconColor: ColorsPalette.hardGreen,
                           filled: true,
-                          validator: (value) => _validateField(value),
+                          validator: (value) => validateField(value),
                           numberOfLines: 5,
                           onSaved:
                               (description) =>
