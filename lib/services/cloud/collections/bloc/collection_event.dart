@@ -45,3 +45,7 @@ class CollectionEventUpdateStatus extends CollectionEvent {
     this.pointsEarned,
   });
 }
+
+class CollectionEventLoadAllCompletedCollection extends CollectionEvent {
+  const CollectionEventLoadAllCompletedCollection();
+}

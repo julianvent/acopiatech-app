@@ -166,4 +166,15 @@ class CollectionStorage {
       throw CouldNotUpdateCollectionException();
     }
   }
+
+  Stream<Iterable<Collection>> allCollectionsCompleted() {
+    return collections
+        .where(
+          collectionStatusFieldName,
+          isEqualTo: CollectionStatus.finalizada.name,
+        )
+        .orderBy(timeCreatedFieldName, descending: true)
+        .snapshots()
+        .map((event) => event.docs.map((doc) => Collection.fromSnapshot(doc)));
+  }
 }

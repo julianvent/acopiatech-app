@@ -5,7 +5,9 @@ import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/views/user/account/user_account_form.dart';
+import 'package:acopiatech/views/user/account/user_bonus_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -95,6 +97,59 @@ class _UserAccountViewState extends State<UserAccountView> {
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Mis puntos',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              // Obtener puntos del usuario
+                              Text(
+                                'Cambiar por puntos',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return BlocProvider.value(
+                                          value:
+                                              BlocProvider.of<CollectionBloc>(
+                                                context,
+                                              ),
+                                          child: const UserBonusView(),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.wifi_protected_setup_outlined,
+                                  size: 50,
+                                  color: ColorsPalette.backgroundDarkGreen,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   UserAccountCard(
                     title: 'Editar perfil',
                     icon: Icons.edit,
@@ -102,10 +157,11 @@ class _UserAccountViewState extends State<UserAccountView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UserAccountForm(user:user,),
+                          builder: (context) => UserAccountForm(user: user),
                         ),
                       );
-                    },),
+                    },
+                  ),
                   UserAccountCard(
                     title: 'Métodos de pago',
                     icon: Icons.credit_card_off,
