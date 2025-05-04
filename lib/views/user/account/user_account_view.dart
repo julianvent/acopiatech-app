@@ -6,6 +6,7 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
 import 'package:acopiatech/views/user/account/user_account_form.dart';
 import 'package:acopiatech/views/user/account/user_bonus_view.dart';
 import 'package:flutter/material.dart';
@@ -127,10 +128,10 @@ class _UserAccountViewState extends State<UserAccountView> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return BlocProvider.value(
-                                          value:
-                                              BlocProvider.of<CollectionBloc>(
-                                                context,
+                                        return BlocProvider<CollectionBloc>(
+                                          create:
+                                              (context) => CollectionBloc(
+                                                CollectionStorage(),
                                               ),
                                           child: const UserBonusView(),
                                         );

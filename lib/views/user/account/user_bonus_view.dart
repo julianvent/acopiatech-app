@@ -17,15 +17,10 @@ class UserBonusView extends StatefulWidget {
 
 class _UserBonusViewState extends State<UserBonusView> {
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     context.read<CollectionBloc>().add(
       const CollectionEventLoadAllCompletedCollection(),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('User Bonus')),
       body: Padding(
