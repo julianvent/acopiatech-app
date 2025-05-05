@@ -116,13 +116,13 @@ class CollectionStorage {
     }
   }
 
-  Future<Collection?> getLastOngoingCollection({
+  Future<Collection?> getLastCollection({
     required String ownerUserId,
   }) async {
     try {
       final Iterable<Collection?> querySnapshot = await collections
           .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
-          .where(collectionStatusFieldName, isNotEqualTo: 'Cancelada')
+          .where(collectionStatusFieldName, isNotEqualTo: 'cancelada')
           .orderBy(timeCreatedFieldName, descending: true)
           .limit(1)
           .get()

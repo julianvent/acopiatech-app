@@ -181,143 +181,29 @@ class _UserHomeViewState extends State<UserHomeView> {
                       },
                     ),
                   ),
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      if (constraints.maxWidth > 600) {
-                        return Center(
-                          child: Row(
-                            spacing: 10,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      ColorsPalette.backgroundDarkGreen,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  final controller =
-                                      Get.find<UserNavigationController>();
-                                  controller.setView(1);
-                                },
-                                child: Text(
-                                  'Ver recoleciones',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      ColorsPalette.backgroundDarkGreen,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder:
-                                          (_) => BlocProvider(
-                                            create:
-                                                (_) => AddressBloc(
-                                                  AddressStorage(),
-                                                )..add(
-                                                  const AddressEventLoadAdresses(),
-                                                ),
-                                            child: const CreateCollectionView(),
-                                          ),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  'Solicitar recoleción',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: Row(
-                            spacing: 8,
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        ColorsPalette.backgroundDarkGreen,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    final controller =
-                                        Get.find<UserNavigationController>();
-                                    controller.setView(1);
-                                  },
-                                  child: Text(
-                                    'Ver recoleciones',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.all(12.0),
-                                    backgroundColor:
-                                        ColorsPalette.backgroundDarkGreen,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (_) => BlocProvider.value(
-                                              value: BlocProvider.of<
-                                                CollectionBloc
-                                              >(context),
-                                              child:
-                                                  const CreateCollectionView(),
-                                            ),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    'Solicitar recoleción',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    },
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsPalette.backgroundDarkGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        final controller =
+                            Get.find<UserNavigationController>();
+                        controller.setView(1);
+                      },
+                      child: Text(
+                        'Ver recoleciones',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -345,7 +231,6 @@ class _UserHomeViewState extends State<UserHomeView> {
                   ),
                 ],
               ),
-
               // Centros de acopio
               SizedBox(
                 child: Column(
