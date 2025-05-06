@@ -1,7 +1,4 @@
 import 'package:acopiatech/constants/colors_palette.dart';
-import 'package:acopiatech/services/cloud/address/address_storage.dart';
-import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
-import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';

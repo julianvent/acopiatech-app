@@ -20,12 +20,13 @@ class AddressStorage {
   CollectionReference<Map<String, dynamic>> get addresses =>
       _firestore.collection('address');
 
-  Stream<Iterable<Address>> allAddressesByOwner({required String ownerUserId}) =>
-      addresses
-          .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
-          .where(addressIsDeletedFieldName, isEqualTo: false)
-          .snapshots()
-          .map((event) => event.docs.map((doc) => Address.fromSnapshot(doc)));
+  Stream<Iterable<Address>> allAddressesByOwner({
+    required String ownerUserId,
+  }) => addresses
+      .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
+      .where(addressIsDeletedFieldName, isEqualTo: false)
+      .snapshots()
+      .map((event) => event.docs.map((doc) => Address.fromSnapshot(doc)));
 
   Future<Address> createNewAddress({
     required String ownerUserId,
@@ -38,6 +39,7 @@ class AddressStorage {
     required String? reference,
     required String city,
     required String state,
+    bool? isDropOff,
   }) async {
     try {
       final timeCreated = DateTime.now();
@@ -54,6 +56,7 @@ class AddressStorage {
         addressStateFieldName: state,
         timeCreatedFieldName: timeCreated,
         addressIsDeletedFieldName: false,
+        addressIsDropOffFieldName: isDropOff ?? false,
       });
 
       final fetchedAddress = await document.get();
@@ -72,6 +75,7 @@ class AddressStorage {
         state: state,
         timeCreated: timeCreated,
         isDeleted: false,
+        isDropOff: isDropOff ?? false,
       );
     } catch (e) {
       throw CouldNotCreateAddressException();
@@ -114,4 +118,10 @@ class AddressStorage {
       throw CouldNotUpdateAddressException();
     }
   }
+
+  Stream<Iterable<Address>> allDropOffs() => addresses
+      .where(addressIsDeletedFieldName, isEqualTo: false)
+      .where(addressIsDropOffFieldName, isEqualTo: true)
+      .snapshots()
+      .map((event) => event.docs.map((doc) => Address.fromSnapshot(doc)));
 }

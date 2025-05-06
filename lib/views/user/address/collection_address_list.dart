@@ -56,8 +56,15 @@ class _CollectionAddressListState extends State<CollectionAddressList> {
                       widget.onTap(selectedAddress);
                     }
                   },
-                  title: Text('${address.street}, ${address.city}'),
-                  subtitle: Text('${address.neighborhood}, ${address.state}'),
+                  title: Text('${address.street}, ${address.neighborhood}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 2,
+                    children: [
+                      Text(address.phoneNumber),
+                      Text('${address.city}, ${address.state}'),
+                    ],
+                  ),
                 ),
               ),
             ),

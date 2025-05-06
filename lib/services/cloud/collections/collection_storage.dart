@@ -1,3 +1,4 @@
+import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection_exception.dart';
 import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
 import 'package:acopiatech/services/cloud/storage_constants.dart';
