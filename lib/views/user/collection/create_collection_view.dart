@@ -11,6 +11,7 @@ import 'package:acopiatech/services/cloud/storage_exceptions.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/utilities/generics/validate_field.dart';
+import 'package:acopiatech/utilities/permission/permissions.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
@@ -39,13 +40,17 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
   Address? _selectedAddress;
 
   void pickMultiImages() async {
-    final List<XFile> pickedImages = await _picker.pickMultiImage();
-    if (pickedImages.isNotEmpty) {
-      setState(() {
-        for (XFile image in pickedImages) {
-          _selectedImages.add(image.path);
-        }
-      });
+    final isPermissionGranted = await requestPhotosPermission();
+
+    if (isPermissionGranted) {
+      final List<XFile> pickedImages = await _picker.pickMultiImage();
+      if (pickedImages.isNotEmpty) {
+        setState(() {
+          for (XFile image in pickedImages) {
+            _selectedImages.add(image.path);
+          }
+        });
+      }
     }
   }
 
