@@ -141,9 +141,8 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                   // Fecha
                   Container(
                     decoration: const BoxDecoration(
-                      border: Border(
-                        top: BorderSide(color: Colors.grey, width: 2.0),
-                        bottom: BorderSide(color: Colors.grey, width: 2.0),
+                      border: Border.symmetric(
+                        horizontal: BorderSide(width: 0.5),
                       ),
                     ),
                     child: Column(
@@ -188,6 +187,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
                               padding: const EdgeInsets.all(8.0),
                               child:
@@ -246,8 +246,11 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                                       )
                                       : const Center(
                                         child: Text(
-                                          'No hay fotos seleccionadas',
-                                          style: TextStyle(fontSize: 16),
+                                          'Adjunta evidencias',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black54,
+                                          ),
                                         ),
                                       ),
                             ),
@@ -284,9 +287,8 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(color: Colors.grey, width: 2.0),
-                        bottom: BorderSide(color: Colors.grey, width: 2.0),
+                      border: Border.symmetric(
+                        horizontal: BorderSide(width: 0.5),
                       ),
                     ),
                     child: Padding(
@@ -305,7 +307,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                           ),
                           _selectedAddress == null
                               ? const Text(
-                                'No hay direcciones seleccionadas',
+                                'Selecciona una dirección.',
                                 style: TextStyle(fontSize: 16),
                               )
                               : Card(
@@ -387,7 +389,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                         if (_selectedImages.isEmpty) {
                           showErrorDialog(
                             context,
-                            'Por favor, selecciona las evidencias de la recolección para crear una recolección.',
+                            'Por favor, adjunta las evidencias para crear una recolección.',
                           );
                         } else if (_selectedAddress == null) {
                           showErrorDialog(

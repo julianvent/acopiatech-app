@@ -1,3 +1,4 @@
+import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection_exception.dart';
 import 'package:acopiatech/services/cloud/collections/collection_image_storage.dart';
 import 'package:acopiatech/services/cloud/storage_constants.dart';
@@ -116,13 +117,13 @@ class CollectionStorage {
     }
   }
 
-  Future<Collection?> getLastOngoingCollection({
+  Future<Collection?> getLastCollection({
     required String ownerUserId,
   }) async {
     try {
       final Iterable<Collection?> querySnapshot = await collections
           .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
-          .where(collectionStatusFieldName, isNotEqualTo: 'Cancelada')
+          .where(collectionStatusFieldName, isNotEqualTo: 'cancelada')
           .orderBy(timeCreatedFieldName, descending: true)
           .limit(1)
           .get()

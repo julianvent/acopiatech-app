@@ -40,6 +40,7 @@ class UserTextField extends StatelessWidget {
           vertical: MediaQuery.of(context).viewInsets.bottom,
         ),
         validator: validator,
+        textCapitalization: TextCapitalization.sentences,
         controller: controller,
         keyboardType: keyboardType,
         initialValue: initialValue,

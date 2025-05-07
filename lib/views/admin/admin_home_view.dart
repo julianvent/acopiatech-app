@@ -6,8 +6,10 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
+import 'package:acopiatech/widgets/admin/admin_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class AdminHomeView extends StatefulWidget {
   const AdminHomeView({super.key});
@@ -181,7 +183,9 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                           ),
                         ),
                         onPressed: () {
-                          
+                          final controller =
+                              Get.find<AdminNavigationController>();
+                          controller.setView(1);
                         },
                         child: const Text(
                           'Ver recolecciones',

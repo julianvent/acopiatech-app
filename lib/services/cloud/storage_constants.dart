@@ -22,3 +22,4 @@ const addressCityFieldName = 'city';
 const addressStateFieldName = 'state';
 const addressPhoneNumberFieldName = 'phone_number';
 const addressIsDeletedFieldName = 'is_deleted';
+const addressIsDropOffFieldName = 'is_dropoff';

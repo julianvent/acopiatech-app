@@ -15,8 +15,9 @@ class Address {
   final DateTime timeCreated;
   final String phoneNumber;
   final bool isDeleted;
+  final bool? isDropOff;
 
-  Address({
+  const Address({
     required this.documentId,
     required this.ownerUserId,
     required this.street,
@@ -30,11 +31,11 @@ class Address {
     required this.state,
     required this.timeCreated,
     required this.isDeleted,
+    required this.isDropOff,
   });
 
-  Address.fromSnapshot(
-    QueryDocumentSnapshot<Map<String, dynamic>> snapshot,
-  ) : documentId = snapshot.id,
+  Address.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
+    : documentId = snapshot.id,
       ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,
       street = snapshot.data()[addressStreetFieldName] as String,
       extNumber = snapshot.data()[addressExtNumberFieldName] as String,
@@ -47,5 +48,6 @@ class Address {
       state = snapshot.data()[addressStateFieldName] as String,
       timeCreated =
           (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
-      isDeleted = snapshot.data()[addressIsDeletedFieldName];
+      isDeleted = snapshot.data()[addressIsDeletedFieldName] as bool,
+      isDropOff = snapshot.data()[addressIsDropOffFieldName] as bool;
 }

@@ -28,7 +28,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
                 ? collectionService.allCollections()
                 : collectionService.allCollectionsByOwner(ownerUserId: userId);
 
-        final lastCollection = await collectionService.getLastOngoingCollection(
+        final lastCollection = await collectionService.getLastCollection(
           ownerUserId: userId,
         );
 
@@ -63,7 +63,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       );
 
       final currentUser = await AuthService.firebase().currentUser;
-      final lastCollection = await collectionService.getLastOngoingCollection(
+      final lastCollection = await collectionService.getLastCollection(
         ownerUserId: currentUser!.id,
       );
 

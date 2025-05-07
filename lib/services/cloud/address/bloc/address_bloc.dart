@@ -1,4 +1,5 @@
 import 'package:acopiatech/services/auth/auth_service.dart';
+import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
@@ -9,9 +10,16 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     : super(const AddressStateUnintialized(isLoading: false)) {
     Future<void> emitUpdateAddressList(Emitter<AddressState> emit) async {
       final currentUser = await AuthService.firebase().currentUser;
-      final addressesStream = addressService.allAddressesByOwner(
-        ownerUserId: currentUser!.id,
-      );
+
+      Stream<Iterable<Address>>? addressesStream;
+
+      if (currentUser!.role == 'admin') {
+        addressesStream = addressService.allDropOffs();
+      } else {
+        addressesStream = addressService.allAddressesByOwner(
+          ownerUserId: currentUser.id,
+        );
+      }
       emit(
         AddressStateLoadedAddress(
           addressesStream: addressesStream,
@@ -82,6 +90,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
             reference: event.reference,
             city: event.city,
             state: event.state,
+            isDropOff: currentUser.role == 'admin' ? true : false,
           );
         } on Exception catch (e) {
           emit(

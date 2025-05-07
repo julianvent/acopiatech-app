@@ -182,11 +182,6 @@ class _LoginViewState extends State<LoginView> {
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        WelcomeButtom(
-                          buttonText: "Iniciar sesión como usuario anónimo",
-                          onTapWidget: UserCollectionView(),
-                        ),
                         SizedBox(height: 10),
                         TextButton(
                           onPressed: () {

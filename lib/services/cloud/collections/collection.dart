@@ -44,5 +44,5 @@ class Collection {
             status.name == snapshot.data()[collectionStatusFieldName] as String,
       ),
       mode = snapshot.data()[collectionModeFieldName] as String,
-      pointsEarned = snapshot.data()[collectionPointsFieldName] as int;
+      pointsEarned = snapshot.data()[collectionPointsFieldName] as int? ?? 0;
 }

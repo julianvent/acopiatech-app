@@ -1,4 +1,3 @@
-import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_event.dart';
 import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
@@ -18,85 +17,114 @@ class UserAddressView extends StatefulWidget {
 class _UserDirectionViewState extends State<UserAddressView> {
   @override
   Widget build(BuildContext context) {
-    context.read<AddressBloc>().add(const AddressEventLoadAdresses());
-    return BlocConsumer<AddressBloc, AddressState>(
-      listener: (context, state) {
-        if (state.isLoading) {
-          LoadingScreen().show(context: context, text: 'Cargando direcciones');
-        } else {
-          LoadingScreen().hide();
-        }
-      },
-      builder: (context, state) {
-        if (state is AddressStateCreatingUpdatingAddress) {
-          return CreateUpdateAddressView();
-        } else if (state is AddressStateLoadedAddress) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: const Text(
-                  'Direcciones',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+    context.read<AddressBloc>().add(AddressEventLoadAdresses());
+    return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: const Text(
+            'Direcciones',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => BlocProvider.value(
+                        value: BlocProvider.of<AddressBloc>(context),
+                        child: CreateUpdateAddressView(),
+                      ),
                 ),
-              ),
-            ),
-            body: StreamBuilder(
-              stream: state.addressesStream,
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                  case ConnectionState.active:
-                    if (snapshot.hasData) {
-                      final allAddresses = snapshot.data as Iterable<Address>;
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: AddressListView(
-                                addresses: allAddresses,
-                                onDeleteAddress: (address) {
-                                  context.read<AddressBloc>().add(
-                                    AddressEventDeleteAddress(
-                                      documentId: address.documentId,
-                                    ),
-                                  );
-                                },
-                                onTap: (address) {
-                                  context.read<AddressBloc>().add(
-                                    AddressEventShouldCreateUpdateAddress(
-                                      address: address,
-                                    ),
-                                  );
-                                },
-                              ),
+              );
+            },
+            icon: Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          BlocBuilder<AddressBloc, AddressState>(
+            builder: (context, state) {
+              if (state is AddressStateLoadedAddress) {
+                return StreamBuilder(
+                  stream: state.addressesStream,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                      case ConnectionState.active:
+                        if (snapshot.hasData) {
+                          final allAddresses =
+                              snapshot.data as Iterable<Address>;
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                AddressListView(
+                                  addresses: allAddresses,
+                                  onDeleteAddress: (address) {
+                                    context.read<AddressBloc>().add(
+                                      AddressEventDeleteAddress(
+                                        documentId: address.documentId,
+                                      ),
+                                    );
+                                  },
+                                  onTap: (address) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (_) => BlocProvider.value(
+                                              value:
+                                                  BlocProvider.of<AddressBloc>(
+                                                    context,
+                                                  ),
+                                              child: CreateUpdateAddressView(
+                                                address: address,
+                                              ),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                            ElevatedButton(
-                              onPressed:
-                                  () => context.read<AddressBloc>().add(
-                                    AddressEventShouldCreateUpdateAddress(
-                                      address: null,
-                                    ),
-                                  ),
-                              child: const Text('Agregar dirección'),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      default:
+                        return const Center(child: CircularProgressIndicator());
                     }
-                  default:
-                    return const Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-          );
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
+                  },
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder:
+          //             (_) => BlocProvider.value(
+          //               value: BlocProvider.of<AddressBloc>(context),
+          //               child: CreateUpdateAddressView(),
+          //             ),
+          //       ),
+          //     );
+          //   },
+          //   child: const Text('Agregar dirección'),
+          // ),
+        ],
+      ),
     );
   }
 }

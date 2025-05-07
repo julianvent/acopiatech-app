@@ -22,9 +22,8 @@ class AddressListView extends StatelessWidget {
     if (addresses.isEmpty) {
       return const Center(child: Text('No existen direcciones registradas.'));
     }
-    return ListView.builder(
-      itemCount: addresses.length,
-      itemBuilder: (context, index) {
+    return Column(
+      children: List.generate(addresses.length, (index) {
         final address = addresses.elementAt(index);
         return Padding(
           padding: const EdgeInsets.all(10.0),
@@ -82,7 +81,7 @@ class AddressListView extends StatelessWidget {
             ],
           ),
         );
-      },
+      }),
     );
     // return Container(
     //   padding: const EdgeInsets.all(20),
