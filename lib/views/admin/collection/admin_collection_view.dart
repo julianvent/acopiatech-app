@@ -5,6 +5,7 @@ import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
+import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,15 +25,18 @@ class _AdminCollectionViewState extends State<AdminCollectionView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Historial de recolecciones',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+        title: Row(
+          children: [
+            const Text(
+              'Recolecciones',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
-        centerTitle: true,
         backgroundColor: ColorsPalette.greenShadow,
       ),
       body: Padding(

@@ -25,97 +25,18 @@ class _UserCollectionViewState extends State<UserCollectionView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Historial de recolecciones',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: ColorsPalette.greenShadow,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          spacing: 20,
+        title: Row(
           children: [
-            Center(
-              child: SizedBox(
-                child: BlocBuilder<CollectionBloc, CollectionState>(
-                  builder: (context, state) {
-                    if (state is CollectionStateLoadedCollections) {
-                      return StreamBuilder(
-                        stream: state.collectionsStream,
-                        builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                            case ConnectionState.active:
-                              if (snapshot.hasData) {
-                                final collections =
-                                    snapshot.data as Iterable<Collection>;
-                                if (collections.isNotEmpty) {
-                                  return CollectionListGenerateView(
-                                    collections: collections,
-                                    length: collections.length,
-                                    onTap: (collection) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (_) => BlocProvider.value(
-                                                value: BlocProvider.of<
-                                                  CollectionBloc
-                                                >(context),
-                                                child: CollectionDetailsView(
-                                                  collection: collection,
-                                                ),
-                                              ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return Center(
-                                    child: Column(
-                                      spacing: 20,
-                                      children: [
-                                        Text(
-                                          'No cuentas con ninguna recolección\n'
-                                          '¡Crear una recolección!',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        Icon(
-                                          Icons.recycling,
-                                          size: 100,
-                                          color: ColorsPalette.lightGreen,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              } else {
-                                return Center(
-                                  child: const CircularProgressIndicator(),
-                                );
-                              }
-                            default:
-                              return Center(
-                                child: const CircularProgressIndicator(),
-                              );
-                          }
-                        },
-                      );
-                    } else {
-                      return Center(child: const CircularProgressIndicator());
-                    }
-                  },
-                ),
+            const Text(
+              'Recolecciones',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
             ),
-            ElevatedButton(
+            const Spacer(),
+            IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -128,21 +49,95 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorsPalette.lightGreen,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                alignment: Alignment.center,
-                fixedSize: Size(200, 50),
-              ),
-              child: Text(
-                'Solicitar recolección',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
+              icon: Icon(Icons.add),
+              color: Colors.white,
             ),
           ],
+        ),
+        backgroundColor: ColorsPalette.greenShadow,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            spacing: 20,
+            children: [
+              Center(
+                child: SizedBox(
+                  child: BlocBuilder<CollectionBloc, CollectionState>(
+                    builder: (context, state) {
+                      if (state is CollectionStateLoadedCollections) {
+                        return StreamBuilder(
+                          stream: state.collectionsStream,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                              case ConnectionState.active:
+                                if (snapshot.hasData) {
+                                  final collections =
+                                      snapshot.data as Iterable<Collection>;
+                                  if (collections.isNotEmpty) {
+                                    return CollectionListGenerateView(
+                                      collections: collections,
+                                      length: collections.length,
+                                      onTap: (collection) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) => BlocProvider.value(
+                                                  value: BlocProvider.of<
+                                                    CollectionBloc
+                                                  >(context),
+                                                  child: CollectionDetailsView(
+                                                    collection: collection,
+                                                  ),
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: Column(
+                                        spacing: 20,
+                                        children: [
+                                          Text(
+                                            'No cuentas con ninguna recolección\n'
+                                            '¡Crear una recolección!',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          Icon(
+                                            Icons.recycling,
+                                            size: 100,
+                                            color: ColorsPalette.lightGreen,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  return Center(
+                                    child: const CircularProgressIndicator(),
+                                  );
+                                }
+                              default:
+                                return Center(
+                                  child: const CircularProgressIndicator(),
+                                );
+                            }
+                          },
+                        );
+                      } else {
+                        return Center(child: const CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
