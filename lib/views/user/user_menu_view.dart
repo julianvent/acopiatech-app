@@ -1,8 +1,9 @@
-import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
-import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
 import 'package:acopiatech/views/user/account/user_account_view.dart';
 import 'package:acopiatech/views/user/address/user_address_view.dart';
 import 'package:acopiatech/widgets/user/user_menu_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,9 +12,12 @@ class UserMenuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => UserMenuProvider(),
-      child: const _UserMenuContent(),
+    return BlocProvider(
+      create: (context) => CollectionBloc(CollectionStorage()),
+      child: ChangeNotifierProvider(
+        create: (_) => UserMenuProvider(),
+        child: const _UserMenuContent(),
+      ),
     );
   }
 }
