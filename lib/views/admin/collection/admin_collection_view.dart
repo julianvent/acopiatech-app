@@ -37,81 +37,84 @@ class _AdminCollectionViewState extends State<AdminCollectionView> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          spacing: 20,
-          children: <Widget>[
-            SizedBox(
-              child: BlocBuilder<CollectionBloc, CollectionState>(
-                builder: (context, state) {
-                  if (state is CollectionStateLoadedCollections) {
-                    return StreamBuilder(
-                      stream: state.collectionsStream,
-                      builder: (context, snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                          case ConnectionState.active:
-                            if (snapshot.hasData) {
-                              final collections =
-                                  snapshot.data as Iterable<Collection>;
-                              if (collections.isNotEmpty) {
-                                return CollectionListGenerateView(
-                                  collections: collections,
-                                  length: collections.length,
-                                  onTap: (collection) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (_) => BlocProvider.value(
-                                              value: BlocProvider.of<
-                                                CollectionBloc
-                                              >(context),
-                                              child: AdminCollectionDetailsView(
-                                                collection: collection,
+        child: SingleChildScrollView(
+          child: Column(
+            spacing: 20,
+            children: <Widget>[
+              SizedBox(
+                child: BlocBuilder<CollectionBloc, CollectionState>(
+                  builder: (context, state) {
+                    if (state is CollectionStateLoadedCollections) {
+                      return StreamBuilder(
+                        stream: state.collectionsStream,
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                            case ConnectionState.active:
+                              if (snapshot.hasData) {
+                                final collections =
+                                    snapshot.data as Iterable<Collection>;
+                                if (collections.isNotEmpty) {
+                                  return CollectionListGenerateView(
+                                    collections: collections,
+                                    length: collections.length,
+                                    onTap: (collection) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => BlocProvider.value(
+                                                value: BlocProvider.of<
+                                                  CollectionBloc
+                                                >(context),
+                                                child:
+                                                    AdminCollectionDetailsView(
+                                                      collection: collection,
+                                                    ),
                                               ),
-                                            ),
-                                      ),
-                                    );
-                                  },
-                                );
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: Column(
+                                      spacing: 20,
+                                      children: [
+                                        Text(
+                                          'No hay ninguna recolección programada\n',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Icon(
+                                          Icons.recycling,
+                                          size: 100,
+                                          color: ColorsPalette.lightGreen,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                               } else {
-                                return Center(
-                                  child: Column(
-                                    spacing: 20,
-                                    children: [
-                                      Text(
-                                        'No hay ninguna recolección programada\n',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      Icon(
-                                        Icons.recycling,
-                                        size: 100,
-                                        color: ColorsPalette.lightGreen,
-                                      ),
-                                    ],
-                                  ),
+                                return const Center(
+                                  child: CircularProgressIndicator(),
                                 );
                               }
-                            } else {
+                            default:
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
-                            }
-                          default:
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                        }
-                      },
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
+                          }
+                        },
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
