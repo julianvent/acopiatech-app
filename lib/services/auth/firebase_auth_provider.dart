@@ -139,4 +139,14 @@ class FirebaseAuthProvider implements AuthProvider {
       throw GenericAuthException();
     }
   }
+
+  @override
+  Future<String> updateName({required String name}) async {
+    try {
+      await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+      return name;
+    } catch (_) {
+      throw CouldNotUpdateNameException();
+    }
+  }
 }

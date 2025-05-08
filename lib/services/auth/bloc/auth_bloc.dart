@@ -148,5 +148,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     });
+
+    // update name
+    on<AuthEventUpdateName>((event, emit) async {
+      emit(AuthStateUpdatingName(isLoading: true, exception: null));
+      try {
+        await provider.updateName(name: event.name);
+        final user = await provider.currentUser;
+
+        if (user!.role == 'admin') {
+          emit(AuthStateLoggedInAsAdmin(user: user, isLoading: false));
+        } else {
+          emit(AuthStateLoggedIn(user: user, isLoading: false));
+        }
+      } on Exception catch (e) {
+        emit(AuthStateUpdatingName(isLoading: false, exception: e));
+      }
+    });
   }
 }

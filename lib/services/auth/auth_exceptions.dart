@@ -15,3 +15,5 @@ class UserNotFoundAuthException implements Exception {}
 class PasswordsDontMatchAuthException implements Exception {}
 
 class WrongPasswordAuthException implements Exception {}
+
+class CouldNotUpdateNameException implements Exception {}

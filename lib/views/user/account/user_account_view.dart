@@ -181,7 +181,7 @@ class _UserAccountViewState extends State<UserAccountView> {
                     onPressed: () {
                       context.read<AuthBloc>().add(AuthEventLogOut());
                     },
-                    child: const Text('Cerrar sesión'),
+                    child: const Text('Cerrar sesión', style: TextStyle(color: Colors.black)),
                   ),
                 ],
               ),
