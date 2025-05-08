@@ -102,7 +102,6 @@ class _UserHomeViewState extends State<UserHomeView> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorsPalette.backgroundDarkGreen,
-                      padding: EdgeInsets.all(12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),

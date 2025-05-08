@@ -49,7 +49,7 @@ class _UserAccountViewState extends State<UserAccountView> {
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                spacing: 30,
+                spacing: 10,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Row(
@@ -69,7 +69,7 @@ class _UserAccountViewState extends State<UserAccountView> {
                                     ? Image.file(userProfileImage!)
                                     : Center(
                                       child: Image.asset(
-                                        ImagesRoutes.mascota,
+                                        ImagesRoutes.logotipoA,
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -91,7 +91,7 @@ class _UserAccountViewState extends State<UserAccountView> {
                         child: Text(
                           user.name ?? user.email,
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -104,46 +104,51 @@ class _UserAccountViewState extends State<UserAccountView> {
                       SizedBox(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Column(
+                          child: Row(
+                            spacing: 10,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Text(
                                 'Mis puntos',
                                 style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               // Obtener puntos del usuario
-                              Text(
-                                'Cambiar por puntos',
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return BlocProvider<CollectionBloc>(
-                                          create:
-                                              (context) => CollectionBloc(
-                                                CollectionStorage(),
-                                              ),
-                                          child: const UserBonusView(),
-                                        );
-                                      },
+                              Row(
+                                children: [
+                                  Text(
+                                    'Cambiar por puntos',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.wifi_protected_setup_outlined,
-                                  size: 50,
-                                  color: ColorsPalette.backgroundDarkGreen,
-                                ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return BlocProvider<CollectionBloc>(
+                                              create:
+                                                  (context) => CollectionBloc(
+                                                    CollectionStorage(),
+                                                  ),
+                                              child: const UserBonusView(),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.wifi_protected_setup_outlined,
+                                      size: 40,
+                                      color: ColorsPalette.backgroundDarkGreen,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -158,14 +163,18 @@ class _UserAccountViewState extends State<UserAccountView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UserAccountForm(user: user),
+                          builder:
+                              (_) => BlocProvider.value(
+                                value: BlocProvider.of<AuthBloc>(context),
+                                child: UserAccountForm(user: user),
+                              ),
                         ),
                       );
                     },
                   ),
                   UserAccountCard(
                     title: 'Métodos de pago',
-                    icon: Icons.credit_card_off,
+                    icon: Icons.credit_card,
                     onTap: () {},
                   ),
                   ElevatedButton(
@@ -202,22 +211,19 @@ class UserAccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: ColorsPalette.backgroundDarkGreen,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          onTap: onTap,
-          title: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.w600,
-            ),
+      child: ListTile(
+        onTap: onTap,
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
-          trailing: IconButton(
-            onPressed: onTap,
-            icon: Icon(Icons.edit, color: Colors.white),
-          ),
+        ),
+        trailing: IconButton(
+          onPressed: onTap,
+          icon: Icon(icon, color: Colors.white),
         ),
       ),
     );
