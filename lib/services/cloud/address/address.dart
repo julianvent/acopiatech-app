@@ -50,4 +50,10 @@ class Address {
           (snapshot.data()[timeCreatedFieldName] as Timestamp).toDate(),
       isDeleted = snapshot.data()[addressIsDeletedFieldName] as bool,
       isDropOff = snapshot.data()[addressIsDropOffFieldName] as bool;
+
+  @override
+  String toString() {
+    String number = '$extNumber $intNumber'.trim();
+    return "$street $number, $neighborhood, $zipCode $city, ${state.length > 3 ? state.substring(0, 3) : state}.";
+  }
 }

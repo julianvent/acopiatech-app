@@ -19,7 +19,7 @@ class CollectionEventCreateCollection extends CollectionEvent {
   final DateTime date;
   final List<String> images;
   final String description;
-  final List<String?> address;
+  final String address;
   final CollectionStatus status;
   final String mode;
 

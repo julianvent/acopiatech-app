@@ -70,7 +70,7 @@ class CollectionStorage {
     required DateTime date,
     required List<String> images,
     required String description,
-    required List<String?> address,
+    required String address,
     required CollectionStatus status,
     required String mode,
   }) async {

@@ -13,6 +13,7 @@ import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/views/admin/chat/admin_chat_view.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
+import 'package:acopiatech/widgets/map_widget.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,13 +50,6 @@ class _AdminCollectionDetailsViewState
     final collection = widget.collection;
     // collection data
     final description = collection.description;
-
-    // address data
-    final String? street = collection.address.elementAt(0);
-    final String number =
-        '${collection.address.elementAt(1)} ${widget.collection.address.elementAt(2)}'
-            .trim();
-    final String? neighborhood = collection.address.elementAt(3);
 
     // date
     final date =
@@ -176,14 +170,7 @@ class _AdminCollectionDetailsViewState
                               ),
                             ),
                             child: Center(
-                              child: Text(
-                                "Añadir mapa",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
+                              child: MapWidget(address: collection.address),
                             ),
                           ),
                           // ------ Estado de la recolección ------
@@ -287,11 +274,7 @@ class _AdminCollectionDetailsViewState
                                 spacing: 10,
                                 children: [
                                   Icon(Icons.location_on_outlined),
-                                  Flexible(
-                                    child: Text(
-                                      '$street $number, $neighborhood',
-                                    ),
-                                  ),
+                                  Flexible(child: Text(collection.address)),
                                 ],
                               ),
                               Row(

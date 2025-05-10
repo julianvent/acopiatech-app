@@ -27,7 +27,7 @@ void main() async {
         date: DateTime.now(),
         images: [],
         description: 'description',
-        address: ['calle', 'numExt', 'numInt', 'colonia'],
+        address: "'calle', 'numExt', 'numInt', 'colonia'",
         status: CollectionStatus.recibida,
         mode: 'mode',
       );

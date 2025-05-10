@@ -10,6 +10,7 @@ import 'package:acopiatech/utilities/dialogs/cancel_collection_dialog.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
+import 'package:acopiatech/widgets/map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,13 +25,6 @@ class CollectionDetailsView extends StatelessWidget {
     final status = collection.status.status;
     final statusDescription = collection.status.description;
     final description = collection.description;
-
-    // address data
-    final String? street = collection.address.elementAt(0);
-    final String number =
-        '${collection.address.elementAt(1)} ${collection.address.elementAt(2)}'
-            .trim();
-    final String? neighborhood = collection.address.elementAt(3);
 
     // date
     final date =
@@ -146,26 +140,19 @@ class CollectionDetailsView extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 10,
+                        spacing: 12,
                         children: [
                           Container(
                             alignment: Alignment.center,
                             height: 300,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.black,
+                                color: Colors.grey,
                                 width: 1.0,
                               ),
                             ),
                             child: Center(
-                              child: Text(
-                                "Añadir mapa",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
+                              child: MapWidget(address: collection.address),
                             ),
                           ),
                           // ------ Estado de la recolección ------
@@ -237,11 +224,7 @@ class CollectionDetailsView extends StatelessWidget {
                                 spacing: 10,
                                 children: [
                                   Icon(Icons.location_on_outlined),
-                                  Flexible(
-                                    child: Text(
-                                      '$street $number, $neighborhood',
-                                    ),
-                                  ),
+                                  Flexible(child: Text(collection.address)),
                                 ],
                               ),
                               Row(

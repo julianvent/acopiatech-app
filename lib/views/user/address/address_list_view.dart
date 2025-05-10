@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/utilities/dialogs/delete_dialog.dart';
@@ -25,6 +27,7 @@ class AddressListView extends StatelessWidget {
     return Column(
       children: List.generate(addresses.length, (index) {
         final address = addresses.elementAt(index);
+        log(address.toString());
         return Stack(
           children: [
             Positioned.fill(

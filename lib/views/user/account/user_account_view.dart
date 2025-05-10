@@ -172,11 +172,11 @@ class _UserAccountViewState extends State<UserAccountView> {
                       );
                     },
                   ),
-                  UserAccountCard(
-                    title: 'Métodos de pago',
-                    icon: Icons.credit_card,
-                    onTap: () {},
-                  ),
+                  // UserAccountCard(
+                  //   title: 'Métodos de pago',
+                  //   icon: Icons.credit_card,
+                  //   onTap: () {},
+                  // ),
                   ElevatedButton(
                     onPressed: () {
                       context.read<AuthBloc>().add(AuthEventLogOut());

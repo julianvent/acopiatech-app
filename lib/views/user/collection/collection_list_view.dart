@@ -25,12 +25,6 @@ class CollectionListView extends StatelessWidget {
       return const Text('No cuentas con direcciones registradas.');
     }
 
-    final String? street = collection?.address.elementAt(0);
-    final String number =
-        '${collection?.address.elementAt(1)} ${collection?.address.elementAt(2)}'
-            .trim();
-    final String? neighborhood = collection?.address.elementAt(3);
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -97,7 +91,7 @@ class CollectionListView extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '$street #$number $neighborhood',
+                              collection!.address,
                               overflow: TextOverflow.clip,
                               style: const TextStyle(
                                 fontSize: 14,

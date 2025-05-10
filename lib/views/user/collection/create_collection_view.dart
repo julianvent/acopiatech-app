@@ -402,19 +402,13 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                             'Por favor, selecciona una dirección para crear una recolección.',
                           );
                         } else {
-                          final List<String?> address = [
-                            _selectedAddress!.street,
-                            _selectedAddress!.extNumber,
-                            _selectedAddress!.intNumber,
-                            _selectedAddress!.neighborhood,
-                          ];
                           context.read<CollectionBloc>().add(
                             CollectionEventCreateCollection(
                               schedule: _selectedScheduled,
                               date: _pickedDate,
                               description: _description!,
                               images: _selectedImages,
-                              address: address,
+                              address: _selectedAddress.toString(),
                               status: CollectionStatus.recibida,
                               mode: 'Recolección a domicilio',
                             ),

@@ -45,13 +45,6 @@ class CollectionListGenerateView extends StatelessWidget {
         (index) {
           final collection = filteredCollections.elementAt(index);
 
-          // address data
-          final String? street = collection.address.elementAt(0);
-          final String number =
-              '${collection.address.elementAt(1)} ${collection.address.elementAt(2)}'
-                  .trim();
-          final String? neighborhood = collection.address.elementAt(3);
-
           // date
           final date =
               '${collection.dateScheduled.day}-${collection.dateScheduled.month}-${collection.dateScheduled.year} ${collection.schedule}';
@@ -120,7 +113,7 @@ class CollectionListGenerateView extends StatelessWidget {
                               Icon(Icons.location_on),
                               Flexible(
                                 child: Text(
-                                  '$street $number, $neighborhood',
+                                  collection.address,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 14,

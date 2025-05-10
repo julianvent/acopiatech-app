@@ -11,7 +11,7 @@ class Collection {
   final DateTime dateScheduled;
   final String schedule;
   final String description;
-  final List<String?> address;
+  final String address;
   final CollectionStatus status;
   final String mode;
   final int? pointsEarned;
@@ -38,7 +38,7 @@ class Collection {
           (snapshot.data()[collectionDateFieldName] as Timestamp).toDate(),
       schedule = snapshot.data()[collectionScheduleFieldName] as String,
       description = snapshot.data()[collectionDescriptionFieldName] as String,
-      address = List<String?>.from(snapshot.data()[addressFieldName]),
+      address = snapshot.data()[addressFieldName] as String,
       status = CollectionStatus.values.firstWhere(
         (status) =>
             status.name == snapshot.data()[collectionStatusFieldName] as String,
