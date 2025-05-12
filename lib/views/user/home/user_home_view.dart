@@ -6,6 +6,7 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:acopiatech/views/user/collection/collection_details_view.dart';
+import 'package:acopiatech/widgets/map_tracker.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -186,8 +187,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                         ),
                       ),
                       onPressed: () {
-                        final controller =
-                            Get.find<UserNavigationController>();
+                        final controller = Get.find<UserNavigationController>();
                         controller.setView(1);
                       },
                       child: Text(
@@ -215,16 +215,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(
-                    height: 300,
-                    child: GoogleMap(
-                      onMapCreated: onMapCreated,
-                      initialCameraPosition: CameraPosition(
-                        target: _center,
-                        zoom: 13.0,
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 300, child: MapTracker()),
                 ],
               ),
               // Centros de acopio
