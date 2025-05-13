@@ -13,6 +13,7 @@ import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/views/admin/chat/admin_chat_view.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
+import 'package:acopiatech/widgets/admin/admin_point_assigner_text_field.dart';
 import 'package:acopiatech/widgets/map_widget.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
@@ -216,19 +217,22 @@ class _AdminCollectionDetailsViewState
                                 Text('Asignar puntos a recolección'),
                                 Form(
                                   key: _formKey,
-                                  child: UserTextField(
-                                    fieldName: 'Puntos',
-                                    filled: false,
-                                    initialValue:
-                                        collection.pointsEarned == 0
-                                            ? null
-                                            : collection.pointsEarned
-                                                .toString(),
-                                    keyboardType: TextInputType.datetime,
-                                    validator: (value) => validateField(value),
-                                    onSaved: (newValue) {
-                                      _pointsEarned = int.parse(newValue!);
-                                    },
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: 200,
+                                      child: AdminPointAssignerTextField(
+                                        initialValue:
+                                            collection.pointsEarned == 0
+                                                ? null
+                                                : collection.pointsEarned
+                                                    .toString(),
+                                        validator:
+                                            (value) => validateField(value),
+                                        onSaved: (newValue) {
+                                          _pointsEarned = int.parse(newValue!);
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],

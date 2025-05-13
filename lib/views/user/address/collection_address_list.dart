@@ -1,7 +1,10 @@
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
+import 'package:acopiatech/services/cloud/address/bloc/address_bloc.dart';
 import 'package:acopiatech/views/user/address/address_list_view.dart';
+import 'package:acopiatech/views/user/address/create_update_address_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollectionAddressList extends StatefulWidget {
   final Iterable<Address> addresses;
@@ -34,10 +37,44 @@ class _CollectionAddressListState extends State<CollectionAddressList> {
         spacing: 20,
         children: [
           if (addressList.isEmpty)
-            const Center(
-              child: Text(
-                'No tienes direcciones guardadas',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    const Text(
+                      'No tienes direcciones guardadas',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (_) => BlocProvider.value(
+                                  value: BlocProvider.of<AddressBloc>(context),
+                                  child: CreateUpdateAddressView(),
+                                ),
+                          ),
+                        );
+                      },
+                      icon: Row(
+                        children: [
+                          Icon(
+                            Icons.add_location_alt_outlined,
+                            size: 50,
+                            color: ColorsPalette.darkCian,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           for (var address in addressList)

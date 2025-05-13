@@ -81,16 +81,23 @@ class AddressListView extends StatelessWidget {
                         spacing: 10,
                         children: [
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorsPalette.greenShadow,
+                            ),
                             onPressed: () => onTap(address),
                             child: Text(
                               'Editar',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
                           ),
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  ColorsPalette.backgroundDarkGreen,
+                            ),
                             onPressed: () async {
                               final shouldDelete = await showDeleteDialog(
                                 context,
@@ -103,7 +110,7 @@ class AddressListView extends StatelessWidget {
                               'Eliminar',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
                           ),
