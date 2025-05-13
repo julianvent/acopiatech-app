@@ -25,17 +25,16 @@ Future<bool> requestLocationPermission() async {
   log(status.name);
 
   if (status == LocationPermission.denied) {
+    log("Requesting location...");
     status = await Geolocator.requestPermission();
-    log("Location denied");
-    if (status == LocationPermission.denied) {
+    log("Requesting location again...");
+    if (status == LocationPermission.deniedForever) {
+      log(status.name);
       return false;
     }
+    log(status.name);
     return true;
-  } else if (status == LocationPermission.deniedForever) {
-    log("Location denied forever");
-    openAppSettings();
-    return false;
   }
-
+  log(status.name);
   return true;
 }
