@@ -326,7 +326,7 @@ class _AdminCollectionDetailsViewState
                   ),
                   // ------ Cambiar estado ------
                   SizedBox(
-                    width: 190,
+                    width: 220,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
