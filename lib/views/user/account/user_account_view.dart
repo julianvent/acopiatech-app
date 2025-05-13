@@ -74,17 +74,6 @@ class _UserAccountViewState extends State<UserAccountView> {
                                       ),
                                     ),
                           ),
-                          // Positioned(
-                          //   bottom: 1,
-                          //   right: 1,
-                          //   child: FloatingActionButton(
-                          //     onPressed: () {
-                          //       pickUserProfileImage();
-                          //     },
-                          //     mini: true,
-                          //     child: const Icon(Icons.account_circle),
-                          //   ),
-                          // ),
                         ],
                       ),
                       Expanded(
@@ -103,16 +92,15 @@ class _UserAccountViewState extends State<UserAccountView> {
                     children: [
                       SizedBox(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            spacing: 10,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
                                 'Mis puntos',
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                               // Obtener puntos del usuario
@@ -181,7 +169,10 @@ class _UserAccountViewState extends State<UserAccountView> {
                     onPressed: () {
                       context.read<AuthBloc>().add(AuthEventLogOut());
                     },
-                    child: const Text('Cerrar sesión', style: TextStyle(color: Colors.black)),
+                    child: const Text(
+                      'Cerrar sesión',
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ],
               ),

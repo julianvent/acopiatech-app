@@ -23,7 +23,6 @@ class _UserAccountFormState extends State<UserAccountForm> {
   AuthUser? user;
   String? _name;
   String? _email;
-  String? _lastName;
 
   Future<void> pickUserProfileImage() async {
     final image = await _picker.pickImage(source: ImageSource.gallery);
@@ -39,7 +38,6 @@ class _UserAccountFormState extends State<UserAccountForm> {
   void initState() {
     user = widget.user;
     _name = user!.name ?? '';
-    _lastName = '';
     _email = user!.email;
     super.initState();
   }
