@@ -27,6 +27,23 @@ class _DropOffPointViewState extends State<DropOffPointView> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => BlocProvider.value(
+                        value: BlocProvider.of<AddressBloc>(context),
+                        child: CreateUpdateAddressView(),
+                      ),
+                ),
+              );
+            },
+            icon: Icon(Icons.add),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -42,51 +59,35 @@ class _DropOffPointViewState extends State<DropOffPointView> {
                         if (snapshot.hasData) {
                           final allAddresses =
                               snapshot.data as Iterable<Address>;
-                          if (allAddresses.isEmpty) {
-                            return Column(
-                              children: [
-                                const Center(
-                                  child: Text(
-                                    'No hay centros de acopio registrados',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AddressListView(
+                              addresses: allAddresses,
+                              onDeleteAddress: (address) {
+                                context.read<AddressBloc>().add(
+                                  AddressEventDeleteAddress(
+                                    documentId: address.documentId,
                                   ),
-                                ),
-                              ],
-                            );
-                          } else {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AddressListView(
-                                addresses: allAddresses,
-                                onDeleteAddress: (address) {
-                                  context.read<AddressBloc>().add(
-                                    AddressEventDeleteAddress(
-                                      documentId: address.documentId,
-                                    ),
-                                  );
-                                },
-                                onTap: (address) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder:
-                                          (_) => BlocProvider.value(
-                                            value: BlocProvider.of<AddressBloc>(
-                                              context,
-                                            ),
-                                            child: CreateUpdateAddressView(
-                                              address: address,
-                                            ),
+                                );
+                              },
+                              onTap: (address) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => BlocProvider.value(
+                                          value: BlocProvider.of<AddressBloc>(
+                                            context,
                                           ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          }
+                                          child: CreateUpdateAddressView(
+                                            address: address,
+                                          ),
+                                        ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
                         } else {
                           return const Center(
                             child: CircularProgressIndicator(),
@@ -101,21 +102,6 @@ class _DropOffPointViewState extends State<DropOffPointView> {
                 return const Center(child: CircularProgressIndicator());
               }
             },
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (_) => BlocProvider.value(
-                        value: BlocProvider.of<AddressBloc>(context),
-                        child: CreateUpdateAddressView(),
-                      ),
-                ),
-              );
-            },
-            child: const Text('Agregar centro de acopio'),
           ),
         ],
       ),
