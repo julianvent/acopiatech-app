@@ -1,7 +1,6 @@
 import 'dart:developer' show log;
 
 import 'package:acopiatech/constants/map_style.dart';
-import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/maps/geocoding_service.dart';
 import 'package:acopiatech/services/maps/geolocator_service.dart';
@@ -18,14 +17,10 @@ class DropOffMap extends StatefulWidget {
 class _DropOffMapState extends State<DropOffMap> {
   late final GeolocatorService _geolocatorService;
   late GoogleMapController _googleMapController;
-  late final AddressStorage _addressStorage;
-  late final Set<Marker> _dropoff_markers;
 
   @override
   void initState() {
     _geolocatorService = GeolocatorService();
-    _addressStorage = AddressStorage();
-    _dropoff_markers = {};
     super.initState();
   }
 
@@ -46,7 +41,6 @@ class _DropOffMapState extends State<DropOffMap> {
                 stream: _geolocatorService.getCurrentLocationUpdates(),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
                     case ConnectionState.active:
                       if (snapshot.hasData) {
                         final location = snapshot.data!;
@@ -54,7 +48,7 @@ class _DropOffMapState extends State<DropOffMap> {
                           myLocationEnabled: true,
                           initialCameraPosition: CameraPosition(
                             target: location,
-                            zoom: 13.66,
+                            zoom: 13.5,
                           ),
                           onMapCreated:
                               (controller) => _onMapCreated(controller),

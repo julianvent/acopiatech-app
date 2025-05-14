@@ -11,12 +11,14 @@ class AddressListView extends StatelessWidget {
   final Iterable<Address> addresses;
   final AddressCallback onDeleteAddress;
   final AddressCallback onTap;
+  final int? length;
 
   const AddressListView({
     super.key,
     required this.addresses,
     required this.onDeleteAddress,
     required this.onTap,
+    this.length,
   });
 
   @override
@@ -25,7 +27,7 @@ class AddressListView extends StatelessWidget {
       return const Center(child: Text('No existen direcciones registradas.'));
     }
     return Column(
-      children: List.generate(addresses.length, (index) {
+      children: List.generate(length == null ? addresses.length : length!, (index) {
         final address = addresses.elementAt(index);
         log(address.toString());
         return Stack(

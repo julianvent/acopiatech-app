@@ -23,7 +23,6 @@ Future<LatLng> getCoordsFromAddress({required String address}) async {
 Stream<Set<Marker>> getDropOffs() async* {
   final AddressStorage addressService = AddressStorage();
   log('Getting dropoffs');
-  final Set<Marker> dropoffMarkers = {};
 
   await for (final dropoffs in addressService.allDropOffs()) {
     log('Dropoff list: ${dropoffs.isEmpty.toString()}');

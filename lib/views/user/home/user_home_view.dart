@@ -7,6 +7,7 @@ import 'package:acopiatech/views/user/collection/collection_list_generate_view.d
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:acopiatech/views/user/collection/collection_details_view.dart';
 import 'package:acopiatech/widgets/drop_off_map.dart';
+import 'package:acopiatech/widgets/dropoff_view.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -223,42 +224,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                 child: Column(
                   spacing: 20,
                   children: [
-                    // Cambiar esto por la logica de los centros de acopio
-                    Center(
-                      child: BlocBuilder<CollectionBloc, CollectionState>(
-                        builder: (context, state) {
-                          if (state is CollectionStateLoadedCollections) {
-                            return StreamBuilder(
-                              stream: state.ongoingCollectionsStream,
-                              builder: (context, snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                  case ConnectionState.active:
-                                    if (snapshot.hasData) {
-                                      final allOngoingCollections =
-                                          snapshot.data as Iterable<Collection>;
-                                      return CollectionListGenerateView(
-                                        collections: allOngoingCollections,
-                                        length: 1,
-                                        onTap:
-                                            (collection) => onTap(collection),
-                                      );
-                                    } else {
-                                      return const Text(
-                                        'No cuentas con recolecciones en camino',
-                                      );
-                                    }
-                                  default:
-                                    return const CircularProgressIndicator();
-                                }
-                              },
-                            );
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ),
-
+                    DropOffView(),
                     ElevatedButton(
                       onPressed: () {},
                       child: Text('Ver centros de acopio'),
