@@ -87,6 +87,7 @@ flutter:
     - lib/assets/images/FondoContrasenia.png
     - lib/assets/images/EmailIcon.png
     - lib/assets/images/Mascota.png
+    - lib/assets/images/LG_P710_Optimus_L7_II-4704.jpg
     # Animations
     - lib/assets/animations/lottie/Animation - 1743178505858.json
 
