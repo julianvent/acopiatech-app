@@ -25,6 +25,7 @@ class AddressListView extends StatelessWidget {
       return const Center(child: Text('No existen direcciones registradas.'));
     }
     return Column(
+      spacing: 20,
       children: List.generate(addresses.length, (index) {
         final address = addresses.elementAt(index);
         log(address.toString());
