@@ -1,6 +1,6 @@
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
-import 'package:acopiatech/views/user/address/address_list_view.dart';
+import 'package:acopiatech/views/dropoff_list_view.dart';
 import 'package:flutter/material.dart';
 
 class DropOffView extends StatelessWidget {
@@ -16,14 +16,7 @@ class DropOffView extends StatelessWidget {
             if (snapshot.hasData) {
               final dropOffs = snapshot.data as Iterable<Address>;
               return Column(
-                children: [
-                  AddressListView(
-                    addresses: dropOffs,
-                    onDeleteAddress: (dropOff) {},
-                    onTap: (dropOff) {},
-                    length: dropOffs.length
-                  ),
-                ],
+                children: [DropoffListView(dropoffs: dropOffs, length: 3)],
               );
             } else {
               return const Center(child: CircularProgressIndicator());

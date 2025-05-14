@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/utilities/dialogs/delete_dialog.dart';
+import 'package:acopiatech/widgets/custom_card_text.dart';
 import 'package:flutter/material.dart';
 
 typedef AddressCallback = void Function(Address address);
@@ -11,14 +10,12 @@ class AddressListView extends StatelessWidget {
   final Iterable<Address> addresses;
   final AddressCallback onDeleteAddress;
   final AddressCallback onTap;
-  final int? length;
 
   const AddressListView({
     super.key,
     required this.addresses,
     required this.onDeleteAddress,
     required this.onTap,
-    this.length,
   });
 
   @override
@@ -27,14 +24,8 @@ class AddressListView extends StatelessWidget {
       return const Center(child: Text('No existen direcciones registradas.'));
     }
     return Column(
-<<<<<<< HEAD
-      children: List.generate(length == null ? addresses.length : length!, (index) {
-=======
-      spacing: 20,
       children: List.generate(addresses.length, (index) {
->>>>>>> 09248b98052d13b9f1b6921ed23d95b3c6d13558
         final address = addresses.elementAt(index);
-        log(address.toString());
         return Stack(
           children: [
             Positioned.fill(
@@ -62,7 +53,7 @@ class AddressListView extends StatelessWidget {
                   onTap: () => onTap(address),
                   title: Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Text(
+                    child: CustomCardText(
                       '${address.street} ${address.extNumber}, ${address.neighborhood}',
                     ),
                   ),
@@ -74,14 +65,14 @@ class AddressListView extends StatelessWidget {
                         spacing: 10,
                         children: [
                           Icon(Icons.phone),
-                          Text(address.phoneNumber),
+                          CustomCardText(address.phoneNumber),
                         ],
                       ),
                       Row(
                         spacing: 10,
                         children: [
                           Icon(Icons.location_on),
-                          Text('${address.city}, ${address.state}'),
+                          CustomCardText('${address.city}, ${address.state}'),
                         ],
                       ),
                       Row(

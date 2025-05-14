@@ -4,9 +4,7 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
-import 'package:acopiatech/views/user/collection/user_collection_view.dart';
 import 'package:acopiatech/widgets/custom_scaffold.dart';
-import 'package:acopiatech/widgets/welcome_buttom.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -191,30 +189,30 @@ class _LoginViewState extends State<LoginView> {
                           },
                           child: Text('¿No tienes una cuenta? Crea una ahora'),
                         ),
-                        SizedBox(height: 30),
-                        Text(
-                          "O continuar con redes sociales",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                // Login with Google
-                              },
-                              child: Logo(Logos.google),
-                            ),
-                            SizedBox(width: 10),
-                            TextButton(
-                              onPressed: () {
-                                // Login with Facebook
-                              },
-                              child: Logo(Logos.facebook_f),
-                            ),
-                          ],
-                        ),
+                        // SizedBox(height: 30),
+                        // Text(
+                        //   "O continuar con redes sociales",
+                        //   style: TextStyle(color: Colors.grey),
+                        // ),
+                        // SizedBox(height: 20),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: [
+                        //     TextButton(
+                        //       onPressed: () {
+                        //         // Login with Google
+                        //       },
+                        //       child: Logo(Logos.google),
+                        //     ),
+                        //     SizedBox(width: 10),
+                        //     TextButton(
+                        //       onPressed: () {
+                        //         // Login with Facebook
+                        //       },
+                        //       child: Logo(Logos.facebook_f),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),

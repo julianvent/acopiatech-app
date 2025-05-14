@@ -77,11 +77,18 @@ class _UserHomeViewState extends State<UserHomeView> {
                             stream: state.collectionsStream,
                             builder: (context, snapshot) {
                               switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
                                 case ConnectionState.active:
                                   if (snapshot.hasData) {
                                     final collections =
                                         snapshot.data as Iterable<Collection>;
+                                    if (collections.isEmpty) {
+                                      return const Center(
+                                        child: Text(
+                                          'No cuentas con recolecciones\n¡Solicita una ahora!',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      );
+                                    }
                                     return CollectionListGenerateView(
                                       collections: collections,
                                       length: 1,
@@ -154,11 +161,18 @@ class _UserHomeViewState extends State<UserHomeView> {
                             stream: state.ongoingCollectionsStream,
                             builder: (context, snapshot) {
                               switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
                                 case ConnectionState.active:
                                   if (snapshot.hasData) {
                                     final allOngoingCollections =
                                         snapshot.data as Iterable<Collection>;
+                                    if (allOngoingCollections.isEmpty) {
+                                      return const Center(
+                                        child: Text(
+                                          'Esté al tanto de sus recolecciones en camino.',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      );
+                                    }
                                     return CollectionListGenerateView(
                                       collections: allOngoingCollections,
                                       length: 1,
@@ -206,7 +220,8 @@ class _UserHomeViewState extends State<UserHomeView> {
               ),
               // Map
               Column(
-                spacing: 10,
+                spacing: 12,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Encuentra un centro de acopio',
@@ -217,21 +232,21 @@ class _UserHomeViewState extends State<UserHomeView> {
                     ),
                   ),
                   SizedBox(height: 300, child: DropOffMap()),
+                  SizedBox(
+                    child: Column(
+                      spacing: 20,
+                      children: [
+                        DropOffView(),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: Text('Ver centros de acopio'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               // Centros de acopio
-              SizedBox(
-                child: Column(
-                  spacing: 20,
-                  children: [
-                    DropOffView(),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Ver centros de acopio'),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

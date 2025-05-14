@@ -1,7 +1,6 @@
 import 'dart:developer' show log;
 
 import 'package:acopiatech/constants/map_style.dart';
-import 'package:acopiatech/services/cloud/address/address_storage.dart';
 import 'package:acopiatech/services/maps/geocoding_service.dart';
 import 'package:acopiatech/services/maps/geolocator_service.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,7 @@ class _DropOffMapState extends State<DropOffMap> {
   @override
   void initState() {
     _geolocatorService = GeolocatorService();
+
     super.initState();
   }
 
