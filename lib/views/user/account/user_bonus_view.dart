@@ -22,7 +22,7 @@ class _UserBonusViewState extends State<UserBonusView> {
       const CollectionEventLoadAllCompletedCollection(),
     );
     return Scaffold(
-      appBar: AppBar(title: const Text('User Bonus')),
+      appBar: AppBar(title: const Text('Recompensas')),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SizedBox(
@@ -46,26 +46,44 @@ class _UserBonusViewState extends State<UserBonusView> {
                               if (snapshot.hasData) {
                                 final collections =
                                     snapshot.data as Iterable<Collection>;
+
+                                int totalPoints = collections.fold(0, (
+                                  sum,
+                                  collection,
+                                ) {
+                                  return sum + (collection.pointsEarned ?? 0);
+                                });
                                 if (collections.isNotEmpty) {
-                                  return CollectionListGenerateView(
-                                    collections: collections,
-                                    length: collections.length,
-                                    onTap: (collection) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (_) => BlocProvider.value(
-                                                value: BlocProvider.of<
-                                                  CollectionBloc
-                                                >(context),
-                                                child: CollectionDetailsView(
-                                                  collection: collection,
-                                                ),
-                                              ),
-                                        ),
-                                      );
-                                    },
+                                  return Column(
+                                    spacing: 20,
+                                    children: [
+                                      Text(
+                                        'Tienes un total de $totalPoints puntos',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      CollectionListGenerateView(
+                                        collections: collections,
+                                        length: collections.length,
+                                        onTap: (collection) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (_) => BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                      CollectionBloc
+                                                    >(context),
+                                                    child:
+                                                        CollectionDetailsView(
+                                                          collection:
+                                                              collection,
+                                                        ),
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   );
                                 } else {
                                   return Center(

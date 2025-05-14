@@ -94,7 +94,7 @@ class _UserAccountViewState extends State<UserAccountView> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Text(
                                 'Mis puntos',
@@ -104,39 +104,28 @@ class _UserAccountViewState extends State<UserAccountView> {
                                 ),
                               ),
                               // Obtener puntos del usuario
-                              Row(
-                                children: [
-                                  Text(
-                                    'Cambiar por puntos',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return BlocProvider<CollectionBloc>(
+                                          create:
+                                              (context) => CollectionBloc(
+                                                CollectionStorage(),
+                                              ),
+                                          child: const UserBonusView(),
+                                        );
+                                      },
                                     ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return BlocProvider<CollectionBloc>(
-                                              create:
-                                                  (context) => CollectionBloc(
-                                                    CollectionStorage(),
-                                                  ),
-                                              child: const UserBonusView(),
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      Icons.wifi_protected_setup_outlined,
-                                      size: 40,
-                                      color: ColorsPalette.backgroundDarkGreen,
-                                    ),
-                                  ),
-                                ],
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.wifi_protected_setup_outlined,
+                                  size: 40,
+                                  color: ColorsPalette.backgroundDarkGreen,
+                                ),
                               ),
                             ],
                           ),
