@@ -6,6 +6,7 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:acopiatech/views/user/collection/collection_details_view.dart';
+import 'package:acopiatech/views/user/home/user_dropoff_list_view.dart';
 import 'package:acopiatech/widgets/drop_off_map.dart';
 import 'package:acopiatech/widgets/dropoff_view.dart';
 import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
@@ -238,7 +239,14 @@ class _UserHomeViewState extends State<UserHomeView> {
                       children: [
                         DropOffView(),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => UserDropoffListView(),
+                              ),
+                            );
+                          },
                           child: Text('Ver centros de acopio'),
                         ),
                       ],
