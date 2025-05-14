@@ -1,3 +1,5 @@
+import 'dart:developer' show log;
+
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/helpers/loading/loading_screen.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
@@ -326,39 +328,20 @@ class CollectionDetailsView extends StatelessWidget {
                         onPressed: () async {
                           final shouldCancelCollection =
                               await showCancelCollectionDialog(context);
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (BuildContext context) {
-                          //     return AlertDialog(
-                          //       surfaceTintColor: ColorsPalette.darkCian,
-                          //       title: Text("Cancelar recolección"),
-                          //       content: Text(
-                          //         "¿Estás seguro de que deseas cancelar la recolección?",
-                          //       ),
-                          //       actions: <Widget>[
-                          //         TextButton(
-                          //           onPressed: () {
-                          //             Navigator.of(context).pop();
-                          //           },
-                          //           child: Text("No"),
-                          //         ),
-                          //         TextButton(
-                          //           onPressed: () {
-                          //             // Implementar la lógica para cancelar la recolección
-                          //             Navigator.of(context).pop();
-                          //           },
-                          //           child: Text("Sí"),
-                          //         ),
-                          //       ],
-                          //     );
-                          //   },
-                          // );
-                          context.read<CollectionBloc>().add(
-                            CollectionEventUpdateStatus(
-                              documentId: collection.documentId,
-                              status: CollectionStatus.cancelada,
-                            ),
-                          );
+                          if (shouldCancelCollection) {
+                            log(
+                              'Canceling collection...',
+                            );
+                            context.read<CollectionBloc>().add(
+                              CollectionEventUpdateStatus(
+                                documentId: collection.documentId,
+                                status: CollectionStatus.cancelada,
+                              ),
+                            );
+                          } else {
+                            log('Not canceling collection...');
+                            return;
+                          }
                         },
                         child: Text('Cancelar recolección'),
                       ),
