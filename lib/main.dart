@@ -13,8 +13,11 @@ import 'package:acopiatech/views/register_view.dart';
 import 'package:acopiatech/views/user/address/create_update_address_view.dart';
 import 'package:acopiatech/views/verification_view.dart';
 import 'package:acopiatech/widgets/admin/Admin_navigation_bar.dart';
+import 'package:acopiatech/widgets/admin/admin_navigation_controller.dart';
 import 'package:acopiatech/widgets/user/user_navigation_bar.dart';
+import 'package:acopiatech/widgets/user/user_navigation_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,9 +77,7 @@ class HomePage extends StatelessWidget {
                 create: (context) => AddressBloc(AddressStorage()),
               ),
               BlocProvider<CollectionBloc>(
-                create:
-                    (context) =>
-                        CollectionBloc(CollectionStorage()),
+                create: (context) => CollectionBloc(CollectionStorage()),
               ),
             ],
             child:
@@ -87,6 +88,11 @@ class HomePage extends StatelessWidget {
         } else if (state is AuthStateNeedsVerification) {
           return const VerificationView();
         } else if (state is AuthStateLoggedOut) {
+          if (Get.isRegistered<UserNavigationController>()) {
+            Get.delete<UserNavigationController>();
+          } else {
+            Get.delete<AdminNavigationController>();
+          }
           return const LoginView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();

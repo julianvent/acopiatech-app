@@ -13,6 +13,7 @@ class AdminNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final AdminNavigationController controller = Get.put(
       AdminNavigationController(),
+      permanent: false,
     );
 
     return Scaffold(
@@ -83,4 +84,3 @@ class AdminNavigationBar extends StatelessWidget {
     );
   }
 }
-

@@ -13,6 +13,7 @@ class UserNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserNavigationController controller = Get.put(
       UserNavigationController(),
+      permanent: false,
     );
 
     return Scaffold(
@@ -82,5 +83,3 @@ class UserNavigationBar extends StatelessWidget {
     );
   }
 }
-
-
