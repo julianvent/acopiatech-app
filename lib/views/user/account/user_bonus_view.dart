@@ -18,9 +18,7 @@ class UserBonusView extends StatefulWidget {
 class _UserBonusViewState extends State<UserBonusView> {
   @override
   Widget build(BuildContext context) {
-    context.read<CollectionBloc>().add(
-      const CollectionEventLoadAllCompletedCollection(),
-    );
+    context.read<CollectionBloc>().add(const CollectionEventLoadAllCompletedCollection());
     return Scaffold(
       appBar: AppBar(title: const Text('Recompensas')),
       body: Padding(
@@ -44,22 +42,33 @@ class _UserBonusViewState extends State<UserBonusView> {
                             case ConnectionState.waiting:
                             case ConnectionState.active:
                               if (snapshot.hasData) {
-                                final collections =
-                                    snapshot.data as Iterable<Collection>;
+                                final collections = snapshot.data as Iterable<Collection>;
 
-                                int totalPoints = collections.fold(0, (
-                                  sum,
-                                  collection,
-                                ) {
+                                int totalPoints = collections.fold(0, (sum, collection) {
                                   return sum + (collection.pointsEarned ?? 0);
                                 });
                                 if (collections.isNotEmpty) {
                                   return Column(
                                     spacing: 20,
                                     children: [
-                                      Text(
-                                        'Tienes un total de $totalPoints puntos',
-                                        style: TextStyle(fontSize: 20),
+                                      Text.rich(
+                                        TextSpan(
+                                          text: 'Tienes un total de ',
+                                          style: TextStyle(fontSize: 20),
+                                          children: [
+                                            TextSpan(
+                                              text: '$totalPoints',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: ' puntos',
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       CollectionListGenerateView(
                                         collections: collections,
@@ -70,14 +79,13 @@ class _UserBonusViewState extends State<UserBonusView> {
                                             MaterialPageRoute(
                                               builder:
                                                   (_) => BlocProvider.value(
-                                                    value: BlocProvider.of<
-                                                      CollectionBloc
-                                                    >(context),
-                                                    child:
-                                                        CollectionDetailsView(
-                                                          collection:
-                                                              collection,
+                                                    value:
+                                                        BlocProvider.of<CollectionBloc>(
+                                                          context,
                                                         ),
+                                                    child: CollectionDetailsView(
+                                                      collection: collection,
+                                                    ),
                                                   ),
                                             ),
                                           );

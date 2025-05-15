@@ -1,4 +1,5 @@
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_event.dart';
 import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
 import 'package:acopiatech/views/user/account/user_account_view.dart';
 import 'package:acopiatech/views/user/address/user_address_view.dart';
@@ -31,7 +32,13 @@ class _UserMenuContent extends StatelessWidget {
 
     final views = [
       const _MenuMainView(),
-      const UserAccountView(),
+      BlocProvider<CollectionBloc>(
+        create:
+            (_) =>
+                CollectionBloc(CollectionStorage())
+                  ..add(const CollectionEventLoadCollections()),
+        child: const UserAccountView(),
+      ),
       const UserAddressView(),
     ];
 
@@ -81,11 +88,7 @@ class _MenuTile extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const _MenuTile({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _MenuTile({required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -107,10 +110,7 @@ class _MenuTile extends StatelessWidget {
         children: [
           Icon(icon, size: 60),
           const SizedBox(height: 8),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
+          Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
         ],
       ),
     );

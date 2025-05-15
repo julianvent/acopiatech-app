@@ -6,6 +6,8 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/collection_bloc.dart';
+import 'package:acopiatech/services/cloud/collections/bloc/collection_state.dart';
+import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/services/cloud/collections/collection_storage.dart';
 import 'package:acopiatech/views/user/account/user_account_form.dart';
 import 'package:acopiatech/views/user/account/user_bonus_view.dart';
@@ -103,6 +105,46 @@ class _UserAccountViewState extends State<UserAccountView> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
+                              SizedBox(
+                                child: BlocBuilder<CollectionBloc, CollectionState>(
+                                  builder: (context, state) {
+                                    if (state is CollectionStateLoadedCollections) {
+                                      return StreamBuilder(
+                                        stream: state.collectionsStream,
+                                        builder: (context, snapshot) {
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.waiting:
+                                            case ConnectionState.active:
+                                              if (snapshot.hasData) {
+                                                final collections =
+                                                    snapshot.data as Iterable<Collection>;
+                                                int totalPoints = collections.fold(0, (
+                                                  sum,
+                                                  collection,
+                                                ) {
+                                                  return sum +
+                                                      (collection.pointsEarned ?? 0);
+                                                });
+                                                return Text(
+                                                  '🌟 $totalPoints 🌟',
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                );
+                                              }
+                                              break;
+                                            default:
+                                              return const Text('0');
+                                          }
+                                          return const Text('0');
+                                        },
+                                      );
+                                    }
+                                    return const Text('0');
+                                  },
+                                ),
+                              ),
                               // Obtener puntos del usuario
                               IconButton(
                                 onPressed: () {
@@ -112,10 +154,9 @@ class _UserAccountViewState extends State<UserAccountView> {
                                       builder: (context) {
                                         return BlocProvider<CollectionBloc>(
                                           create:
-                                              (context) => CollectionBloc(
-                                                CollectionStorage(),
-                                              ),
-                                          child: const UserBonusView(),
+                                              (context) =>
+                                                  CollectionBloc(CollectionStorage()),
+                                          child: UserBonusView(),
                                         );
                                       },
                                     ),
@@ -201,10 +242,7 @@ class UserAccountCard extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: IconButton(
-          onPressed: onTap,
-          icon: Icon(icon, color: Colors.white),
-        ),
+        trailing: IconButton(onPressed: onTap, icon: Icon(icon, color: Colors.white)),
       ),
     );
   }
