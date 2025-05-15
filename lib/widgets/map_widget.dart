@@ -22,11 +22,11 @@ class _MapWidgetState extends State<MapWidget> {
           case ConnectionState.waiting:
           case ConnectionState.done:
             if (asyncSnapshot.hasData) {
-              final coords = asyncSnapshot.data;
+              final coords = asyncSnapshot.data as LatLng;
               return GoogleMap(
                 onMapCreated: (controller) => _controller = controller,
                 initialCameraPosition: CameraPosition(
-                  target: coords!,
+                  target: coords,
                   zoom: 17.66,
                 ),
                 liteModeEnabled: true,

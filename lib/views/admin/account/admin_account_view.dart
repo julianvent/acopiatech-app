@@ -1,4 +1,3 @@
-
 import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
@@ -112,22 +111,19 @@ class AdminAccountCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: ColorsPalette.backgroundDarkGreen,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          onTap: onTap,
-          title: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.w600,
-            ),
+      child: ListTile(
+        onTap: onTap,
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
           ),
-          trailing: IconButton(
-            onPressed: onTap,
-            icon: Icon(Icons.edit, color: Colors.white),
-          ),
+        ),
+        trailing: IconButton(
+          onPressed: onTap,
+          icon: Icon(Icons.edit, color: Colors.white),
         ),
       ),
     );

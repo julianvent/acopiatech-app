@@ -14,6 +14,7 @@ import 'package:acopiatech/views/admin/chat/admin_chat_view.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
 import 'package:acopiatech/widgets/admin/admin_point_assigner_text_field.dart';
+import 'package:acopiatech/widgets/map_polylines.dart';
 import 'package:acopiatech/widgets/map_widget.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +172,12 @@ class _AdminCollectionDetailsViewState
                               ),
                             ),
                             child: Center(
-                              child: MapWidget(address: collection.address),
+                              child:
+                                  _selectedStatus == CollectionStatus.enCamino
+                                      ? MapPolylines(
+                                        address: collection.address,
+                                      )
+                                      : MapWidget(address: collection.address),
                             ),
                           ),
                           // ------ Estado de la recolección ------

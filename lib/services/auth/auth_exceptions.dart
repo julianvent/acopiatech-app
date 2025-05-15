@@ -17,3 +17,5 @@ class PasswordsDontMatchAuthException implements Exception {}
 class WrongPasswordAuthException implements Exception {}
 
 class CouldNotUpdateNameException implements Exception {}
+
+class CouldNotAssignAdminRoleException implements Exception {}
