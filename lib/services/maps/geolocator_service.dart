@@ -26,7 +26,10 @@ class GeolocatorService {
 
     log("Getting current location...");
     yield* Geolocator.getPositionStream().map((position) {
-      log('${position.latitude}, ${position.longitude}');
+      log(
+        '${position.latitude}, ${position.longitude}',
+        name: "GeolocatorService",
+      );
       return LatLng(position.latitude, position.longitude);
     });
   }

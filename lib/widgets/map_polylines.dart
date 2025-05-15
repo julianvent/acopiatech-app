@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:acopiatech/constants/colors_palette.dart';
@@ -17,15 +18,44 @@ class MapPolylines extends StatefulWidget {
 }
 
 class _MapPolylinesState extends State<MapPolylines> {
-  late final GoogleMapController _controller;
+  GoogleMapController? _controller;
   late final GeolocatorService _geolocatorService;
   late final Map<PolylineId, Polyline> _polylines;
+  LatLng? _currentLocation;
+  LatLng? _addressLocation;
+  StreamSubscription<LatLng>? _locationSubscription;
 
   @override
   void initState() {
+    super.initState();
     _geolocatorService = GeolocatorService();
     _polylines = {};
-    super.initState();
+
+    getCoordsFromAddress(address: widget.address).then((location) {
+      setState(() => _addressLocation = location);
+    });
+
+    _locationSubscription = _geolocatorService
+        .getCurrentLocationUpdates()
+        .listen((location) async {
+          if (_currentLocation != null && _addressLocation != null) {
+              await _addPolyline(
+                destiny: _addressLocation!,
+                currentLocation: location,
+              );
+          }
+          setState(() => _currentLocation = location);
+
+          if (_controller != null) {
+            _controller!.animateCamera(CameraUpdate.newLatLng(location));
+          }
+        });
+  }
+
+  @override
+  void dispose() {
+    _locationSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> _addPolyline({
@@ -70,64 +100,26 @@ class _MapPolylinesState extends State<MapPolylines> {
     log('Finished calculating polylines', name: 'MapsPolyline');
   }
 
-  Future<void> updateCamera() async {}
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getCoordsFromAddress(address: widget.address),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            if (snapshot.hasData) {
-              final addressLocation = snapshot.data as LatLng;
-              return StreamBuilder(
-                stream: _geolocatorService.getCurrentLocationUpdates(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.active:
-                      if (snapshot.hasData) {
-                        final location = snapshot.data as LatLng;
-                        return GoogleMap(
-                          myLocationEnabled: true,
-                          initialCameraPosition: CameraPosition(
-                            target: location,
-                            zoom: 13.5,
-                          ),
-                          onMapCreated: (controller) async {
-                            _controller = controller;
-                            await _addPolyline(
-                              destiny: addressLocation,
-                              currentLocation: location,
-                            );
-                            _controller.animateCamera(
-                              CameraUpdate.newLatLng(location),
-                            );
-                          },
-                          style: noPoiMapStyle,
-                          markers: {
-                            Marker(
-                              markerId: MarkerId('Recoleccion'),
-                              position: addressLocation,
-                            ),
-                          },
-                          polylines: Set<Polyline>.of(_polylines.values),
-                        );
-                      } else {
-                        return const Center(child: Text(''));
-                      }
-                    default:
-                      return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          default:
-            return const Center(child: CircularProgressIndicator());
-        }
+    if (_currentLocation == null || _addressLocation == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return GoogleMap(
+      myLocationEnabled: true,
+      initialCameraPosition: CameraPosition(
+        target: _currentLocation!,
+        zoom: 13.5,
+      ),
+      onMapCreated: (controller) async {
+        _controller = controller;
       },
+      style: noPoiMapStyle,
+      markers: {
+        Marker(markerId: MarkerId('Recoleccion'), position: _addressLocation!),
+      },
+      polylines: Set<Polyline>.of(_polylines.values),
     );
   }
 }
