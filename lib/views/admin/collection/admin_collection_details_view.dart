@@ -164,13 +164,7 @@ class _AdminCollectionDetailsViewState
                         children: [
                           Container(
                             alignment: Alignment.center,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1.0,
-                              ),
-                            ),
+                            height: 450,
                             child: Center(
                               child:
                                   _selectedStatus == CollectionStatus.enCamino

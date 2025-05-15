@@ -70,6 +70,8 @@ class _MapPolylinesState extends State<MapPolylines> {
     log('Finished calculating polylines', name: 'MapsPolyline');
   }
 
+  Future<void> updateCamera() async {}
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -97,6 +99,9 @@ class _MapPolylinesState extends State<MapPolylines> {
                             await _addPolyline(
                               destiny: addressLocation,
                               currentLocation: location,
+                            );
+                            _controller.animateCamera(
+                              CameraUpdate.newLatLng(location),
                             );
                           },
                           style: noPoiMapStyle,
