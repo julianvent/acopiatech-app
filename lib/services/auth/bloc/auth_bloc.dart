@@ -2,6 +2,7 @@ import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/auth_provider.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -12,6 +13,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventInitialize>((event, emit) async {
       await provider.initalize();
       final user = await provider.currentUser;
+
+      await FirebaseAppCheck.instance.activate(
+        androidProvider: AndroidProvider.debug,
+      );
 
       if (user == null) {
         emit(const AuthStateLoggedOut(exception: null, isLoading: false));

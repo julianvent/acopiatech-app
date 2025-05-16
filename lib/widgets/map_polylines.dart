@@ -5,6 +5,7 @@ import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/constants/map_style.dart';
 import 'package:acopiatech/services/maps/geocoding_service.dart';
 import 'package:acopiatech/services/maps/geolocator_service.dart';
+import 'package:acopiatech/services/maps/maps_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -65,38 +66,24 @@ class _MapPolylinesState extends State<MapPolylines> {
     final polylinePoints = PolylinePoints();
 
     log('Getting polylines...', name: 'MapsPolyline');
-    final result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: 'AIzaSyBRLwkuUv8M9KDUteiIXwXcDPR26EDWnis',
-      request: PolylineRequest(
-        origin: PointLatLng(
-          currentLocation.latitude,
-          currentLocation.longitude,
-        ),
-        destination: PointLatLng(destiny.latitude, destiny.longitude),
-        mode: TravelMode.driving,
-      ),
+    final polylineCoordinates = await getRouteWithCallable(
+      origin: currentLocation,
+      destination: destiny,
     );
 
-    if (result.points.isNotEmpty) {
-      log('Polylines not empty', name: 'MapsPolyline');
-      final List<LatLng> polylineCoordinates =
-          result.points
-              .map((point) => LatLng(point.latitude, point.longitude))
-              .toList();
+    final PolylineId polylineId = PolylineId('polyline_id');
 
-      final PolylineId polylineId = PolylineId('polyline_id');
+    final Polyline polyline = Polyline(
+      polylineId: polylineId,
+      color: ColorsPalette.backgroundHardGreen,
+      points: polylineCoordinates,
+      width: 5,
+    );
 
-      final Polyline polyline = Polyline(
-        polylineId: polylineId,
-        color: ColorsPalette.backgroundHardGreen,
-        points: polylineCoordinates,
-        width: 5,
-      );
+    setState(() {
+      _polylines[polylineId] = polyline;
+    });
 
-      setState(() {
-        _polylines[polylineId] = polyline;
-      });
-    }
     log('Finished calculating polylines', name: 'MapsPolyline');
   }
 
