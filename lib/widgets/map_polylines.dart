@@ -39,10 +39,10 @@ class _MapPolylinesState extends State<MapPolylines> {
         .getCurrentLocationUpdates()
         .listen((location) async {
           if (_currentLocation != null && _addressLocation != null) {
-              await _addPolyline(
-                destiny: _addressLocation!,
-                currentLocation: location,
-              );
+            await _addPolyline(
+              destiny: _addressLocation!,
+              currentLocation: location,
+            );
           }
           setState(() => _currentLocation = location);
 
@@ -103,7 +103,13 @@ class _MapPolylinesState extends State<MapPolylines> {
   @override
   Widget build(BuildContext context) {
     if (_currentLocation == null || _addressLocation == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
+          children: [Text('Cargando mapa...'), CircularProgressIndicator()],
+        ),
+      );
     }
 
     return GoogleMap(
