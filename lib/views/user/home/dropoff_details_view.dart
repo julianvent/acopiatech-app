@@ -26,7 +26,7 @@ class DropoffDetailsView extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey, width: 1.0),
               ),
-              child: MapWidget(address: fullAddress),
+              child: MapCollection(address: fullAddress),
             ),
             Text(
               'Dirección',

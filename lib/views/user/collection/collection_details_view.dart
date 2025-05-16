@@ -146,15 +146,9 @@ class CollectionDetailsView extends StatelessWidget {
                         children: [
                           Container(
                             alignment: Alignment.center,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
+                            height: 400,
                             child: Center(
-                              child: MapWidget(address: collection.address),
+                              child: MapCollection(address: collection.address),
                             ),
                           ),
                           // ------ Estado de la recolección ------
@@ -329,9 +323,7 @@ class CollectionDetailsView extends StatelessWidget {
                           final shouldCancelCollection =
                               await showCancelCollectionDialog(context);
                           if (shouldCancelCollection) {
-                            log(
-                              'Canceling collection...',
-                            );
+                            log('Canceling collection...');
                             context.read<CollectionBloc>().add(
                               CollectionEventUpdateStatus(
                                 documentId: collection.documentId,

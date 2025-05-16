@@ -22,28 +22,31 @@ class _DropOffPointViewState extends State<DropOffPointView> {
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.only(left: 10.0),
-          child: const Text(
-            'Centros de Acopio',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          child: Row(
+            children: [
+              const Text(
+                'Centros de acopio',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              ),
+              Spacer(),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (_) => BlocProvider.value(
+                            value: BlocProvider.of<AddressBloc>(context),
+                            child: CreateUpdateAddressView(),
+                          ),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.add),
+              ),
+            ],
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (_) => BlocProvider.value(
-                        value: BlocProvider.of<AddressBloc>(context),
-                        child: CreateUpdateAddressView(),
-                      ),
-                ),
-              );
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
       ),
       body: Column(
         children: [

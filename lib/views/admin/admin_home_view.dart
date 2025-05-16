@@ -7,6 +7,7 @@ import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/widgets/admin/admin_navigation_controller.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -77,6 +78,8 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                           snapshot.data as Iterable<Collection>;
                                       if (collections.isNotEmpty) {
                                         return CollectionListGenerateView(
+                                          noCollectionText:
+                                              'No existen recolecciones activas.',
                                           collections: collections,
                                           statusFilter:
                                               CollectionStatus.enCamino,
@@ -94,15 +97,25 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                         );
                                       }
                                     } else {
-                                      return const CircularProgressIndicator();
+                                      return const CustomProgressIndicator(
+                                        loadingText:
+                                            'Cargando recolecciones...',
+                                        spacing: 20,
+                                      );
                                     }
                                   default:
-                                    return const CircularProgressIndicator();
+                                    return const CustomProgressIndicator(
+                                      loadingText: 'Cargando recolecciones...',
+                                      spacing: 20,
+                                    );
                                 }
                               },
                             );
                           } else {
-                            return const CircularProgressIndicator();
+                            return const CustomProgressIndicator(
+                              loadingText: 'Cargando recolecciones...',
+                              spacing: 20,
+                            );
                           }
                         },
                       ),
@@ -138,7 +151,6 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                               stream: state.collectionsStream,
                               builder: (context, snapshot) {
                                 switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
                                   case ConnectionState.active:
                                     if (snapshot.hasData) {
                                       final collections =
@@ -148,6 +160,8 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                           collections: collections,
                                           dayFilter: DateTime.now().day,
                                           length: collections.length,
+                                          noCollectionText:
+                                              'No existen recolecciones programadas.',
                                           onTap:
                                               (collection) => onTap(collection),
                                         );
@@ -161,15 +175,26 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                                         );
                                       }
                                     } else {
-                                      return const CircularProgressIndicator();
+                                      return const CustomProgressIndicator(
+                                        loadingText:
+                                            'Cargando recolecciones del día...',
+                                        spacing: 20,
+                                      );
                                     }
                                   default:
-                                    return const CircularProgressIndicator();
+                                    return const CustomProgressIndicator(
+                                      loadingText:
+                                          'Cargando recolecciones del día...',
+                                      spacing: 20,
+                                    );
                                 }
                               },
                             );
                           } else {
-                            return const CircularProgressIndicator();
+                            return const CustomProgressIndicator(
+                              loadingText: 'Cargando recolecciones del día...',
+                              spacing: 20,
+                            );
                           }
                         },
                       ),

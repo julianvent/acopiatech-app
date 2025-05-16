@@ -6,6 +6,7 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -100,19 +101,24 @@ class _AdminCollectionViewState extends State<AdminCollectionView> {
                                   );
                                 }
                               } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
+                                return const CustomProgressIndicator(
+                                  loadingText: 'Cargando recolecciones...',
+                                  spacing: 20,
                                 );
                               }
                             default:
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return const CustomProgressIndicator(
+                                loadingText: 'Cargando recolecciones...',
+                                spacing: 20,
                               );
                           }
                         },
                       );
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      return const CustomProgressIndicator(
+                        loadingText: 'Cargando recolecciones...',
+                        spacing: 20,
+                      );
                     }
                   },
                 ),

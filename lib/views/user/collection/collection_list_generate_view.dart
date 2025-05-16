@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +10,7 @@ class CollectionListGenerateView extends StatelessWidget {
   final CollectionCallback onTap;
   final CollectionStatus? statusFilter;
   final int? dayFilter;
+  final String? noCollectionText;
 
   const CollectionListGenerateView({
     super.key,
@@ -20,6 +19,7 @@ class CollectionListGenerateView extends StatelessWidget {
     required this.onTap,
     this.statusFilter,
     this.dayFilter,
+    this.noCollectionText,
   });
 
   @override
@@ -35,7 +35,9 @@ class CollectionListGenerateView extends StatelessWidget {
         }).toList();
 
     if (filteredCollections.isEmpty) {
-      return Center(child: const Text('No cuentas con recolecciones.'));
+      return Center(
+        child: Text(noCollectionText ?? 'No cuentas con recolecciones.'),
+      );
     }
     return Column(
       children: List.generate(

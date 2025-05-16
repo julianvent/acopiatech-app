@@ -29,6 +29,12 @@ class _DropOffMapState extends State<DropOffMap> {
   }
 
   @override
+  void dispose() {
+    _googleMapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: getDropOffs(),

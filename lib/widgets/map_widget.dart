@@ -1,17 +1,24 @@
 import 'package:acopiatech/services/maps/geocoding_service.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapWidget extends StatefulWidget {
+class MapCollection extends StatefulWidget {
   final String address;
-  const MapWidget({super.key, required this.address});
+  const MapCollection({super.key, required this.address});
 
   @override
-  State<MapWidget> createState() => _MapWidgetState();
+  State<MapCollection> createState() => _MapCollectionState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _MapCollectionState extends State<MapCollection> {
   late final GoogleMapController _controller;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,6 @@ class _MapWidgetState extends State<MapWidget> {
       future: getCoordsFromAddress(address: widget.address),
       builder: (context, asyncSnapshot) {
         switch (asyncSnapshot.connectionState) {
-          case ConnectionState.waiting:
           case ConnectionState.done:
             if (asyncSnapshot.hasData) {
               final coords = asyncSnapshot.data as LatLng;
@@ -38,10 +44,16 @@ class _MapWidgetState extends State<MapWidget> {
                 },
               );
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const CustomProgressIndicator(
+                loadingText: 'Cargando mapa...',
+                spacing: 20,
+              );
             }
           default:
-            return const Center(child: CircularProgressIndicator());
+            return const CustomProgressIndicator(
+              loadingText: 'Cargando mapa...',
+              spacing: 20,
+            );
         }
       },
     );

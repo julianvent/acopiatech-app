@@ -171,7 +171,7 @@ class _AdminCollectionDetailsViewState
                                       ? MapPolylines(
                                         address: collection.address,
                                       )
-                                      : MapWidget(address: collection.address),
+                                      : MapCollection(address: collection.address),
                             ),
                           ),
                           // ------ Estado de la recolección ------

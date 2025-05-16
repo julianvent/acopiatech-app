@@ -55,6 +55,7 @@ class _MapPolylinesState extends State<MapPolylines> {
 
   @override
   void dispose() {
+    _controller!.dispose();
     _locationSubscription?.cancel();
     super.dispose();
   }
