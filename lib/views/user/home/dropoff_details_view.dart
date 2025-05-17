@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
-import 'package:acopiatech/widgets/map_widget.dart';
+import 'package:acopiatech/widgets/map_collection.dart';
 
 class DropoffDetailsView extends StatelessWidget {
   final Address dropoff;

@@ -23,6 +23,7 @@ class DropoffListView extends StatelessWidget {
     }
 
     return Column(
+      spacing: 20,
       children: List.generate(
         length > dropoffs.length ? dropoffs.length : length,
         (index) {

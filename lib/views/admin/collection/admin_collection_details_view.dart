@@ -15,7 +15,7 @@ import 'package:acopiatech/views/user/collection/images/collection_gallery_view.
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
 import 'package:acopiatech/widgets/admin/admin_point_assigner_text_field.dart';
 import 'package:acopiatech/widgets/map_polylines.dart';
-import 'package:acopiatech/widgets/map_widget.dart';
+import 'package:acopiatech/widgets/map_collection.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

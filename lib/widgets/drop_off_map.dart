@@ -3,6 +3,7 @@ import 'dart:developer' show log;
 import 'package:acopiatech/constants/map_style.dart';
 import 'package:acopiatech/services/maps/geocoding_service.dart';
 import 'package:acopiatech/services/maps/geolocator_service.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -65,15 +66,24 @@ class _DropOffMapState extends State<DropOffMap> {
                         return const Center(child: Text(''));
                       }
                     default:
-                      return const Center(child: CircularProgressIndicator());
+                      return const CustomProgressIndicator(
+                        loadingText: 'Cargando mapa...',
+                        spacing: 20,
+                      );
                   }
                 },
               );
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const CustomProgressIndicator(
+                loadingText: 'Cargando mapa...',
+                spacing: 20,
+              );
             }
           default:
-            return const Center(child: CircularProgressIndicator());
+            return const CustomProgressIndicator(
+              loadingText: 'Cargando mapa...',
+              spacing: 20,
+            );
         }
       },
     );

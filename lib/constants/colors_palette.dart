@@ -21,4 +21,6 @@ class ColorsPalette {
   static const statusCancelada = Color.fromRGBO(255, 33, 33, 1);
   static const statusEvaluacion = Color.fromRGBO(255, 165, 0, 1);
   static const statusFinalizada = Color.fromRGBO(68, 68, 68, 1);
+
+  static const black1 = Color.fromARGB(1, 0, 0, 0);
 }
