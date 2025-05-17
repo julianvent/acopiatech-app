@@ -6,6 +6,8 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/user/collection/collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
+import 'package:acopiatech/widgets/add_app_bar.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,21 +26,11 @@ class _UserCollectionViewState extends State<UserCollectionView> {
     context.read<CollectionBloc>().add(const CollectionEventLoadCollections());
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const Text(
-              'Recolecciones',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-            ),
-            const Spacer(),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
+      appBar:
+          AddAppBar(
+            title: 'Mis recolecciones',
+            onPressed:
+                () => Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder:
@@ -47,15 +39,8 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                           child: CreateCollectionView(),
                         ),
                   ),
-                );
-              },
-              icon: Icon(Icons.add),
-              color: Colors.white,
-            ),
-          ],
-        ),
-        backgroundColor: ColorsPalette.greenShadow,
-      ),
+                ),
+          ).addAppBar,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -71,7 +56,6 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                           stream: state.collectionsStream,
                           builder: (context, snapshot) {
                             switch (snapshot.connectionState) {
-                              case ConnectionState.waiting:
                               case ConnectionState.active:
                                 if (snapshot.hasData) {
                                   final collections =
@@ -118,19 +102,24 @@ class _UserCollectionViewState extends State<UserCollectionView> {
                                     );
                                   }
                                 } else {
-                                  return Center(
-                                    child: const CircularProgressIndicator(),
+                                  return CustomProgressIndicator(
+                                    loadingText: 'Cargando recolecciones...',
+                                    spacing: 20,
                                   );
                                 }
                               default:
-                                return Center(
-                                  child: const CircularProgressIndicator(),
+                                return CustomProgressIndicator(
+                                  loadingText: 'Cargando recolecciones...',
+                                  spacing: 20,
                                 );
                             }
                           },
                         );
                       } else {
-                        return Center(child: const CircularProgressIndicator());
+                        return CustomProgressIndicator(
+                          loadingText: 'Cargando recolecciones...',
+                          spacing: 20,
+                        );
                       }
                     },
                   ),

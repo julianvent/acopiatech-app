@@ -40,6 +40,7 @@ class CollectionListGenerateView extends StatelessWidget {
       );
     }
     return Column(
+      spacing: 10,
       children: List.generate(
         length > filteredCollections.length
             ? filteredCollections.length
@@ -64,7 +65,7 @@ class CollectionListGenerateView extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white60,
+                      color: Colors.white,
                     ),
                   ),
                 ),

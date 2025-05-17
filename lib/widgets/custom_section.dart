@@ -16,20 +16,20 @@ class CustomSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: background ?? ColorsPalette.greenShadow,
+        color: background ?? Colors.white,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(12),
           bottomRight: Radius.circular(12),
         ),
       ),
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 17,
           fontWeight: FontWeight.w700,
-          color: color ?? Colors.white,
+          color: color ?? Colors.black,
         ),
       ),
     );

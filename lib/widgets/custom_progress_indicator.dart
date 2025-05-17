@@ -1,3 +1,4 @@
+import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:flutter/material.dart';
 
 class CustomProgressIndicator extends StatelessWidget {
@@ -15,7 +16,7 @@ class CustomProgressIndicator extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: spacing,
-        children: [Text(loadingText), CircularProgressIndicator()],
+        children: [Text(loadingText), CircularProgressIndicator(color: ColorsPalette.backgroundHardGreen,)],
       ),
     );
   }

@@ -12,6 +12,8 @@ import 'package:acopiatech/utilities/dialogs/cancel_collection_dialog.dart';
 import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/user/collection/images/collection_gallery_view.dart';
 import 'package:acopiatech/views/user/help/user_chat_view.dart';
+import 'package:acopiatech/widgets/custom_detail.dart';
+import 'package:acopiatech/widgets/custom_section.dart';
 import 'package:acopiatech/widgets/map_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,12 +51,8 @@ class CollectionDetailsView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Detalles de la recolección",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            "Detalles de recoleción",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           actions: <Widget>[
             Center(
@@ -110,215 +108,157 @@ class CollectionDetailsView extends StatelessWidget {
                       : SizedBox(),
             ),
           ],
+          backgroundColor: ColorsPalette.neutralGray,
+          foregroundColor: Colors.white,
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                spacing: 20,
-                children: [
-                  Container(
-                    width: double.maxFinite,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      collection.mode,
+            child: Column(
+              spacing: 2,
+              children: [
+                // Mapa & Estado de la recolección
+                Column(
+                  children: [
+                    CustomSection(title: collection.mode),
+                    SizedBox(
+                      height: 400,
+                      child: MapCollection(address: collection.address),
+                    ),
+                  ],
+                ),
+                CustomDetail(
+                  children: [
+                    // ------ Estado de la recolección ------
+                    Text(
+                      "Estado de la recolección",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
-                  ),
-                  // Mapa & Estado de la recolección
-                  Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey, width: 0.3),
+                    Text(
+                      status,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       ),
                     ),
-                    // ------ Mapa ------
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 12,
+                    Text(
+                      statusDescription,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Visibility(
+                      visible: collection.status == CollectionStatus.finalizada,
+                      child: Row(
                         children: [
-                          Container(
-                            alignment: Alignment.center,
-                            height: 400,
-                            child: Center(
-                              child: MapCollection(address: collection.address),
-                            ),
-                          ),
-                          // ------ Estado de la recolección ------
-                          Text(
-                            "Estado de la recolección",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            status,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            statusDescription,
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Visibility(
-                            visible:
-                                collection.status ==
-                                CollectionStatus.finalizada,
-                            child: Row(
-                              children: [
-                                Text('Puntos asignados: '),
-                                Text(collection.pointsEarned.toString()),
-                              ],
-                            ),
-                          ),
+                          Text('Puntos asignados: '),
+                          Text(collection.pointsEarned.toString()),
                         ],
                       ),
                     ),
-                  ),
-                  // ------ Detalles de la recolección ------
-                  Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey, width: 0.3),
+                  ],
+                ),
+                // ------ Detalles de la recolección ------
+                CustomDetail(
+                  children: [
+                    Text(
+                      "Detalles de la recolección",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        spacing: 10,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Detalles de la recolección",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Column(
-                            spacing: 12,
-                            children: [
-                              Row(
-                                spacing: 10,
-                                children: [
-                                  Icon(Icons.location_on_outlined),
-                                  Flexible(child: Text(collection.address)),
-                                ],
-                              ),
-                              Row(
-                                spacing: 10,
-                                children: [
-                                  Icon(Icons.calendar_month),
-                                  Flexible(child: Text(date)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // ------ Descripción de la recolección ------
-                  Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.grey, width: 0.3),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 10,
-                        children: [
-                          Text(
-                            "Descripción",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            description,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 170,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => BlocProvider(
-                                  create:
-                                      (context) => CollectionImagesBloc(
-                                        CollectionImageStorage(),
-                                      ),
-                                  child: CollectionGalleryView(
-                                    collection: collection,
-                                  ),
-                                ),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Column(
+                      spacing: 12,
+                      children: [
+                        Row(
                           spacing: 10,
                           children: [
-                            Text(
-                              "Ver fotos",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Icon(
-                              Icons.photo,
-                              color: ColorsPalette.darkCian,
-                              size: 20,
-                            ),
+                            Icon(Icons.location_on_outlined),
+                            Flexible(child: Text(collection.address)),
                           ],
                         ),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Icon(Icons.calendar_month),
+                            Flexible(child: Text(date)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                // ------ Descripción de la recolección ------
+                CustomDetail(
+                  children: [
+                    Text(
+                      "Descripción",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
                       ),
                     ),
-                  ),
-                  Visibility(
-                    visible: collection.status == CollectionStatus.recibida,
+                    Text(
+                      description,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Center(
+                      child: ElevatedButton.icon(
+                        label: Text(
+                          "Ver fotos",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
+                        ),
+                        icon: Icon(
+                          Icons.photo,
+                          color: ColorsPalette.darkCian,
+                          size: 20,
+                        ),
+                        onPressed:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (_) => BlocProvider(
+                                      create:
+                                          (context) => CollectionImagesBloc(
+                                            CollectionImageStorage(),
+                                          ),
+                                      child: CollectionGalleryView(
+                                        collection: collection,
+                                      ),
+                                    ),
+                              ),
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: collection.status == CollectionStatus.recibida,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
                     child: Container(
                       alignment: Alignment.centerRight,
-                      child: ElevatedButton(
+                      child: ElevatedButton.icon(
                         onPressed: () async {
                           final shouldCancelCollection =
                               await showCancelCollectionDialog(context);
@@ -335,13 +275,13 @@ class CollectionDetailsView extends StatelessWidget {
                             return;
                           }
                         },
-                        child: Text('Cancelar recolección'),
+                        icon: Icon(Icons.cancel),
+                        label: Text('Cancelar recolección'),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

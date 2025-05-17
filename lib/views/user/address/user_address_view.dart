@@ -4,6 +4,7 @@ import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/views/user/address/create_update_address_view.dart';
 import 'package:acopiatech/views/user/address/address_list_view.dart';
+import 'package:acopiatech/widgets/add_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,35 +20,21 @@ class _UserDirectionViewState extends State<UserAddressView> {
   Widget build(BuildContext context) {
     context.read<AddressBloc>().add(AddressEventLoadAdresses());
     return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: Row(
-            children: [
-              const Text(
-                'Direcciones',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (_) => BlocProvider.value(
-                            value: BlocProvider.of<AddressBloc>(context),
-                            child: CreateUpdateAddressView(),
-                          ),
-                    ),
-                  );
-                },
-                icon: Icon(Icons.add),
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar:
+          AddAppBar(
+            title: 'Mis direcciones',
+            onPressed:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (_) => BlocProvider.value(
+                          value: BlocProvider.of<AddressBloc>(context),
+                          child: CreateUpdateAddressView(),
+                        ),
+                  ),
+                ),
+          ).addAppBar,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -85,10 +72,9 @@ class _UserDirectionViewState extends State<UserAddressView> {
                                                 value: BlocProvider.of<
                                                   AddressBloc
                                                 >(context),
-                                                child:
-                                                    CreateUpdateAddressView(
-                                                      address: address,
-                                                    ),
+                                                child: CreateUpdateAddressView(
+                                                  address: address,
+                                                ),
                                               ),
                                         ),
                                       );

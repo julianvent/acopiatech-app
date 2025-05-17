@@ -60,7 +60,7 @@ class _UserHomeViewState extends State<UserHomeView> {
             spacing: 30,
             children: [
               Column(
-                spacing: 15,
+                spacing: 10,
                 children: [
                   CustomSection(title: 'Última solicitud de recolección'),
                   Padding(
@@ -88,7 +88,8 @@ class _UserHomeViewState extends State<UserHomeView> {
                                       return CollectionListGenerateView(
                                         collections: collections,
                                         length: 1,
-                                        onTap: (collection) => onTap(collection),
+                                        onTap:
+                                            (collection) => onTap(collection),
                                       );
                                     } else {
                                       return const CustomProgressIndicator(
@@ -124,7 +125,9 @@ class _UserHomeViewState extends State<UserHomeView> {
                           MaterialPageRoute(
                             builder:
                                 (_) => BlocProvider.value(
-                                  value: BlocProvider.of<CollectionBloc>(context),
+                                  value: BlocProvider.of<CollectionBloc>(
+                                    context,
+                                  ),
                                   child: CreateCollectionView(),
                                 ),
                           ),
@@ -134,7 +137,7 @@ class _UserHomeViewState extends State<UserHomeView> {
               ),
               // ongoing collections
               Column(
-                spacing: 15,
+                spacing: 10,
                 children: [
                   CustomSection(title: 'Recolecciones en camino'),
                   Padding(
@@ -162,7 +165,8 @@ class _UserHomeViewState extends State<UserHomeView> {
                                       return CollectionListGenerateView(
                                         collections: allOngoingCollections,
                                         length: 1,
-                                        onTap: (collection) => onTap(collection),
+                                        onTap:
+                                            (collection) => onTap(collection),
                                       );
                                     } else {
                                       return const CustomProgressIndicator(
@@ -202,8 +206,12 @@ class _UserHomeViewState extends State<UserHomeView> {
               Column(
                 spacing: 15,
                 children: [
-                  CustomSection(title: 'Encuentra un centro de acopio'),
-                  SizedBox(height: 400, child: DropOffMap()),
+                  Column(
+                    children: [
+                      CustomSection(title: 'Encuentra un centro de acopio'),
+                      SizedBox(height: 400, child: DropOffMap()),
+                    ],
+                  ),
                   Column(
                     spacing: 20,
                     children: [

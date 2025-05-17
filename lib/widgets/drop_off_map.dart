@@ -63,7 +63,10 @@ class _DropOffMapState extends State<DropOffMap> {
                           markers: dropoffMarkers,
                         );
                       } else {
-                        return const Center(child: Text(''));
+                        return const CustomProgressIndicator(
+                          loadingText: 'Cargando mapa...',
+                          spacing: 20,
+                        );
                       }
                     default:
                       return const CustomProgressIndicator(
