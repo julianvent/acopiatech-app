@@ -21,7 +21,6 @@ class _DropOffMapState extends State<DropOffMap> {
   @override
   void initState() {
     _geolocatorService = GeolocatorService();
-
     super.initState();
   }
 
@@ -37,22 +36,28 @@ class _DropOffMapState extends State<DropOffMap> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: getDropOffs(),
+    return FutureBuilder(
+      future: getDropOffs(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
-          case ConnectionState.active:
+          case ConnectionState.done:
             if (snapshot.hasData) {
               final dropoffMarkers = snapshot.data as Set<Marker>;
-              return StreamBuilder(
-                stream: _geolocatorService.getCurrentLocationUpdates(),
+              return FutureBuilder(
+                future: _geolocatorService.getCurrentLocation(),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
-                    case ConnectionState.active:
+                    case ConnectionState.done:
                       if (snapshot.hasData) {
                         final location = snapshot.data!;
+                        dropoffMarkers.add(
+                          Marker(
+                            markerId: MarkerId('currentLocation'),
+                            position: location,
+                            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+                          ),
+                        );
                         return GoogleMap(
-                          myLocationEnabled: true,
                           initialCameraPosition: CameraPosition(
                             target: location,
                             zoom: 13.5,
@@ -63,10 +68,7 @@ class _DropOffMapState extends State<DropOffMap> {
                           markers: dropoffMarkers,
                         );
                       } else {
-                        return const CustomProgressIndicator(
-                          loadingText: 'Cargando mapa...',
-                          spacing: 20,
-                        );
+                        return const Text('No se pudo cargar el mapa...');
                       }
                     default:
                       return const CustomProgressIndicator(

@@ -1,9 +1,6 @@
 import 'dart:developer' show log;
 
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -23,28 +20,28 @@ Future<LatLng> getCoordsFromAddress({required String address}) async {
   }
 }
 
-Stream<Set<Marker>> getDropOffs() async* {
+Future<Set<Marker>> getDropOffs() async {
   final AddressStorage addressService = AddressStorage();
   log('Getting dropoffs');
 
-  await for (final dropoffs in addressService.allDropOffs()) {
-    log('Dropoff list: ${dropoffs.isEmpty.toString()}');
+  final dropoffs = await addressService.getDropOffs();
 
-    final markerFuture =
-        dropoffs.map((dropoff) async {
-          final addressLocation = await getCoordsFromAddress(
-            address: dropoff.toString(),
-          );
-          log('Dropoff coords: ${addressLocation.toString()}');
+  final Iterable<Marker> markers = await Future.wait(
+    dropoffs.map((dropoff) async {
+      final addressLocation = await getCoordsFromAddress(
+        address: dropoff.toString(),
+      );
+      log('Dropoff coords: ${addressLocation.toString()}');
 
-          return Marker(
-            markerId: MarkerId(dropoff.toString()),
-            position: addressLocation,
-            infoWindow: InfoWindow(title: dropoff.toString()),
-          );
-        }).toList();
+      final marker = Marker(
+        markerId: MarkerId(dropoff.toString()),
+        position: addressLocation,
+        infoWindow: InfoWindow(title: dropoff.toString()),
+      );
 
-    final markers = await Future.wait(markerFuture);
-    yield markers.toSet();
-  }
+      return marker;
+    }),
+  );
+
+  return markers.toSet();
 }

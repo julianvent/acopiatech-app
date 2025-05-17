@@ -124,4 +124,16 @@ class AddressStorage {
       .where(addressIsDropOffFieldName, isEqualTo: true)
       .snapshots()
       .map((event) => event.docs.map((doc) => Address.fromSnapshot(doc)));
+
+  Future<Iterable<Address>> getDropOffs() async {
+    try {
+      return await addresses
+          .where(addressIsDeletedFieldName, isEqualTo: false)
+          .where(addressIsDropOffFieldName, isEqualTo: true)
+          .get()
+          .then((value) => value.docs.map((doc) => Address.fromSnapshot(doc)));
+    } catch (e) {
+      throw CouldNotGetAddressException();
+    }
+  }
 }

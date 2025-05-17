@@ -1,7 +1,9 @@
+import 'package:acopiatech/constants/colors_palette.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/images/collection_images_bloc.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/images/collection_images_event.dart';
 import 'package:acopiatech/services/cloud/collections/bloc/images/collection_images_state.dart';
 import 'package:acopiatech/services/cloud/collections/collection.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,16 +22,21 @@ class CollectionGalleryView extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Evidencias de la recolección',
+        title: Text(
+          "Evidencias",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        backgroundColor: ColorsPalette.neutralGray,
+        foregroundColor: Colors.white,
       ),
       body: BlocBuilder<CollectionImagesBloc, CollectionImagesState>(
         builder: (context, state) {
           if (state is CollectionImagesStateLoadedImages) {
             if (state.isLoading) {
-              return Center(child: const CircularProgressIndicator());
+              return CustomProgressIndicator(
+                loadingText: 'Cargando evidencias...',
+                spacing: 20,
+              );
             }
             return SafeArea(
               child: Column(
@@ -78,7 +85,10 @@ class CollectionGalleryView extends StatelessWidget {
               ),
             );
           }
-          return Center(child: const CircularProgressIndicator());
+          return CustomProgressIndicator(
+            loadingText: 'Cargando evidencias...',
+            spacing: 20,
+          );
         },
       ),
     );

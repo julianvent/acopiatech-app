@@ -10,6 +10,10 @@ class GeolocatorService {
 
     if (isLocationGranted) {
       final currentPosition = await Geolocator.getCurrentPosition();
+      log(
+        'Current location: ${currentPosition.latitude}, ${currentPosition.longitude}',
+        name: 'GeolocatorService',
+      );
       return LatLng(currentPosition.latitude, currentPosition.longitude);
     }
     return const LatLng(18.144228260252365, -94.4760033948996);
