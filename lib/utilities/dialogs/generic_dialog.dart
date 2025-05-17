@@ -13,7 +13,10 @@ Future<T?> showGenericDialog<T>({
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         content: Text(content),
         actions:
             options.keys.map((optionTitle) {

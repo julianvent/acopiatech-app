@@ -13,6 +13,9 @@ import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/utilities/permission/permissions.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
+import 'package:acopiatech/widgets/address_tile.dart';
+import 'package:acopiatech/widgets/custom_button.dart';
+import 'package:acopiatech/widgets/custom_detail.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +88,10 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
       listener: (context, state) {
         if (state is CollectionStateCreatingCollection) {
           if (state.isLoading) {
-            LoadingScreen().show(context: context, text: 'Espere un momento');
+            LoadingScreen().show(
+              context: context,
+              text: 'Creando solicitud...',
+            );
           } else {
             LoadingScreen().hide();
             context.read<CollectionBloc>().add(
@@ -106,288 +112,256 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
         appBar: AppBar(
           title: const Text(
             'Nueva recolección',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
           ),
+          backgroundColor: ColorsPalette.neutralGray,
+          foregroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Column(
-                spacing: 20,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Turno
-                  const Text(
-                    'Turno',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.left,
-                  ),
-                  SegmentedButton<String>(
-                    multiSelectionEnabled: false,
-                    segments: const <ButtonSegment<String>>[
-                      ButtonSegment<String>(
-                        value: 'Matutino',
-                        label: Text('Matutino'),
-                      ),
-                      ButtonSegment<String>(
-                        value: 'Vespertino',
-                        label: Text('Vespertino'),
-                      ),
-                    ],
-                    selected: <String>{_selectedScheduled},
-                    onSelectionChanged: (Set<String> newTurno) {
-                      setState(() {
-                        _selectedScheduled = newTurno.first;
-                      });
-                    },
-                  ),
-                  // Fecha
-                  Container(
-                    decoration: const BoxDecoration(
-                      border: Border.symmetric(
-                        horizontal: BorderSide(width: 0.5),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 8),
-                        UserDatePicker(
-                          earliestSelectableDate: _earliestSelectableDate,
-                          onDateSelected: _getSelectedDate,
+            child: Column(
+              spacing: 2,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Turno
+                CustomDetail(
+                  children: [
+                    Center(
+                      child: const Text(
+                        'Turno',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
                         ),
-                        const SizedBox(height: 8),
-                      ],
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                  // Datos de recolección
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      spacing: 20,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Datos de recolección',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
+                    Center(
+                      child: SegmentedButton<String>(
+                        multiSelectionEnabled: false,
+                        segments: const <ButtonSegment<String>>[
+                          ButtonSegment<String>(
+                            value: 'Matutino',
+                            label: Text('Matutino'),
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                        // // Evidencias
-                        Text(
-                          'Evidencias',
+                          ButtonSegment<String>(
+                            value: 'Vespertino',
+                            label: Text('Vespertino'),
+                          ),
+                        ],
+                        selected: <String>{_selectedScheduled},
+                        onSelectionChanged: (Set<String> newTurno) {
+                          setState(() {
+                            _selectedScheduled = newTurno.first;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                // Fecha
+                CustomDetail(
+                  spacing: 5,
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
+                          'Fecha de recolección',
                           style: TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.bold,
                           ),
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.center,
                         ),
-                        Stack(
-                          children: [
-                            Container(
-                              height: 250,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              padding: const EdgeInsets.all(8.0),
-                              child:
-                                  _selectedImages.isNotEmpty
-                                      // Creamos una cuadrícula de 3 columnas y filas
-                                      ? GridView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 1,
-                                              mainAxisSpacing: 8,
-                                              crossAxisSpacing: 8,
-                                            ),
-                                        itemCount: _selectedImages.length,
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              // Mostrar previsualización de la imagen
-                                              showDialog(
-                                                context: context,
-                                                builder: (_) {
-                                                  return Dialog(
-                                                    child: Image.file(
-                                                      File(
-                                                        _selectedImages[index],
-                                                      ),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: Stack(
-                                              children: [
-                                                Image.file(
+                      ),
+                    ),
+                    UserDatePicker(
+                      earliestSelectableDate: _earliestSelectableDate,
+                      onDateSelected: _getSelectedDate,
+                    ),
+                  ],
+                ),
+                // Datos de recolección
+                CustomDetail(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Datos de recolección',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          height: 300,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              _selectedImages.isNotEmpty
+                                  // Creamos una cuadrícula de 3 columnas y filas
+                                  ? GridView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 1,
+                                          mainAxisSpacing: 8,
+                                          crossAxisSpacing: 8,
+                                        ),
+                                    itemCount: _selectedImages.length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          // Mostrar previsualización de la imagen
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) {
+                                              return Dialog(
+                                                child: Image.file(
                                                   File(_selectedImages[index]),
                                                   fit: BoxFit.cover,
                                                 ),
-                                                Positioned(
-                                                  top: 1,
-                                                  right: 1,
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                      Icons
-                                                          .disabled_by_default_rounded,
-                                                    ),
-                                                    onPressed: () {
-                                                      removeImage(index);
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              );
+                                            },
                                           );
                                         },
-                                      )
-                                      : const Center(
-                                        child: Text(
-                                          'Adjunta evidencias',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black54,
-                                          ),
+                                        child: Stack(
+                                          children: [
+                                            Image.file(
+                                              File(_selectedImages[index]),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                              top: 1,
+                                              right: 1,
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                  Icons
+                                                      .disabled_by_default_rounded,
+                                                ),
+                                                onPressed: () {
+                                                  removeImage(index);
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      );
+                                    },
+                                  )
+                                  : const Center(
+                                    child: Text(
+                                      'Las evidencias son requeridas para continuar con la solicitud',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black54,
                                       ),
-                            ),
-                            Positioned(
-                              bottom: 10,
-                              left: 10,
-                              child: FloatingActionButton(
-                                onPressed: () {
-                                  pickMultiImages();
-                                },
-                                mini: true,
-                                child: const Icon(Icons.add_a_photo),
-                              ),
-                            ),
-                          ],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                         ),
-                        // Descripción
-                        UserTextField(
-                          fieldName: 'Descripción',
-                          myIcon: Icons.description_outlined,
-                          prefixiedIconColor: ColorsPalette.hardGreen,
-                          filled: true,
-                          validator: (value) => validateField(value),
-                          numberOfLines: 5,
-                          onSaved:
-                              (description) =>
-                                  _description = description!.trim(),
+                        Positioned(
+                          bottom: 10,
+                          left: 10,
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              pickMultiImages();
+                            },
+                            mini: true,
+                            backgroundColor: ColorsPalette.darkCian,
+                            foregroundColor: Colors.white,
+                            child: const Icon(Icons.add_a_photo),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  // Dirección
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      border: Border.symmetric(
-                        horizontal: BorderSide(width: 0.5),
+                    // Descripción
+                    UserTextField(
+                      fieldName: 'Descripción',
+                      myIcon: Icons.description_outlined,
+                      prefixiedIconColor: ColorsPalette.hardGreen,
+                      filled: true,
+                      validator: (value) => validateField(value),
+                      numberOfLines: 4,
+                      onSaved:
+                          (description) => _description = description!.trim(),
+                    ),
+                  ],
+                ),
+                // Dirección
+                CustomDetail(
+                  children: [
+                    Center(
+                      child: const Text(
+                        'Dirección',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        spacing: 20,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Dirección',
+                    _selectedAddress == null
+                        ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 15,
+                          ),
+                          child: Text(
+                            'Selecciona una dirección para continuar con la solicitud',
                             style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: Colors.black54,
                             ),
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.center,
                           ),
-                          _selectedAddress == null
-                              ? const Text(
-                                'Selecciona una dirección.',
-                                style: TextStyle(fontSize: 16),
-                              )
-                              : Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    title: Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 10.0,
-                                      ),
-                                      child: Text(
-                                        '${_selectedAddress!.street} ${_selectedAddress!.extNumber}, ${_selectedAddress!.neighborhood}',
-                                      ),
-                                    ),
-                                    subtitle: Column(
-                                      spacing: 5,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(_selectedAddress!.phoneNumber),
-                                        Text(
-                                          '${_selectedAddress!.city}, ${_selectedAddress!.state}',
-                                        ),
-                                      ],
-                                    ),
+                        )
+                        : Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AddressTile(address: _selectedAddress!),
+                          ),
+                        ),
+                    Center(
+                      child: CustomButton(
+                        title: 'Cambiar dirección',
+                        onPressed: () async {
+                          final Address? selectedAddress;
+                          selectedAddress = await Navigator.push<Address>(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => BlocProvider(
+                                    create:
+                                        (context) =>
+                                            AddressBloc(AddressStorage()),
+                                    child: const CollectionAddressView(),
                                   ),
-                                ),
-                              ),
-                          Center(
-                            child: ElevatedButton.icon(
-                              onPressed: () async {
-                                final Address? selectedAddress;
-                                selectedAddress = await Navigator.push<Address>(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (_) => BlocProvider(
-                                          create:
-                                              (context) =>
-                                                  AddressBloc(AddressStorage()),
-                                          child: const CollectionAddressView(),
-                                        ),
-                                  ),
-                                );
-                                if (selectedAddress != null) {
-                                  setState(() {
-                                    _selectedAddress = selectedAddress;
-                                  });
-                                }
-                              },
-                              icon: const Icon(Icons.location_on_outlined),
-                              label: const Text(
-                                'Cambiar dirección',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 12,
-                                ),
-                              ),
                             ),
-                          ),
-                        ],
+                          );
+                          if (selectedAddress != null) {
+                            setState(() {
+                              _selectedAddress = selectedAddress;
+                            });
+                          }
+                        },
+                        icon: Icon(Icons.location_on_outlined, size: 20),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorsPalette.darkCian,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: CustomButton(
+                    title: 'Solicitar recolección',
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
@@ -416,17 +390,10 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                         }
                       }
                     },
-                    child: const Text(
-                      'Enviar solicitud de recolección',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
+                    backgroundColor: ColorsPalette.darkCian,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

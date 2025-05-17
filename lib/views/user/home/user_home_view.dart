@@ -7,7 +7,7 @@ import 'package:acopiatech/views/user/collection/collection_list_generate_view.d
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
 import 'package:acopiatech/views/user/collection/collection_details_view.dart';
 import 'package:acopiatech/views/user/home/user_dropoff_list_view.dart';
-import 'package:acopiatech/widgets/custom_home_button.dart';
+import 'package:acopiatech/widgets/custom_button.dart';
 import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:acopiatech/widgets/custom_section.dart';
 import 'package:acopiatech/widgets/drop_off_map.dart';
@@ -117,7 +117,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                       ),
                     ),
                   ),
-                  CustomHomeButton(
+                  CustomButton(
                     title: 'Solicitar recolección',
                     onPressed:
                         () => Navigator.push(
@@ -193,7 +193,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                       ),
                     ),
                   ),
-                  CustomHomeButton(
+                  CustomButton(
                     title: 'Ver recolecciones',
                     onPressed: () {
                       final controller = Get.find<UserNavigationController>();
@@ -219,7 +219,7 @@ class _UserHomeViewState extends State<UserHomeView> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: DropOffView(),
                       ),
-                      CustomHomeButton(
+                      CustomButton(
                         title: 'Ver centros de acopio',
                         onPressed:
                             () => Navigator.push(

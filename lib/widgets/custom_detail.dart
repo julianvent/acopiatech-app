@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomDetail extends StatelessWidget {
   final List<Widget> children;
-  const CustomDetail({super.key, required this.children});
+  final double? spacing;
+  const CustomDetail({super.key, required this.children, this.spacing});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class CustomDetail extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 15,
+          spacing: spacing ?? 15,
           children: children,
         ),
       ),
