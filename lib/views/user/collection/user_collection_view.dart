@@ -6,7 +6,7 @@ import 'package:acopiatech/services/cloud/collections/collection.dart';
 import 'package:acopiatech/views/user/collection/collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/views/user/collection/create_collection_view.dart';
-import 'package:acopiatech/widgets/add_app_bar.dart';
+import 'package:acopiatech/widgets/custom_app_bar.dart';
 import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +27,7 @@ class _UserCollectionViewState extends State<UserCollectionView> {
 
     return Scaffold(
       appBar:
-          AddAppBar(
+          CustomAppBar(
             title: 'Mis recolecciones',
             onPressed:
                 () => Navigator.push(

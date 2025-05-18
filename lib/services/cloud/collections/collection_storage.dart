@@ -117,9 +117,7 @@ class CollectionStorage {
     }
   }
 
-  Future<Collection?> getLastCollection({
-    required String ownerUserId,
-  }) async {
+  Future<Collection?> getLastCollection({required String ownerUserId}) async {
     try {
       final Iterable<Collection?> querySnapshot = await collections
           .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
@@ -168,12 +166,15 @@ class CollectionStorage {
     }
   }
 
-  Stream<Iterable<Collection>> allCollectionsCompleted() {
+  Stream<Iterable<Collection>> allCollectionsCompleted({
+    required String ownerUserId,
+  }) {
     return collections
         .where(
           collectionStatusFieldName,
           isEqualTo: CollectionStatus.finalizada.name,
         )
+        .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
         .orderBy(timeCreatedFieldName, descending: true)
         .snapshots()
         .map((event) => event.docs.map((doc) => Collection.fromSnapshot(doc)));

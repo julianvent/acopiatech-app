@@ -14,6 +14,7 @@ import 'package:acopiatech/utilities/generics/validate_field.dart';
 import 'package:acopiatech/utilities/permission/permissions.dart';
 import 'package:acopiatech/views/user/address/collection_address_view.dart';
 import 'package:acopiatech/widgets/address_tile.dart';
+import 'package:acopiatech/widgets/custom_app_bar.dart';
 import 'package:acopiatech/widgets/custom_button.dart';
 import 'package:acopiatech/widgets/custom_detail.dart';
 import 'package:acopiatech/widgets/user/user_date_picker.dart';
@@ -109,14 +110,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Nueva recolección',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-          ),
-          backgroundColor: ColorsPalette.neutralGray,
-          foregroundColor: Colors.white,
-        ),
+        appBar: CustomAppBar(title: 'Nueva recolección').navigatorAppBar,
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -359,7 +353,7 @@ class _CreateCollectionViewState extends State<CreateCollectionView> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: CustomButton(
                     title: 'Solicitar recolección',
                     onPressed: () async {

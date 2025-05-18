@@ -47,5 +47,6 @@ class CollectionEventUpdateStatus extends CollectionEvent {
 }
 
 class CollectionEventLoadAllCompletedCollection extends CollectionEvent {
-  const CollectionEventLoadAllCompletedCollection();
+  final String ownerUserId;
+  const CollectionEventLoadAllCompletedCollection({required this.ownerUserId});
 }

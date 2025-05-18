@@ -52,7 +52,6 @@ class _UserHomeViewState extends State<UserHomeView> {
     context.read<CollectionBloc>().add(const CollectionEventLoadCollections());
 
     return Scaffold(
-      backgroundColor: ColorsPalette.black1,
       body: Padding(
         padding: const EdgeInsets.only(bottom: 15.0),
         child: SingleChildScrollView(

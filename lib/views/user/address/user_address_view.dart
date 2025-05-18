@@ -4,7 +4,7 @@ import 'package:acopiatech/services/cloud/address/bloc/address_state.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/views/user/address/create_update_address_view.dart';
 import 'package:acopiatech/views/user/address/address_list_view.dart';
-import 'package:acopiatech/widgets/add_app_bar.dart';
+import 'package:acopiatech/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +21,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
     context.read<AddressBloc>().add(AddressEventLoadAdresses());
     return Scaffold(
       appBar:
-          AddAppBar(
+          CustomAppBar(
             title: 'Mis direcciones',
             onPressed:
                 () => Navigator.push(

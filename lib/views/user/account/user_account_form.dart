@@ -5,6 +5,7 @@ import 'package:acopiatech/constants/images_routes.dart';
 import 'package:acopiatech/services/auth/auth_user.dart';
 import 'package:acopiatech/utilities/dialogs/error_dialog.dart';
 import 'package:acopiatech/utilities/generics/validate_field.dart';
+import 'package:acopiatech/widgets/custom_app_bar.dart';
 import 'package:acopiatech/widgets/user/user_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +48,7 @@ class _UserAccountFormState extends State<UserAccountForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Editar perfil',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: CustomAppBar(title: 'Modificar perfil').navigatorAppBar,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -66,10 +62,12 @@ class _UserAccountFormState extends State<UserAccountForm> {
                   Stack(
                     children: [
                       Container(
+                        clipBehavior: Clip.hardEdge,
                         height: 150,
                         width: 150,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
+                          shape: BoxShape.circle,
                         ),
                         child:
                             userProfileImage != null
@@ -89,7 +87,9 @@ class _UserAccountFormState extends State<UserAccountForm> {
                             pickUserProfileImage();
                           },
                           mini: true,
-                          child: const Icon(Icons.account_circle),
+                          backgroundColor: ColorsPalette.darkCian,
+                          foregroundColor: Colors.white,
+                          child: const Icon(Icons.edit),
                         ),
                       ),
                     ],
@@ -102,12 +102,6 @@ class _UserAccountFormState extends State<UserAccountForm> {
                     fieldName: 'Nombre completo',
                     filled: false,
                   ),
-                  // UserTextField(
-                  //   myIcon: Icons.person,
-                  //   initialValue: _name,
-                  //   fieldName: 'Apellidos',
-                  //   filled: false,
-                  // ),
                   UserTextField(
                     fieldName: 'Correo electrónico',
                     initialValue: _email,
@@ -116,12 +110,6 @@ class _UserAccountFormState extends State<UserAccountForm> {
                     myIcon: Icons.email,
                     isEnabled: false,
                   ),
-                  // UserTextField(
-                  //   fieldName: 'Número de teléfono',
-                  //   filled: false,
-                  //   myIcon: Icons.phone,
-                  //   keyboardType: TextInputType.phone,
-                  // ),
                   Column(
                     spacing: 12,
                     children: [

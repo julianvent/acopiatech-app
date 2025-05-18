@@ -1,3 +1,4 @@
+import 'package:acopiatech/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:acopiatech/services/cloud/address/address.dart';
 import 'package:acopiatech/services/cloud/address/address_storage.dart';
@@ -9,7 +10,7 @@ class UserDropoffListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Centros de Acopio')),
+      appBar: CustomAppBar(title: 'Centros de acopio').navigatorAppBar,
       body: StreamBuilder(
         stream: AddressStorage().allDropOffs(),
         builder: (context, snapshot) {

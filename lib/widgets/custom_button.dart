@@ -5,6 +5,7 @@ class CustomButton extends StatelessWidget {
   final String title;
   final Icon? icon;
   final Color? backgroundColor;
+  final EdgeInsets? padding;
   final void Function()? onPressed;
   const CustomButton({
     super.key,
@@ -12,13 +13,14 @@ class CustomButton extends StatelessWidget {
     this.onPressed,
     this.icon,
     this.backgroundColor,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 70, vertical: 15),
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 70, vertical: 15),
         backgroundColor: backgroundColor ?? ColorsPalette.backgroundDarkGreen,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),

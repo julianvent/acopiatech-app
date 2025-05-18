@@ -127,8 +127,8 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       );
 
       try {
-        final completedCollectionsStream =
-            collectionService.allCollectionsCompleted();
+        final completedCollectionsStream = collectionService
+            .allCollectionsCompleted(ownerUserId: event.ownerUserId);
         emit(
           CollectionStateLoadedCollections(
             collectionsStream: completedCollectionsStream,
