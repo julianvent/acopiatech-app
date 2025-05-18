@@ -41,10 +41,12 @@ class _AdminAccountViewState extends State<AdminAccountView> {
                       Stack(
                         children: [
                           Container(
+                            clipBehavior: Clip.hardEdge,
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey),
+                              shape: BoxShape.circle,
                             ),
                             child: Center(
                               child: Image.asset(
@@ -90,7 +92,6 @@ class _AdminAccountViewState extends State<AdminAccountView> {
                       icon: Icon(Icons.logout_outlined),
                     ),
                   ),
-                    
                 ],
               ),
             ),
