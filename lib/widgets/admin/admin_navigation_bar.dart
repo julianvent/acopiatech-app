@@ -18,6 +18,7 @@ class AdminNavigationBar extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -40,16 +41,14 @@ class AdminNavigationBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const AdminNotificationView(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const AdminNotificationView()),
                 );
               },
-              icon: Icon(Icons.notifications, color: ColorsPalette.neutralGray),
+              icon: Icon(Icons.notifications, color: Colors.white),
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: ColorsPalette.neutralGray,
         elevation: 0.0,
       ),
       bottomNavigationBar: Obx(
@@ -58,8 +57,7 @@ class AdminNavigationBar extends StatelessWidget {
           indicatorColor: ColorsPalette.lightGreen,
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
-          onDestinationSelected:
-              (index) => controller.selectedIndex.value = index,
+          onDestinationSelected: (index) => controller.selectedIndex.value = index,
           destinations: [
             NavigationDestination(
               icon: Icon(CupertinoIcons.home, size: 30),
@@ -73,10 +71,7 @@ class AdminNavigationBar extends StatelessWidget {
               icon: Icon(CupertinoIcons.shopping_cart, size: 30),
               label: 'Tienda',
             ),
-            NavigationDestination(
-              icon: Icon(Icons.menu, size: 30),
-              label: 'Menú',
-            ),
+            NavigationDestination(icon: Icon(Icons.menu, size: 30), label: 'Menú'),
           ],
         ),
       ),

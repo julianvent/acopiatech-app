@@ -4,6 +4,7 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/views/admin/account/admin_account_form.dart';
+import 'package:acopiatech/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,12 +78,19 @@ class _AdminAccountViewState extends State<AdminAccountView> {
                       );
                     },
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(AuthEventLogOut());
-                    },
-                    child: const Text('Cerrar sesión'),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: CustomButton(
+                      onPressed: () {
+                        context.read<AuthBloc>().add(AuthEventLogOut());
+                      },
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      title: 'Cerrar sesión',
+                      backgroundColor: ColorsPalette.neutralGray,
+                      icon: Icon(Icons.logout_outlined),
+                    ),
                   ),
+                    
                 ],
               ),
             ),
