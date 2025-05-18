@@ -26,100 +26,67 @@ class AddressListView extends StatelessWidget {
     return Column(
       children: List.generate(addresses.length, (index) {
         final address = addresses.elementAt(index);
-        return Stack(
-          children: [
-            Positioned.fill(
-              bottom: 1,
-              left: 1,
-              right: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.transparent,
-                      ColorsPalette.backgroundHardGreen,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomLeft,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
+        return Card(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListTile(
+              onTap: () => onTap(address),
+              title: Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: CustomCardText(
+                  '${address.street} ${address.extNumber}, ${address.neighborhood}',
                 ),
               ),
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  onTap: () => onTap(address),
-                  title: Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: CustomCardText(
-                      '${address.street} ${address.extNumber}, ${address.neighborhood}',
-                    ),
-                  ),
-                  subtitle: Column(
+              subtitle: Column(
+                spacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Icon(Icons.phone), CustomCardText(address.phoneNumber)],
+                  ),
+                  Row(
+                    spacing: 10,
                     children: [
-                      Row(
-                        spacing: 10,
-                        children: [
-                          Icon(Icons.phone),
-                          CustomCardText(address.phoneNumber),
-                        ],
+                      Icon(Icons.location_on),
+                      CustomCardText('${address.city}, ${address.state}'),
+                    ],
+                  ),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsPalette.greenShadow,
+                        ),
+                        onPressed: () => onTap(address),
+                        child: Text(
+                          'Editar',
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
                       ),
-                      Row(
-                        spacing: 10,
-                        children: [
-                          Icon(Icons.location_on),
-                          CustomCardText('${address.city}, ${address.state}'),
-                        ],
-                      ),
-                      Row(
-                        spacing: 10,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorsPalette.greenShadow,
-                            ),
-                            onPressed: () => onTap(address),
-                            child: Text(
-                              'Editar',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  ColorsPalette.backgroundDarkGreen,
-                            ),
-                            onPressed: () async {
-                              final shouldDelete = await showDeleteDialog(
-                                context,
-                              );
-                              if (shouldDelete) {
-                                onDeleteAddress(address);
-                              }
-                            },
-                            child: Text(
-                              'Eliminar',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsPalette.backgroundDarkGreen,
+                        ),
+                        onPressed: () async {
+                          final shouldDelete = await showDeleteDialog(context);
+                          if (shouldDelete) {
+                            onDeleteAddress(address);
+                          }
+                        },
+                        child: Text(
+                          'Eliminar',
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-          ],
+          ),
         );
       }),
     );
