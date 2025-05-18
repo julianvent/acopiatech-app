@@ -36,7 +36,13 @@ class CollectionListGenerateView extends StatelessWidget {
 
     if (filteredCollections.isEmpty) {
       return Center(
-        child: Text(noCollectionText ?? 'No cuentas con recolecciones.'),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+          child: Text(
+            noCollectionText ?? 'No cuentas con recolecciones.',
+            textAlign: TextAlign.center,
+          ),
+        ),
       );
     }
     return Column(

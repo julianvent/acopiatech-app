@@ -45,7 +45,8 @@ void main() {
         ),
         routes: {
           '/login': (context) => const LoginView(),
-          '/create-address': (context) => const CreateUpdateAddressView(),
+          '/create-address':
+              (context) => const CreateUpdateAddressView(title: ''),
         },
       ),
     ),

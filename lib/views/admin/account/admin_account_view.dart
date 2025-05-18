@@ -4,7 +4,9 @@ import 'package:acopiatech/services/auth/bloc/auth_bloc.dart';
 import 'package:acopiatech/services/auth/bloc/auth_event.dart';
 import 'package:acopiatech/services/auth/bloc/auth_state.dart';
 import 'package:acopiatech/views/admin/account/admin_account_form.dart';
+import 'package:acopiatech/views/user/account/user_account_form.dart';
 import 'package:acopiatech/widgets/custom_button.dart';
+import 'package:acopiatech/widgets/custom_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,72 +30,85 @@ class _AdminAccountViewState extends State<AdminAccountView> {
         if (state is AuthStateLoggedInAsAdmin) {
           final user = state.user;
           return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                spacing: 30,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 16,
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            clipBehavior: Clip.hardEdge,
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Image.asset(
-                                ImagesRoutes.mascota,
-                                fit: BoxFit.contain,
+            body: Column(
+              spacing: 2,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                CustomDetail(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 16,
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                              clipBehavior: Clip.hardEdge,
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  ImagesRoutes.logotipoA,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Text(
+                            user.name ?? user.email,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: CustomDetail(
+                    children: [
+                      AdminAccountCard(
+                        title: 'Editar perfil',
+                        icon: Icons.edit,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => BlocProvider.value(
+                                    value: BlocProvider.of<AuthBloc>(context),
+                                    child: UserAccountForm(user: user),
+                                  ),
+                            ),
+                          );
+                        },
                       ),
-                      Expanded(
-                        child: Text(
-                          user.name ?? user.email,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      Center(
+                        child: CustomButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(AuthEventLogOut());
+                          },
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 15,
                           ),
+                          title: 'Cerrar sesión',
+                          backgroundColor: ColorsPalette.neutralGray,
+                          icon: Icon(Icons.logout_outlined),
                         ),
                       ),
                     ],
                   ),
-                  AdminAccountCard(
-                    title: 'Editar perfil',
-                    icon: Icons.edit,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AdminAccountForm(user: user),
-                        ),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: CustomButton(
-                      onPressed: () {
-                        context.read<AuthBloc>().add(AuthEventLogOut());
-                      },
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      title: 'Cerrar sesión',
-                      backgroundColor: ColorsPalette.neutralGray,
-                      icon: Icon(Icons.logout_outlined),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }

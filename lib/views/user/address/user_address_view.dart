@@ -30,7 +30,9 @@ class _UserDirectionViewState extends State<UserAddressView> {
                     builder:
                         (_) => BlocProvider.value(
                           value: BlocProvider.of<AddressBloc>(context),
-                          child: CreateUpdateAddressView(),
+                          child: CreateUpdateAddressView(
+                            title: "Agregar dirección",
+                          ),
                         ),
                   ),
                 ),
@@ -74,6 +76,7 @@ class _UserDirectionViewState extends State<UserAddressView> {
                                                 >(context),
                                                 child: CreateUpdateAddressView(
                                                   address: address,
+                                                  title: "Actualizar dirección",
                                                 ),
                                               ),
                                         ),

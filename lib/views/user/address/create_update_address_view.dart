@@ -14,7 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateUpdateAddressView extends StatefulWidget {
   final Address? address;
-  const CreateUpdateAddressView({super.key, this.address});
+  final String title;
+  const CreateUpdateAddressView({super.key, this.address, required this.title});
   @override
   State<CreateUpdateAddressView> createState() =>
       _CreateUpdateAddressViewState();
@@ -55,13 +56,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar:
-              CustomAppBar(
-                title:
-                    _address == null
-                        ? "Agregar dirección"
-                        : "Actualizar dirección",
-              ).navigatorAppBar,
+          appBar: CustomAppBar(title: widget.title!).navigatorAppBar,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -184,10 +179,7 @@ class _CreateUpdateAddressViewState extends State<CreateUpdateAddressView> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: CustomButton(
-                      title:
-                          (_address != null)
-                              ? 'Actualizar dirección'
-                              : 'Guardar dirección',
+                      title: "Confirmar",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();

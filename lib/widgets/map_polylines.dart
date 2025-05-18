@@ -6,6 +6,7 @@ import 'package:acopiatech/constants/map_style.dart';
 import 'package:acopiatech/services/maps/geocoding_service.dart';
 import 'package:acopiatech/services/maps/geolocator_service.dart';
 import 'package:acopiatech/services/maps/maps_functions.dart';
+import 'package:acopiatech/widgets/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -64,8 +65,6 @@ class _MapPolylinesState extends State<MapPolylines> {
     required LatLng destiny,
     required LatLng currentLocation,
   }) async {
-    final polylinePoints = PolylinePoints();
-
     log('Getting polylines...', name: 'MapsPolyline');
     final polylineCoordinates = await getRouteWithCallable(
       origin: currentLocation,
@@ -91,29 +90,47 @@ class _MapPolylinesState extends State<MapPolylines> {
   @override
   Widget build(BuildContext context) {
     if (_currentLocation == null || _addressLocation == null) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: const CustomProgressIndicator(
+          loadingText: 'Cargando mapa...',
           spacing: 20,
-          children: [Text('Cargando mapa...'), CircularProgressIndicator()],
         ),
       );
     }
 
-    return GoogleMap(
-      myLocationEnabled: true,
-      initialCameraPosition: CameraPosition(
-        target: _currentLocation!,
-        zoom: 13.5,
-      ),
-      onMapCreated: (controller) async {
-        _controller = controller;
-      },
-      style: noPoiMapStyle,
-      markers: {
-        Marker(markerId: MarkerId('Recoleccion'), position: _addressLocation!),
-      },
-      polylines: Set<Polyline>.of(_polylines.values),
+    return Column(
+      children: [
+        SizedBox(
+          height: 450,
+          child: GoogleMap(
+            myLocationEnabled: true,
+            initialCameraPosition: CameraPosition(
+              target: _currentLocation!,
+              zoom: 13.5,
+            ),
+            onMapCreated: (controller) async {
+              _controller = controller;
+            },
+            style: noPoiMapStyle,
+            markers: {
+              Marker(
+                markerId: MarkerId('Recoleccion'),
+                position: _addressLocation!,
+              ),
+            },
+            polylines: Set<Polyline>.of(_polylines.values),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Text(
+            'Se calcurá la ruta más óptima. Las actualizaciones dependerán de la calidad de la conexión a internet actual.',
+            style: TextStyle(fontSize: 13, color: Colors.black45),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 }

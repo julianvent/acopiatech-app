@@ -58,7 +58,9 @@ class _CollectionAddressListState extends State<CollectionAddressList> {
                             builder:
                                 (_) => BlocProvider.value(
                                   value: BlocProvider.of<AddressBloc>(context),
-                                  child: CreateUpdateAddressView(),
+                                  child: CreateUpdateAddressView(
+                                    title: "Agregar dirección",
+                                  ),
                                 ),
                           ),
                         );

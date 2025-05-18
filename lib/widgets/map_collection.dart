@@ -29,19 +29,22 @@ class _MapCollectionState extends State<MapCollection> {
           case ConnectionState.done:
             if (asyncSnapshot.hasData) {
               final coords = asyncSnapshot.data as LatLng;
-              return GoogleMap(
-                onMapCreated: (controller) => _controller = controller,
-                initialCameraPosition: CameraPosition(
-                  target: coords,
-                  zoom: 17.66,
-                ),
-                liteModeEnabled: true,
-                markers: {
-                  Marker(
-                    markerId: MarkerId('Punto de recolección'),
-                    position: coords,
+              return SizedBox(
+                height: 450,
+                child: GoogleMap(
+                  onMapCreated: (controller) => _controller = controller,
+                  initialCameraPosition: CameraPosition(
+                    target: coords,
+                    zoom: 17.66,
                   ),
-                },
+                  liteModeEnabled: true,
+                  markers: {
+                    Marker(
+                      markerId: MarkerId('Punto de recolección'),
+                      position: coords,
+                    ),
+                  },
+                ),
               );
             } else {
               return const CustomProgressIndicator(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:acopiatech/firebase_options.dart';
 import 'package:acopiatech/services/auth/auth_exceptions.dart';
 import 'package:acopiatech/services/auth/auth_provider.dart';
@@ -143,6 +145,7 @@ class FirebaseAuthProvider implements AuthProvider {
   @override
   Future<String> updateName({required String name}) async {
     try {
+      log('Changing name to $name', name: "FirebaseAuth");
       await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
       return name;
     } catch (_) {

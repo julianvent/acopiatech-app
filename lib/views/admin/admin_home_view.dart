@@ -7,7 +7,9 @@ import 'package:acopiatech/utilities/enums/collection_status.dart';
 import 'package:acopiatech/views/admin/collection/admin_collection_details_view.dart';
 import 'package:acopiatech/views/user/collection/collection_list_generate_view.dart';
 import 'package:acopiatech/widgets/admin/admin_navigation_controller.dart';
+import 'package:acopiatech/widgets/custom_button.dart';
 import 'package:acopiatech/widgets/custom_progress_indicator.dart';
+import 'package:acopiatech/widgets/custom_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -39,195 +41,146 @@ class _AdminHomeViewState extends State<AdminHomeView> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            spacing: 20,
-            children: [
-              // Sigue una recolección
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey, width: 1),
-                  ),
-                ),
-                child: Column(
-                  spacing: 30,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Sigue una recolección',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Center(
-                      child: BlocBuilder<CollectionBloc, CollectionState>(
-                        builder: (context, state) {
-                          if (state is CollectionStateLoadedCollections) {
-                            return StreamBuilder(
-                              stream: state.collectionsStream,
-                              builder: (context, snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                  case ConnectionState.active:
-                                    if (snapshot.hasData) {
-                                      final collections =
-                                          snapshot.data as Iterable<Collection>;
-                                      if (collections.isNotEmpty) {
-                                        return CollectionListGenerateView(
-                                          noCollectionText:
-                                              'No existen recolecciones activas.',
-                                          collections: collections,
-                                          statusFilter:
-                                              CollectionStatus.enCamino,
-                                          length: collections.length,
-                                          onTap:
-                                              (collection) => onTap(collection),
-                                        );
-                                      } else {
-                                        return const Text(
+        child: Column(
+          spacing: 30,
+          children: [
+            // Sigue una recolección
+            Column(
+              spacing: 10,
+              children: [
+                const CustomSection(title: 'Sigue una recolección'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: BlocBuilder<CollectionBloc, CollectionState>(
+                    builder: (context, state) {
+                      if (state is CollectionStateLoadedCollections) {
+                        return StreamBuilder(
+                          stream: state.collectionsStream,
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                              case ConnectionState.active:
+                                if (snapshot.hasData) {
+                                  final collections =
+                                      snapshot.data as Iterable<Collection>;
+                                  if (collections.isNotEmpty) {
+                                    return CollectionListGenerateView(
+                                      noCollectionText:
                                           'No existen recolecciones activas.',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        );
-                                      }
-                                    } else {
-                                      return const CustomProgressIndicator(
-                                        loadingText:
-                                            'Cargando recolecciones...',
-                                        spacing: 20,
-                                      );
-                                    }
-                                  default:
-                                    return const CustomProgressIndicator(
-                                      loadingText: 'Cargando recolecciones...',
-                                      spacing: 20,
+                                      collections: collections,
+                                      statusFilter: CollectionStatus.enCamino,
+                                      length: collections.length,
+                                      onTap: (collection) => onTap(collection),
                                     );
+                                  } else {
+                                    return const Text(
+                                      'No existen recolecciones activas.',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  return const CustomProgressIndicator(
+                                    loadingText: 'Cargando recolecciones...',
+                                    spacing: 20,
+                                  );
                                 }
-                              },
-                            );
-                          } else {
-                            return const CustomProgressIndicator(
-                              loadingText: 'Cargando recolecciones...',
-                              spacing: 20,
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
-
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.grey, width: 1),
+                              default:
+                                return const CustomProgressIndicator(
+                                  loadingText: 'Cargando recolecciones...',
+                                  spacing: 20,
+                                );
+                            }
+                          },
+                        );
+                      } else {
+                        return const CustomProgressIndicator(
+                          loadingText: 'Cargando recolecciones...',
+                          spacing: 20,
+                        );
+                      }
+                    },
                   ),
                 ),
-                child: Column(
-                  spacing: 30,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Recolecciones del día',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Center(
-                      child: BlocBuilder<CollectionBloc, CollectionState>(
-                        builder: (context, state) {
-                          if (state is CollectionStateLoadedCollections) {
-                            return StreamBuilder(
-                              stream: state.collectionsStream,
-                              builder: (context, snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.active:
-                                    if (snapshot.hasData) {
-                                      final collections =
-                                          snapshot.data as Iterable<Collection>;
-                                      if (collections.isNotEmpty) {
-                                        return CollectionListGenerateView(
-                                          collections: collections,
-                                          dayFilter: DateTime.now().day,
-                                          length: collections.length,
-                                          noCollectionText:
-                                              'No existen recolecciones programadas.',
-                                          onTap:
-                                              (collection) => onTap(collection),
-                                        );
-                                      } else {
-                                        return const Text(
-                                          'No hay recolecciones programadas.',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        );
-                                      }
-                                    } else {
-                                      return const CustomProgressIndicator(
-                                        loadingText:
-                                            'Cargando recolecciones del día...',
-                                        spacing: 20,
-                                      );
-                                    }
-                                  default:
-                                    return const CustomProgressIndicator(
-                                      loadingText:
-                                          'Cargando recolecciones del día...',
-                                      spacing: 20,
-                                    );
+              ],
+            ),
+            Column(
+              spacing: 10,
+              children: [
+                const CustomSection(title: 'Recolecciones del día'),
+                BlocBuilder<CollectionBloc, CollectionState>(
+                  builder: (context, state) {
+                    if (state is CollectionStateLoadedCollections) {
+                      return StreamBuilder(
+                        stream: state.collectionsStream,
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.active:
+                              if (snapshot.hasData) {
+                                final collections =
+                                    snapshot.data as Iterable<Collection>;
+                                if (collections.isNotEmpty) {
+                                  return CollectionListGenerateView(
+                                    collections: collections,
+                                    dayFilter: DateTime.now().day,
+                                    length: collections.length,
+                                    noCollectionText:
+                                        'No existen recolecciones programadas.',
+                                    onTap: (collection) => onTap(collection),
+                                  );
+                                } else {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 50,
+                                    ),
+                                    child: const Text(
+                                      'No hay recolecciones programadas.',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
                                 }
-                              },
-                            );
-                          } else {
-                            return const CustomProgressIndicator(
-                              loadingText: 'Cargando recolecciones del día...',
-                              spacing: 20,
-                            );
+                              } else {
+                                return const CustomProgressIndicator(
+                                  loadingText:
+                                      'Cargando recolecciones del día...',
+                                  spacing: 20,
+                                );
+                              }
+                            default:
+                              return const CustomProgressIndicator(
+                                loadingText:
+                                    'Cargando recolecciones del día...',
+                                spacing: 20,
+                              );
                           }
                         },
-                      ),
-                    ),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorsPalette.backgroundDarkGreen,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          final controller =
-                              Get.find<AdminNavigationController>();
-                          controller.setView(1);
-                        },
-                        child: const Text(
-                          'Ver recolecciones',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                      );
+                    } else {
+                      return const CustomProgressIndicator(
+                        loadingText: 'Cargando recolecciones del día...',
+                        spacing: 20,
+                      );
+                    }
+                  },
                 ),
-              ),
-            ],
-          ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: CustomButton(
+                    title: 'Ver recolecciones',
+                    onPressed: () {
+                      final controller = Get.find<AdminNavigationController>();
+                      controller.setView(1);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
